@@ -118,6 +118,28 @@
     color:#415166;
     font-size:14px;
   }
+  .name-field {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    background:#f6f9fc;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 8px 6px 14px;
+    color:#415166;
+    font-size:14px;
+  }
+  .name-field input {
+    width:150px;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:var(--ink);
+    font:inherit;
+  }
+  .name-field input::placeholder {
+    color:#98a2b3;
+  }
   button {
     appearance:none;
     border:none;
@@ -288,6 +310,45 @@
     font-size:14px;
     margin-top:6px;
   }
+  .result-box {
+    display:none;
+    margin-top:14px;
+    padding:14px;
+    border:1px solid #c9dced;
+    border-radius:16px;
+    background:#f6fbff;
+  }
+  .result-box.show {
+    display:block;
+  }
+  .result-label {
+    color:#415166;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+  .result-code {
+    width:100%;
+    min-height:86px;
+    resize:vertical;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 12px;
+    color:#1f2a37;
+    background:#fff;
+    font:13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .copy-row {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-top:10px;
+  }
+  .copy-note {
+    color:var(--muted);
+    font-size:13px;
+  }
   .footer {
     margin-top:18px;
     color:#607086;
@@ -299,6 +360,7 @@
     .meta, .grid { grid-template-columns:1fr; }
     .options, .feedback { margin-left:0; }
     .toolbar { top:6px; }
+    .name-field, .name-field input { width:100%; }
   }
 </style>
 </head>
@@ -318,6 +380,7 @@
 
   <div class="toolbar">
     <div class="toolbar-left">
+      <label class="name-field">Name <input id="studentName" type="text" placeholder="Student name"></label>
       <div class="pill" id="progressPill">Answered: 0 / 50</div>
       <div class="pill" id="statusPill">Not submitted</div>
     </div>
@@ -331,6 +394,14 @@
   <section class="summary" id="summary">
     <div class="score" id="scoreText">0 / 50</div>
     <div class="small" id="summaryText"></div>
+    <div class="result-box" id="resultBox">
+      <div class="result-label">Result code for teacher</div>
+      <textarea class="result-code" id="resultCode" readonly></textarea>
+      <div class="copy-row">
+        <button class="secondary" onclick="copyResultCode()">Copy result code</button>
+        <span class="copy-note" id="copyNote">Read or send this code to your teacher.</span>
+      </div>
+    </div>
   </section>
 
   <section class="grid" id="quiz"></section>
@@ -344,6 +415,10 @@ const questions = [{"q": "When the company moved to a larger office, it was able
 const quiz = document.getElementById('quiz');
 const progressPill = document.getElementById('progressPill');
 const statusPill = document.getElementById('statusPill');
+const studentNameInput = document.getElementById('studentName');
+const resultBox = document.getElementById('resultBox');
+const resultCode = document.getElementById('resultCode');
+const copyNote = document.getElementById('copyNote');
 
 function renderQuiz() {
   const letters = ['A','B','C','D'];
@@ -383,6 +458,30 @@ function updateProgress() {
   progressPill.textContent = `Answered: ${answered} / ${questions.length}`;
 }
 
+function getAnswerString() {
+  let answers = '';
+  for (let i = 0; i < questions.length; i++) {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    answers += selected ? selected.value : '-';
+  }
+  return answers;
+}
+
+function buildResultCode(score) {
+  const name = studentNameInput.value.trim() || 'No name';
+  const percentage = Math.round((score / questions.length) * 100);
+  const finishedAt = new Date().toLocaleString();
+  const answerString = getAnswerString();
+  return [
+    'B2-VERB-QUIZ',
+    `Name: ${name}`,
+    `Score: ${score}/${questions.length}`,
+    `Accuracy: ${percentage}%`,
+    `Finished: ${finishedAt}`,
+    `Answers: ${answerString}`
+  ].join(' | ');
+}
+
 function submitQuiz() {
   let score = 0;
   const letters = ['A','B','C','D'];
@@ -411,9 +510,25 @@ function submitQuiz() {
   const summaryText = document.getElementById('summaryText');
   summary.classList.add('show');
   scoreText.textContent = `${score} / ${questions.length}`;
-  summaryText.textContent = `You got ${score} out of ${questions.length} correct. Scroll down to review each question.`;
+  const percentage = Math.round((score / questions.length) * 100);
+  summaryText.textContent = `You got ${score} out of ${questions.length} correct. Accuracy: ${percentage}%. Scroll down to review each question.`;
+  resultCode.value = buildResultCode(score);
+  resultBox.classList.add('show');
+  copyNote.textContent = 'Read or send this code to your teacher.';
   statusPill.textContent = 'Submitted';
   summary.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+async function copyResultCode() {
+  resultCode.select();
+  resultCode.setSelectionRange(0, resultCode.value.length);
+  try {
+    await navigator.clipboard.writeText(resultCode.value);
+    copyNote.textContent = 'Copied.';
+  } catch (error) {
+    document.execCommand('copy');
+    copyNote.textContent = 'Selected. Copy it manually if needed.';
+  }
 }
 
 function resetQuiz() {
@@ -427,6 +542,9 @@ function resetQuiz() {
     feedback.innerHTML = '';
   });
   document.getElementById('summary').classList.remove('show');
+  resultBox.classList.remove('show');
+  resultCode.value = '';
+  copyNote.textContent = 'Read or send this code to your teacher.';
   statusPill.textContent = 'Not submitted';
   updateProgress();
   window.scrollTo({top:0, behavior:'smooth'});
