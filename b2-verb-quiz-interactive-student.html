@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>B2 Verb Quiz Interactive</title>
+<style>
+  :root {
+    --bg1:#eef4fb;
+    --bg2:#dfeaf6;
+    --paper:#ffffff;
+    --ink:#1f2a37;
+    --muted:#667085;
+    --line:#d8e4f0;
+    --brand:#244c7d;
+    --brand2:#628ab3;
+    --soft:#f4f8fc;
+    --right:#eaf8ef;
+    --wrong:#fff1f1;
+    --right-border:#7ac38c;
+    --wrong-border:#e38d8d;
+    --shadow:0 16px 40px rgba(32,54,82,.10);
+    --radius:22px;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    color:var(--ink);
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+  }
+  .wrap {
+    width:min(1100px, calc(100% - 28px));
+    margin:20px auto 40px;
+  }
+  .hero {
+    background: linear-gradient(135deg, #244c7d 0%, #537ea8 60%, #8db0ce 100%);
+    color:#fff;
+    border-radius: 28px;
+    padding: 26px 24px 22px;
+    box-shadow: var(--shadow);
+  }
+  .badge {
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.18);
+    margin-bottom:12px;
+  }
+  h1 {
+    margin:0;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height:1.15;
+    letter-spacing:-.02em;
+  }
+  .subtitle {
+    margin-top:10px;
+    color: rgba(255,255,255,.92);
+    max-width:780px;
+    font-size:15px;
+    line-height:1.65;
+  }
+  .meta {
+    display:grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap:12px;
+    margin-top:18px;
+  }
+  .meta .item {
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:16px;
+    padding:12px 14px;
+  }
+  .meta .k {
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    opacity:.85;
+    margin-bottom:5px;
+  }
+  .meta .v {
+    font-size:15px;
+    font-weight:700;
+  }
+  .toolbar {
+    position:sticky;
+    top:10px;
+    z-index:10;
+    margin:16px 0;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(12px);
+    border:1px solid rgba(206,219,233,.95);
+    box-shadow: 0 10px 26px rgba(46,67,93,.08);
+    border-radius: 18px;
+    padding: 12px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .toolbar-left {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .pill {
+    background:#f6f9fc;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:9px 14px;
+    color:#415166;
+    font-size:14px;
+  }
+  button {
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    border-radius:14px;
+    padding:11px 16px;
+    font-size:14px;
+    font-weight:700;
+    transition:.18s ease;
+  }
+  button:hover { transform: translateY(-1px); }
+  .primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    color:#fff;
+    box-shadow: 0 10px 24px rgba(36,76,125,.18);
+  }
+  .secondary {
+    background:#eef5fb;
+    color:#274766;
+    border:1px solid #d9e7f3;
+  }
+  .ghost {
+    background:#fff;
+    color:#445468;
+    border:1px solid var(--line);
+  }
+  .grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .card {
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding:18px;
+    box-shadow: 0 10px 22px rgba(30,48,72,.05);
+  }
+  .head {
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .num {
+    width:36px;
+    height:36px;
+    min-width:36px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:#fff;
+    font-weight:800;
+    font-size:14px;
+    background: linear-gradient(135deg, var(--brand), #88aac8);
+  }
+  .stem {
+    font-size:15px;
+    line-height:1.65;
+    font-weight:600;
+  }
+  .options {
+    display:grid;
+    gap:10px;
+    margin-left:48px;
+  }
+  .option {
+    position:relative;
+  }
+  .option input {
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+  }
+  .option label {
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding:12px 14px;
+    border:1.5px solid var(--line);
+    background: #fbfdff;
+    border-radius:14px;
+    cursor:pointer;
+    transition:.16s ease;
+    user-select:none;
+    min-height:48px;
+  }
+  .option label:hover {
+    border-color:#adc6de;
+    background:#f6fbff;
+  }
+  .option input:checked + label {
+    border-color: var(--brand);
+    background: #eff6fd;
+    box-shadow: inset 0 0 0 1px rgba(36,76,125,.06);
+  }
+  .letter {
+    width:28px;
+    height:28px;
+    min-width:28px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:#edf3f8;
+    color:#3b5066;
+    font-weight:800;
+    font-size:13px;
+  }
+  .option input:checked + label .letter {
+    background: linear-gradient(135deg, var(--brand), #7fa3c4);
+    color:#fff;
+  }
+  .answer-text {
+    font-size:14px;
+    line-height:1.55;
+    color:#334155;
+    padding-top:2px;
+  }
+  .card.correct {
+    border-color: var(--right-border);
+    background: linear-gradient(180deg, #ffffff, var(--right));
+  }
+  .card.wrong {
+    border-color: var(--wrong-border);
+    background: linear-gradient(180deg, #ffffff, var(--wrong));
+  }
+  .card.correct .num {
+    background: linear-gradient(135deg, #3c8a57, #8fd1a2);
+  }
+  .card.wrong .num {
+    background: linear-gradient(135deg, #b94d4d, #eca0a0);
+  }
+  .feedback {
+    margin: 12px 0 0 48px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    display:none;
+  }
+  .feedback.show { display:block; }
+  .feedback.right {
+    background:#edf9f1;
+    color:#25643b;
+    border:1px solid #b9e3c4;
+  }
+  .feedback.wrong {
+    background:#fff3f3;
+    color:#9f3232;
+    border:1px solid #f0b4b4;
+  }
+  .summary {
+    display:none;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:18px 20px;
+    box-shadow: var(--shadow);
+    margin-bottom:16px;
+  }
+  .summary.show { display:block; }
+  .score {
+    font-size:28px;
+    font-weight:800;
+    color:var(--brand);
+  }
+  .small {
+    color:var(--muted);
+    font-size:14px;
+    margin-top:6px;
+  }
+  .footer {
+    margin-top:18px;
+    color:#607086;
+    font-size:12px;
+    text-align:center;
+    padding-bottom:10px;
+  }
+  @media (max-width: 900px) {
+    .meta, .grid { grid-template-columns:1fr; }
+    .options, .feedback { margin-left:0; }
+    .toolbar { top:6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="badge">Alex Han Studio</div>
+    <h1>B2 Verb Multiple-Choice Quiz</h1>
+    <div class="subtitle">Interactive student version. Tap an option for each question, then press Submit to see your score and the correct answers.</div>
+    <div class="meta">
+      <div class="item"><div class="k">Level</div><div class="v">CEFR B2</div></div>
+      <div class="item"><div class="k">Questions</div><div class="v">50</div></div>
+      <div class="item"><div class="k">Mode</div><div class="v">Interactive</div></div>
+      <div class="item"><div class="k">Focus</div><div class="v">Verb Meaning in Context</div></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <div class="pill" id="progressPill">Answered: 0 / 50</div>
+      <div class="pill" id="statusPill">Not submitted</div>
+    </div>
+    <div class="toolbar-left">
+      <button class="primary" onclick="submitQuiz()">Submit</button>
+      <button class="secondary" onclick="resetQuiz()">Reset</button>
+      <button class="ghost" onclick="scrollToTop()">Top</button>
+    </div>
+  </div>
+
+  <section class="summary" id="summary">
+    <div class="score" id="scoreText">0 / 50</div>
+    <div class="small" id="summaryText"></div>
+  </section>
+
+  <section class="grid" id="quiz"></section>
+
+  <div class="footer">Interactive HTML file • open in a browser to use</div>
+</div>
+
+<script>
+const questions = [{"q": "When the company moved to a larger office, it was able to ______ more employees.", "options": ["absorb", "accommodate", "collapse", "derive"], "answer": "B"}, {"q": "The government must take immediate action to ______ the problem of rising unemployment.", "options": ["address", "broadcast", "classify", "accompany"], "answer": "A"}, {"q": "After several years of hard work, she finally managed to ______ her goal of becoming a doctor.", "options": ["assume", "acknowledge", "accomplish", "appeal"], "answer": "C"}, {"q": "Many children find it easy to ______ new information when it is presented through games.", "options": ["absorb", "alter", "exclude", "convey"], "answer": "A"}, {"q": "The manager asked an experienced assistant to ______ the visitors during their tour of the factory.", "options": ["cultivate", "assign", "accompany", "compose"], "answer": "C"}, {"q": "It took him months to ______ to his new life in another country.", "options": ["adapt", "approve", "capture", "exceed"], "answer": "A"}, {"q": "The teacher tried to ______ the difference between these two grammar structures.", "options": ["consult", "clarify", "embrace", "eliminate"], "answer": "B"}, {"q": "Scientists are working to ______ the cause of the disease.", "options": ["exclude", "derive", "identify", "associate"], "answer": "C"}, {"q": "The school decided to ______ a new policy on mobile phone use.", "options": ["adopt", "collapse", "observe", "confess"], "answer": "A"}, {"q": "The charity hopes the campaign will ______ public awareness of mental health.", "options": ["convert", "boost", "cultivate", "negotiate"], "answer": "B"}, {"q": "The professor asked us to ______ the data before drawing any conclusions.", "options": ["assess", "abandon", "accompany", "exploit"], "answer": "A"}, {"q": "The editor had to ______ a reporter to cover the story.", "options": ["assign", "derive", "observe", "appeal"], "answer": "A"}, {"q": "The price of imported food may ______ if transport costs continue to rise.", "options": ["decline", "advance", "arise", "alter"], "answer": "B"}, {"q": "Several questions ______ during the meeting, so it lasted longer than expected.", "options": ["arose", "exceeded", "broadcast", "cultivated"], "answer": "A"}, {"q": "The museum has decided to ______ children under the age of five from the entrance fee.", "options": ["acknowledge", "exclude", "derive", "construct"], "answer": "B"}, {"q": "He refused to ______ that he had made a serious mistake.", "options": ["acknowledge", "cope", "capture", "convert"], "answer": "A"}, {"q": "The company plans to ______ part of the old building into a modern office space.", "options": ["convey", "convert", "classify", "discourage"], "answer": "B"}, {"q": "She always tries to ______ her ideas clearly during group discussions.", "options": ["convey", "exploit", "assign", "exceed"], "answer": "A"}, {"q": "Farmers in this area have learned how to ______ crops even in dry conditions.", "options": ["compose", "cultivate", "confess", "broadcast"], "answer": "B"}, {"q": "The police managed to ______ the suspect after a short chase.", "options": ["embrace", "cope", "capture", "alter"], "answer": "C"}, {"q": "Parents should not ______ their children from trying something difficult.", "options": ["discourage", "observe", "classify", "derive"], "answer": "A"}, {"q": "The article explains how modern society can ______ certain benefits from technological progress.", "options": ["derive", "accompany", "assign", "confess"], "answer": "A"}, {"q": "We need to ______ unnecessary steps from the process in order to save time.", "options": ["exceed", "eliminate", "negotiate", "cultivate"], "answer": "B"}, {"q": "The workers were forced to ______ the project because there was no funding left.", "options": ["abandon", "appeal", "convey", "embrace"], "answer": "A"}, {"q": "His writing style began to ______ after years of travelling and meeting different people.", "options": ["exploit", "alter", "observe", "capture"], "answer": "B"}, {"q": "The singer was asked to ______ the song live on television.", "options": ["compose", "broadcast", "approve", "derive"], "answer": "B"}, {"q": "The lawyer advised her to ______ a more experienced specialist before signing the contract.", "options": ["consult", "collapse", "cultivate", "convey"], "answer": "A"}, {"q": "Team members are expected to ______ ideas to the discussion.", "options": ["classify", "contribute", "exclude", "exceed"], "answer": "B"}, {"q": "The bridge might ______ if it is not repaired soon.", "options": ["assume", "adapt", "collapse", "identify"], "answer": "C"}, {"q": "She decided to ______ the truth after hiding it for many years.", "options": ["confess", "construct", "assign", "absorb"], "answer": "A"}, {"q": "The architect was hired to ______ a library in the centre of the town.", "options": ["acknowledge", "construct", "derive", "appeal"], "answer": "B"}, {"q": "Some advertisements are designed to ______ young consumers by making products look exciting.", "options": ["appeal to", "arise from", "cope with", "belong to"], "answer": "A"}, {"q": "It is hard to ______ with stress if you do not get enough sleep.", "options": ["cope", "broadcast", "exploit", "accomplish"], "answer": "A"}, {"q": "The artist spent months trying to ______ a poem that truly reflected his feelings.", "options": ["classify", "compose", "capture", "cultivate"], "answer": "B"}, {"q": "The board refused to ______ the proposal because it was too risky.", "options": ["approve", "absorb", "identify", "negotiate"], "answer": "A"}, {"q": "Some people ______ that success always depends on talent, but hard work is just as important.", "options": ["accommodate", "assume", "cultivate", "broadcast"], "answer": "B"}, {"q": "She tried to ______ every opportunity to improve her speaking skills.", "options": ["exploit", "accompany", "exclude", "confess"], "answer": "A"}, {"q": "The scientist hopes this discovery will ______ further research in the field.", "options": ["discourage", "cultivate", "advance", "collapse"], "answer": "C"}, {"q": "The report divides the participants into groups according to age and income. Here, divides is closest in meaning to ______.", "options": ["clarifies", "classifies", "assures", "composes"], "answer": "B"}, {"q": "The company cannot ______ a drop in sales during such a difficult economic period.", "options": ["capture", "observe", "exceed", "survive"], "answer": "D"}, {"q": "Teachers should ______ students that making mistakes is a normal part of learning.", "options": ["assure", "convert", "eliminate", "arise"], "answer": "A"}, {"q": "The two words are often ______ with each other because they have similar meanings.", "options": ["addressed", "associated", "abandoned", "broadcast"], "answer": "B"}, {"q": "The charity is trying to ______ more people to support its work.", "options": ["identify", "derive", "persuade", "compose"], "answer": "C"}, {"q": "The new stadium can ______ more than 60,000 people.", "options": ["assign", "accommodate", "confess", "exploit"], "answer": "B"}, {"q": "The final cost of the trip did not ______ our original budget.", "options": ["exceed", "embrace", "arise", "cope"], "answer": "A"}, {"q": "It is important to ______ local customs when travelling abroad.", "options": ["observe", "alter", "eliminate", "construct"], "answer": "A"}, {"q": "The new manager wanted to ______ a more positive working culture in the office.", "options": ["derive", "cultivate", "confess", "exclude"], "answer": "B"}, {"q": "The teacher asked the class to ______ the reasons why the experiment had failed.", "options": ["negotiate", "identify", "broadcast", "accompany"], "answer": "B"}, {"q": "The union and the company will meet tomorrow to ______ a new pay agreement.", "options": ["negotiate", "capture", "assign", "collapse"], "answer": "A"}, {"q": "At first, she was nervous about the new experience, but later she chose to ______ it fully.", "options": ["exceed", "embrace", "classify", "abandon"], "answer": "B"}];
+
+const quiz = document.getElementById('quiz');
+const progressPill = document.getElementById('progressPill');
+const statusPill = document.getElementById('statusPill');
+
+function renderQuiz() {
+  const letters = ['A','B','C','D'];
+  quiz.innerHTML = questions.map((item, i) => `
+    <article class="card" id="card-${i}">
+      <div class="head">
+        <div class="num">${i + 1}</div>
+        <div class="stem">${item.q}</div>
+      </div>
+      <div class="options">
+        ${item.options.map((opt, j) => `
+          <div class="option">
+            <input type="radio" name="q${i}" id="q${i}_${letters[j]}" value="${letters[j]}" onchange="updateProgress()">
+            <label for="q${i}_${letters[j]}">
+              <div class="letter">${letters[j]}</div>
+              <div class="answer-text">${opt}</div>
+            </label>
+          </div>
+        `).join('')}
+      </div>
+      <div class="feedback" id="feedback-${i}"></div>
+    </article>
+  `).join('');
+  updateProgress();
+}
+
+function getAnsweredCount() {
+  let count = 0;
+  for (let i = 0; i < questions.length; i++) {
+    if (document.querySelector(`input[name="q${i}"]:checked`)) count++;
+  }
+  return count;
+}
+
+function updateProgress() {
+  const answered = getAnsweredCount();
+  progressPill.textContent = `Answered: ${answered} / ${questions.length}`;
+}
+
+function submitQuiz() {
+  let score = 0;
+  const letters = ['A','B','C','D'];
+  questions.forEach((item, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const card = document.getElementById(`card-${i}`);
+    const feedback = document.getElementById(`feedback-${i}`);
+    card.classList.remove('correct', 'wrong');
+    feedback.className = 'feedback show';
+
+    if (selected && selected.value === item.answer) {
+      score++;
+      card.classList.add('correct');
+      feedback.classList.add('right');
+      feedback.innerHTML = `Correct. Answer: <strong>${item.answer}</strong> — ${item.options[letters.indexOf(item.answer)]}`;
+    } else {
+      card.classList.add('wrong');
+      feedback.classList.add('wrong');
+      const chosen = selected ? `${selected.value} — ${item.options[letters.indexOf(selected.value)]}` : 'No answer';
+      feedback.innerHTML = `Your answer: <strong>${chosen}</strong><br>Correct answer: <strong>${item.answer}</strong> — ${item.options[letters.indexOf(item.answer)]}`;
+    }
+  });
+
+  const summary = document.getElementById('summary');
+  const scoreText = document.getElementById('scoreText');
+  const summaryText = document.getElementById('summaryText');
+  summary.classList.add('show');
+  scoreText.textContent = `${score} / ${questions.length}`;
+  summaryText.textContent = `You got ${score} out of ${questions.length} correct. Scroll down to review each question.`;
+  statusPill.textContent = 'Submitted';
+  summary.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetQuiz() {
+  questions.forEach((item, i) => {
+    const checked = document.querySelector(`input[name="q${i}"]:checked`);
+    if (checked) checked.checked = false;
+    const card = document.getElementById(`card-${i}`);
+    const feedback = document.getElementById(`feedback-${i}`);
+    card.classList.remove('correct', 'wrong');
+    feedback.className = 'feedback';
+    feedback.innerHTML = '';
+  });
+  document.getElementById('summary').classList.remove('show');
+  statusPill.textContent = 'Not submitted';
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function scrollToTop() {
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
