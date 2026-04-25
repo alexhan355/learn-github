@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B2 Core 100 Vocabulary Quiz</title>
+<style>
+:root{--ink:#172033;--muted:#5f6b7a;--line:#d9e2ec;--paper:#fff;--bg:#f3f6fa;--blue:#255f9d;--green:#197a5a;--amber:#b7791f;--red:#b54708;--soft:#eef5ff}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}button,input,textarea{font:inherit}.wrap{width:min(1160px,calc(100% - 28px));margin:20px auto 42px}.hero{background:linear-gradient(135deg,#17466f,#1f7a6b 72%,#9a6a22);color:white;border-radius:8px;padding:24px;box-shadow:0 14px 32px rgba(23,32,51,.12)}.eyebrow{display:inline-flex;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 10px;font-size:12px;background:rgba(255,255,255,.12)}h1{font-size:clamp(28px,4vw,42px);line-height:1.1;margin:12px 0 8px}.sub{max-width:820px;margin:0;color:rgba(255,255,255,.9)}.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.meta div{border:1px solid rgba(255,255,255,.22);border-radius:8px;background:rgba(255,255,255,.12);padding:10px 12px}.meta b{display:block;font-size:12px;color:rgba(255,255,255,.8)}.bar{position:sticky;top:8px;z-index:10;margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(23,32,51,.08)}.tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.left,.right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.name,.pill{border:1px solid var(--line);background:#f8fafc;border-radius:8px;padding:8px 10px;color:#334155}.name input{width:150px;border:0;outline:0;background:transparent;color:var(--ink)}button{border:0;border-radius:8px;padding:9px 12px;font-weight:800;cursor:pointer;background:#e6eef7;color:#1c456c}button:hover{filter:brightness(.98);transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--blue),var(--green));color:white}.danger{background:#fff4ed;color:var(--red);border:1px solid #fed7aa}.track{height:9px;margin-top:10px;border-radius:999px;background:#dde7f0;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green),var(--amber));transition:width .22s}.intro{display:grid;grid-template-columns:1.3fr .7fr;gap:14px;margin-bottom:14px}.box,.card,.result{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:0 8px 20px rgba(23,32,51,.05)}.box h2{margin:0 0 6px;font-size:18px}.box p{margin:0;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{border:1px solid var(--line);border-radius:8px;background:#f8fafc;padding:10px}.stat span{display:block;color:var(--muted);font-size:12px}.stat b{font-size:24px;color:var(--blue)}.map{display:grid;grid-template-columns:repeat(25,1fr);gap:5px;margin:0 0 14px}.dot{height:9px;padding:0;border-radius:999px;background:#cbd7e4}.dot.done{background:#75a6c9}.dot.good{background:#3fa36d}.dot.bad{background:#d66c56}.quiz{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card.done{border-color:#9bbbd5}.card.good{background:#f1fbf5;border-color:#82c99b}.card.bad{background:#fff7ed;border-color:#f1a37c}.head{display:flex;gap:10px}.num{width:34px;height:34px;display:grid;place-items:center;flex:0 0 34px;border-radius:999px;background:linear-gradient(135deg,var(--blue),#6da6c7);color:white;font-weight:900}.stem{font-weight:760;line-height:1.5}.opts{display:grid;gap:8px;margin:12px 0 0 44px}.opt input{position:absolute;opacity:0}.opt label{display:flex;gap:9px;min-height:42px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fbfdff;cursor:pointer}.opt label:hover{border-color:#93b6dc;background:var(--soft)}.opt input:checked+label{border-color:var(--blue);background:#edf6ff}.letter{width:24px;height:24px;display:grid;place-items:center;flex:0 0 24px;border-radius:999px;background:#e5edf5;font-weight:900;font-size:12px}.opt input:checked+label .letter{background:var(--blue);color:white}.fb{display:none;margin:10px 0 0 44px;padding:9px 10px;border-radius:8px;font-size:13px}.fb.show{display:block}.fb.good{background:#e9f8ee;color:#255d3d}.fb.bad{background:#fff2e8;color:#8c3b12}.result{display:none;margin-bottom:14px}.result.show{display:block}.score{font-size:32px;font-weight:950;color:var(--blue)}.badge{display:inline-block;margin:8px 0;padding:7px 10px;border-radius:999px;background:#edf6ff;border:1px solid #cfe2f2;color:#20527c;font-weight:850}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{padding:6px 9px;background:#fff4ed;color:#8c3b12;border:1px solid #fed7aa;border-radius:999px;font-size:13px}.code{width:100%;min-height:82px;margin-top:10px;border:1px solid var(--line);border-radius:8px;padding:10px;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,20px);opacity:0;background:#132235;color:white;border-radius:999px;padding:10px 14px;box-shadow:0 12px 30px rgba(0,0,0,.18);transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:860px){.meta,.intro,.quiz{grid-template-columns:1fr}.map{grid-template-columns:repeat(10,1fr)}.opts,.fb{margin-left:0}.name,.name input{width:100%}.tools{align-items:stretch}.left,.right{width:100%}.right button{flex:1}}@media(max-width:520px){.wrap{width:min(100% - 18px,1160px);margin-top:12px}.hero,.box,.card,.result{padding:13px}.meta{gap:8px}.bar{top:0}.map{grid-template-columns:repeat(8,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap"><section class="hero"><span class="eyebrow">CEFR B2 · 100 Words</span><h1>B2 Core 100 Vocabulary Quiz</h1><p class="sub">100 道 B2 核心词汇情境选择题。学生完成后可自动判分、查看错题，并复制成绩代码发给老师。</p><div class="meta"><div><b>Level</b>B2</div><div><b>Questions</b>100</div><div><b>Type</b>Context choice</div><div><b>Result</b>Auto score</div></div></section><div class="bar"><div class="tools"><div class="left"><label class="name">Name <input id="name" placeholder="Student name"></label><span class="pill" id="progress">Answered: 0 / 100</span><span class="pill" id="next">Next: Q1</span></div><div class="right"><button onclick="goNext()">Next</button><button class="primary" onclick="submitQuiz()">Submit</button><button class="danger" onclick="resetQuiz()">Reset</button></div></div><div class="track"><div class="fill" id="fill"></div></div></div><section class="result" id="result"><div class="score" id="score">0 / 100</div><div class="badge" id="badge">Ready</div><p id="summary"></p><div class="chips" id="chips"></div><textarea id="code" class="code" readonly></textarea><p><button onclick="copyCode()">Copy result code</button></p></section><section class="intro"><div class="box"><h2>任务</h2><p>每题选择最适合句子语境的 B2 核心词。题目重点检查学生是否能在真实表达中理解词义和搭配。</p></div><div class="box"><div class="stats"><div class="stat"><span>Answered</span><b id="answered">0</b></div><div class="stat"><span>Left</span><b id="left">100</b></div><div class="stat"><span>Pace</span><b id="pace">0%</b></div></div></div></section><section class="map" id="map"></section><section class="quiz" id="quiz"></section></div><div class="toast" id="toast">Saved</div>
+<script>
+const DATA=[
+["The charity had to ______ the outdoor event because of the storm.","abandon","放弃","justify","retain","allocate"],
+["The idea was too ______ for the young children, so the teacher used pictures.","abstract","抽象的","domestic","initial","identical"],
+["The hotel can ______ up to 300 guests during the conference.","accommodate","容纳","deduce","imply","inhibit"],
+["A short report will ______ the main presentation.","accompany","伴随","expose","cease","facilitate"],
+["Dust can ______ inside the computer if it is not cleaned regularly.","accumulate","积累","intervene","specify","contradict"],
+["The map is not completely ______, but it is good enough for a short walk.","accurate","准确的","dominant","external","ambiguous"],
+["She refused to ______ that she had made a mistake.","acknowledge","承认","consume","derive","eliminate"],
+["Children ______ language naturally when they hear it every day.","acquire","习得","collapse","impose","shift"],
+["Businesses must ______ quickly to changes in customer habits.","adapt","适应","attain","clarify","retain"],
+["The room is small but ______ for a team meeting.","adequate","足够的","arbitrary","inevitable","contemporary"],
+["You may need to ______ the brightness of the screen at night.","adjust","调整","constitute","encounter","obtain"],
+["Many doctors ______ regular exercise as a way to prevent illness.","advocate","提倡","attach","interpret","collapse"],
+["The manager will ______ more time to the most urgent tasks.","allocate","分配","perceive","cease","derive"],
+["Even a small change in price can ______ customers' decisions.","alter","改变","consume","assure","consult"],
+["The instructions were ______, so several students misunderstood them.","ambiguous","模糊的","accurate","domestic","flexible"],
+["We did not ______ such a large number of visitors.","anticipate","预料","deduce","inhibit","attach"],
+["It became ______ that the old system could no longer support the company.","apparent","明显的","identical","arbitrary","external"],
+["The school needs a more practical ______ to teaching writing.","approach","方法","currency","dimension","emphasis"],
+["It would not be ______ to joke during such a serious meeting.","appropriate","合适的","dominant","initial","overall"],
+["The ______ cost of the repair is about 500 dollars.","approximate","大约的","abstract","domestic","inevitable"],
+["Teachers should ______ students by looking at both tests and class work.","assess","评估","imply","expose","retain"],
+["Do not ______ that everyone has the same background knowledge.","assume","假设","collapse","allocate","justify"],
+["The company tried to ______ customers that their data was safe.","assure","使确信","shift","encounter","consume"],
+["Please ______ the document to your email before sending it.","attach","附上","deduce","cease","impose"],
+["She worked hard to ______ her goal of studying abroad.","attain","达到","derive","inhibit","consult"],
+["The report ______ the fall in sales to poor advertising.","attributes","归因于","maintains","facilitates","specifies"],
+["Local ______ decided to close the road after the accident.","authorities","官方机构","criteria","incentives","components"],
+["I am writing on ______ of all the students in our class.","behalf","代表","currency","dimension","bias"],
+["A good journalist should avoid showing personal ______ in a news report.","bias","偏见","capacity","emphasis","insight"],
+["The stadium has a ______ of 50,000 people.","capacity","容量","commitment","consequence","criteria"],
+["The company will ______ production if demand continues to fall.","cease","停止","enhance","obtain","integrate"],
+["Could you ______ what you mean by 'fair treatment'?","clarify","澄清","retain","deduce","expose"],
+["The roof may ______ if the heavy snow is not removed.","collapse","倒塌","consume","attain","interpret"],
+["The two meetings ______, so I can only attend one of them.","coincide","同时发生","allocate","contradict","derive"],
+["Success requires long-term ______, not just short bursts of effort.","commitment","投入","currency","bias","dimension"],
+["The airline offered to ______ passengers for the delay.","compensate","补偿","eliminate","perceive","specify"],
+["The issue is more ______ than it first appears.","complex","复杂的","identical","adequate","domestic"],
+["A battery is an important ______ of an electric car.","component","组成部分","criterion","incentive","authority"],
+["The book gives a ______ overview of modern European history.","comprehensive","全面的","arbitrary","ambiguous","external"],
+["It is hard to ______ of a world without the internet.","conceive","想象","consume","justify","inhibit"],
+["Researchers will ______ interviews with 200 participants.","conduct","进行","obtain","collapse","maintain"],
+["One serious ______ of pollution is the rise in health problems.","consequence","后果","capacity","currency","behalf"],
+["The project requires a ______ amount of money.","considerable","相当大的","identical","domestic","initial"],
+["Her work is always ______, so clients trust her.","consistent","一致的","arbitrary","ambiguous","inevitable"],
+["Women ______ more than half of the students in the program.","constitute","构成","assure","deduce","shift"],
+["Limited money may ______ what the school can offer.","constrain","限制","encounter","derive","attach"],
+["You should ______ a doctor if the pain continues.","consult","咨询","consume","impose","cease"],
+["Modern homes ______ much more electricity than they did in the past.","consume","消耗","interpret","retain","justify"],
+["The museum displays both ancient and ______ art.","contemporary","当代的","arbitrary","external","identical"],
+["His actions ______ everything he said in the meeting.","contradict","反驳/矛盾","facilitate","obtain","integrate"],
+["Everyone can ______ to making the classroom cleaner.","contribute","贡献","deduce","inhibit","collapse"],
+["Some people prefer ______ classrooms, but others like online learning.","conventional","传统的","dominant","ambiguous","external"],
+["The evidence did not ______ the judge that he was innocent.","convince","说服","allocate","cease","derive"],
+["The two departments must ______ if they want the plan to succeed.","cooperate","合作","consume","justify","shift"],
+["Confidence is at the ______ of effective communication.","core","核心","currency","criterion","bias"],
+["Clear ______ are needed before we choose the best candidate.","criteria","标准","authorities","components","dimensions"],
+["Sleep is ______ for memory and concentration.","crucial","关键的","arbitrary","domestic","identical"],
+["The local ______ lost value against the dollar.","currency","货币","capacity","commitment","emphasis"],
+["The number of visitors began to ______ after ticket prices rose.","decline","下降","obtain","impose","interpret"],
+["From the clues, the detective could ______ who had taken the documents.","deduce","推断","consume","attach","facilitate"],
+["A dictionary can help you ______ unfamiliar words.","define","定义","collapse","allocate","inhibit"],
+["The experiment will ______ how quickly plants react to light.","demonstrate","展示/证明","consult","retain","shift"],
+["Many English words ______ from Latin or French.","derive","源于","encounter","justify","impose"],
+["Security cameras can ______ unusual movement at night.","detect","探测","consume","cease","integrate"],
+["She decided to ______ more time to volunteer work.","devote","投入","deduce","contradict","collapse"],
+["There is an emotional ______ to every important life decision.","dimension","方面","currency","criterion","authority"],
+["The city is culturally ______, with people from many backgrounds.","diverse","多样的","identical","arbitrary","initial"],
+["The government wants to encourage more ______ production of food.","domestic","国内的","abstract","ambiguous","external"],
+["English has become a ______ language in international business.","dominant","占主导的","adequate","flexible","arbitrary"],
+["The new vaccine could help ______ the disease.","eliminate","消除","consume","attach","derive"],
+["New problems may ______ as the project becomes larger.","emerge","出现","cease","obtain","inhibit"],
+["The course places strong ______ on critical thinking.","emphasis","重视","bias","capacity","currency"],
+["Better transport will ______ more people to reach the hospital.","enable","使能够","collapse","justify","deduce"],
+["Travellers may ______ difficulties when they enter a new culture.","encounter","遇到","retain","allocate","consume"],
+["The software update will ______ the security of the system.","enhance","提高","cease","derive","interpret"],
+["Please ______ that all doors are locked before you leave.","ensure","确保","shift","impose","collapse"],
+["These two courses are ______ in difficulty, but they focus on different skills.","equivalent","等同的","arbitrary","domestic","initial"],
+["The company hopes to ______ a stronger position in Asia.","establish","建立","consume","deduce","inhibit"],
+["It is difficult to ______ the exact cost before the design is finished.","estimate","估计","attach","cease","contradict"],
+["We need to ______ whether the new policy has worked.","evaluate","评估","derive","shift","obtain"],
+["It was ______ from his face that he was disappointed.","evident","明显的","domestic","flexible","identical"],
+["The business plans to ______ into the European market next year.","expand","扩张","collapse","interpret","justify"],
+["The article will ______ the problem of illegal waste dumping.","expose","揭露","consume","attain","inhibit"],
+["The company brought in an ______ expert to review the accounts.","external","外部的","abstract","dominant","equivalent"],
+["Good examples can ______ students' understanding of difficult ideas.","facilitate","促进","collapse","retain","impose"],
+["Flexibility is a useful ______ in a fast-changing workplace.","feature","特征","criterion","currency","behalf"],
+["A ______ schedule allows parents to work around school hours.","flexible","灵活的","arbitrary","domestic","identical"],
+["Trust is ______ to a healthy relationship.","fundamental","根本的","approximate","ambiguous","external"],
+["Solar panels can ______ electricity without producing smoke.","generate","产生","deduce","cease","attach"],
+["The shop will ______ a refund if the product breaks within a year.","guarantee","保证","consume","interpret","collapse"],
+["The two signatures are almost ______, so it is hard to tell them apart.","identical","相同的","domestic","arbitrary","apparent"],
+["The policy had a major ______ on small businesses.","impact","影响","currency","criterion","bias"],
+["Her silence seemed to ______ that she disagreed with the decision.","imply","暗示","consume","facilitate","retain"],
+["The new rules ______ strict limits on advertising to children.","impose","强加","derive","cease","interpret"],
+["A discount can be a strong ______ for customers to buy now.","incentive","激励","capacity","component","authority"],
+["The school tries to ______ technology into every subject.","incorporate","纳入","collapse","consume","deduce"],
+["Early results ______ that the treatment is working.","indicate","表明","attach","cease","justify"],
+["Some level of stress is ______ before an important exam.","inevitable","不可避免的","arbitrary","domestic","identical"],
+["Fear of failure can ______ creativity.","inhibit","抑制","derive","allocate","encounter"],
+["The ______ plan was rejected, so the team had to create a new one.","initial","最初的","equivalent","domestic","flexible"]
+];
+const LETTERS=["A","B","C","D"];
+const QUESTIONS=DATA.map((row,i)=>{const options=[row[3],row[4],row[5]];const pos=i%4;options.splice(pos,0,row[1]);return{stem:row[0],word:row[1],cn:row[2],options,answer:LETTERS[pos]};});
+const $=id=>document.getElementById(id);let toastTimer;
+function render(){let cards="",dots="";QUESTIONS.forEach((q,i)=>{cards+=`<article class="card" id="card${i}"><div class="head"><div class="num">${i+1}</div><div class="stem">${q.stem}</div></div><div class="opts">${q.options.map((o,j)=>`<div class="opt"><input type="radio" name="q${i}" id="q${i}_${LETTERS[j]}" value="${LETTERS[j]}" onchange="changed(${i})"><label for="q${i}_${LETTERS[j]}"><span class="letter">${LETTERS[j]}</span><span>${o}</span></label></div>`).join("")}</div><div class="fb" id="fb${i}"></div></article>`;dots+=`<button class="dot" id="dot${i}" aria-label="Question ${i+1}" onclick="jump(${i})"></button>`});$("quiz").innerHTML=cards;$("map").innerHTML=dots;update()}
+function selected(i){return document.querySelector(`input[name="q${i}"]:checked`)}
+function answeredCount(){let n=0;for(let i=0;i<QUESTIONS.length;i++)if(selected(i))n++;return n}
+function firstOpen(){for(let i=0;i<QUESTIONS.length;i++)if(!selected(i))return i;return -1}
+function update(){const n=answeredCount(),pct=Math.round(n/QUESTIONS.length*100),next=firstOpen();$("progress").textContent=`Answered: ${n} / ${QUESTIONS.length}`;$("answered").textContent=n;$("left").textContent=QUESTIONS.length-n;$("pace").textContent=pct+"%";$("fill").style.width=pct+"%";$("next").textContent=next<0?"Ready to submit":`Next: Q${next+1}`;for(let i=0;i<QUESTIONS.length;i++){const on=!!selected(i);$("card"+i).classList.toggle("done",on);$("dot"+i).classList.toggle("done",on)}}
+function changed(i){update();const s=selected(i);if(s)pop(`Q${i+1}: ${s.value}`)}
+function pop(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),1200)}
+function jump(i){$("card"+i).scrollIntoView({behavior:"smooth",block:"center"})}
+function goNext(){const i=firstOpen();i<0?$("result").scrollIntoView({behavior:"smooth",block:"start"}):jump(i)}
+function answerString(){let s="";for(let i=0;i<QUESTIONS.length;i++)s+=selected(i)?selected(i).value:"-";return s}
+function grade(p){if(p>=90)return"Excellent B2 control";if(p>=80)return"Strong B2 vocabulary";if(p>=70)return"Solid, with review needed";if(p>=60)return"Borderline B2";return"Review core words first"}
+function submitQuiz(){let score=0,streak=0,best=0,wrong=[];QUESTIONS.forEach((q,i)=>{const s=selected(i),card=$("card"+i),fb=$("fb"+i),dot=$("dot"+i);card.classList.remove("good","bad");dot.classList.remove("good","bad");fb.className="fb show";if(s&&s.value===q.answer){score++;streak++;best=Math.max(best,streak);card.classList.add("good");dot.classList.add("good");fb.classList.add("good");fb.innerHTML=`Correct. <b>${q.word}</b> = ${q.cn}.`}else{streak=0;wrong.push(i+1);card.classList.add("bad");dot.classList.add("bad");fb.classList.add("bad");const chosen=s?`${s.value} - ${q.options[LETTERS.indexOf(s.value)]}`:"No answer";fb.innerHTML=`Your answer: <b>${chosen}</b><br>Correct answer: <b>${q.answer} - ${q.word}</b> = ${q.cn}.`}});const pct=Math.round(score/QUESTIONS.length*100),name=$("name").value.trim()||"No name";$("result").classList.add("show");$("score").textContent=`${score} / ${QUESTIONS.length}`;$("badge").textContent=grade(pct);$("summary").textContent=`Accuracy: ${pct}%. Longest correct streak: ${best}. Review the red questions first.`;$("chips").innerHTML=wrong.length?wrong.slice(0,28).map(n=>`<button class="chip" onclick="jump(${n-1})">Q${n}</button>`).join("")+(wrong.length>28?`<span class="pill">+ ${wrong.length-28} more</span>`:""):"<span class=\"pill\">Perfect run</span>";$("code").value=[`B2-CORE-100-VOCAB`,`Name: ${name}`,`Score: ${score}/${QUESTIONS.length}`,`Accuracy: ${pct}%`,`Finished: ${new Date().toLocaleString()}`,`Answers: ${answerString()}`].join(" | ");$("result").scrollIntoView({behavior:"smooth",block:"start"});pop(`Score: ${pct}%`)}
+async function copyCode(){const c=$("code");c.select();try{await navigator.clipboard.writeText(c.value);pop("Result code copied")}catch(e){document.execCommand("copy");pop("Result code selected")}}
+function resetQuiz(){for(let i=0;i<QUESTIONS.length;i++){const s=selected(i);if(s)s.checked=false;$("card"+i).className="card";$("dot"+i).className="dot";$("fb"+i).className="fb";$("fb"+i).innerHTML=""}$("result").classList.remove("show");$("code").value="";update();scrollTo({top:0,behavior:"smooth"})}
+render();
+</script>
+</body>
+</html>
