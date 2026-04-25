@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>雅思大作文5大话题论证能力检测</title>
+<style>
+:root{--ink:#182033;--muted:#667085;--line:#dde3ee;--bg:#f6f8fb;--card:#fff;--blue:#2563eb;--green:#11845b;--red:#c2410c;--soft:#eef4ff}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 50px}header{padding:26px 0 18px;border-bottom:1px solid var(--line)}h1{font-size:30px;line-height:1.2;margin:0 0 10px}h2{font-size:22px;margin:28px 0 12px}h3{font-size:17px;margin:0 0 8px}.lead{color:var(--muted);max-width:780px;margin:0}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}.topic,.q,.writing{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;box-shadow:0 1px 2px rgba(16,24,40,.04)}.topic b{display:block;color:var(--blue);margin-bottom:6px}.topic span{display:block;color:var(--muted);font-size:14px}.section-note{color:var(--muted);margin:0 0 12px}.quiz{display:grid;gap:12px}.q{position:relative}.q.done.correct{border-color:#7bd4b2;background:#f1fcf7}.q.done.wrong{border-color:#ffb08a;background:#fff6f1}.meta{color:var(--blue);font-size:13px;font-weight:700;margin-bottom:5px}.stem{font-weight:700;margin-bottom:10px}.opts{display:grid;gap:8px}.opt{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:9px;background:#fff;cursor:pointer}.opt:hover{border-color:#9bb8ff;background:var(--soft)}input[type=radio]{margin-top:5px}.answer{display:none;margin-top:10px;padding:9px;border-radius:8px;background:#f8fafc;color:#344054}.q.done .answer{display:block}.writing textarea{width:100%;min-height:92px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;resize:vertical;background:#fff}.writing details{margin-top:8px}.writing summary{cursor:pointer;color:var(--blue);font-weight:700}.bar{position:sticky;bottom:0;background:rgba(246,248,251,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 0;margin-top:24px}.actions{max-width:1080px;margin:0 auto;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 18px}.score{font-weight:800}.btns{display:flex;gap:8px}button{border:0;border-radius:8px;padding:10px 14px;font-weight:800;cursor:pointer}button.primary{background:var(--blue);color:white}button.secondary{background:white;color:var(--ink);border:1px solid var(--line)}.pill{display:inline-flex;border-radius:999px;background:#e7efff;color:#1747a6;padding:2px 9px;font-size:12px;font-weight:800;margin-left:8px}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}h1{font-size:25px}.actions{align-items:flex-start;flex-direction:column}}@media(max-width:560px){.grid{grid-template-columns:1fr}.wrap{padding:20px 12px 90px}.btns{width:100%}button{flex:1}.topic,.q,.writing{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>雅思大作文5大话题论证能力检测</h1>
+<p class="lead">用于检查 Task 2 常见五类话题的论点选择、主题句质量、让步反驳和论证展开能力。选择题可自动判分，写作题可对照参考答案自查。</p>
+<div class="grid" id="topics"></div>
+</header>
+<section>
+<h2>一、立场句判断 <span class="pill">5题</span></h2>
+<p class="section-note">选择更适合雅思大作文开头段的清晰立场句。</p>
+<div class="quiz" id="quizA"></div>
+</section>
+<section>
+<h2>二、主题句选择 <span class="pill">5题</span></h2>
+<p class="section-note">选择最能支撑主体段、可继续展开解释和举例的主题句。</p>
+<div class="quiz" id="quizB"></div>
+</section>
+<section>
+<h2>三、让步与反驳 <span class="pill">5题</span></h2>
+<p class="section-note">选择更自然、更有说服力的 concession + rebuttal。</p>
+<div class="quiz" id="quizC"></div>
+</section>
+<section>
+<h2>四、弱论证升级 <span class="pill">开放题</span></h2>
+<p class="section-note">把简单观点扩展成“原因 + 结果 + 例子/限定”的完整论证。</p>
+<div class="quiz" id="writing"></div>
+</section>
+</div>
+<div class="bar"><div class="actions"><div class="score" id="score">选择题得分：0 / 15</div><div class="btns"><button class="secondary" onclick="resetAll()">重新作答</button><button class="primary" onclick="checkAll()">检查自动判分题</button></div></div></div>
+<script>
+const topics=[['教育','学校课程、考试、家庭教育、线上学习'],['环境','环保责任、城市污染、能源与消费'],['健康','公共健康、运动饮食、医疗支出'],['科技','人工智能、社交媒体、隐私与效率'],['社会','犯罪、老龄化、工作方式、平等机会']];
+const A=[
+['Education','Some people think schools should focus more on practical skills than academic subjects. Which thesis is stronger?',['I think practical skills are good and academic subjects are also important.','Although academic subjects build knowledge, schools should give more space to practical skills because they directly improve students’ independence and employability.','This essay will discuss both sides and give examples.'],1,'好立场句要有明确方向，并给出核心理由。'],
+['Environment','Governments should make companies pay for pollution. Choose the best position.',['Companies should pay because pollution is bad.','I partly agree: companies should pay for preventable pollution, but governments must also support cleaner technology so the policy does not simply raise consumer prices.','There are many views about pollution.'],1,'更高分的立场通常会限定范围，避免过于绝对。'],
+['Health','Should governments ban unhealthy food advertising to children?',['I strongly support restricting such advertising, as children lack mature judgement and early eating habits can lead to long-term public health costs.','Children like snacks, so ads are interesting.','The topic is about health and children.'],0,'这个句子同时说明了对象、原因和长期影响。'],
+['Technology','Does technology make people less social?',['Technology is useful but also has disadvantages.','Technology can reduce deep face-to-face interaction when it replaces real relationships, but it can also strengthen social connection when used to maintain distant ties.','People use phones every day.'],1,'双边题可以用更细的条件来表达立场。'],
+['Society','Should older people continue working after retirement age?',['Older people should not work because they are old.','Older people should be allowed, rather than forced, to keep working if they are healthy and willing, because this protects personal freedom and uses their experience.','Retirement is a common social issue.'],1,'注意 allowed 和 forced 的区别，这是论证深度。']
+];
+const B=[
+['Education','主体段要论证“实践技能重要”，最佳主题句是：',['Practical skills are important because they are practical.','Teaching practical skills can make school education more relevant to adult life, especially for students who will soon manage money, time and workplace tasks.','Many students go to school every day.'],1,'主题句要能自然展开原因、场景和结果。'],
+['Environment','论证“个人也应环保”，最佳主题句是：',['Individual action matters because daily consumption choices create demand that either encourages or discourages wasteful production.','People should protect the environment.','The environment includes air, water and trees.'],0,'把个人行为和市场需求连起来，论证链更完整。'],
+['Health','论证“运动比治疗更划算”，最佳主题句是：',['Exercise is good for everyone.','Preventive exercise programmes can reduce the long-term burden on hospitals by lowering rates of obesity, diabetes and heart disease.','Hospitals are expensive.'],1,'高质量主题句通常有具体机制和结果。'],
+['Technology','论证“远程办公有好处”，最佳主题句是：',['Remote work can improve productivity for some employees by reducing commuting time and allowing them to work in a quieter, more flexible environment.','Working at home is comfortable.','Technology changed work.'],0,'for some employees 使观点更准确。'],
+['Society','论证“减少犯罪要靠教育”，最佳主题句是：',['Education is good for criminals.','Education and job training can reduce reoffending because they give ex-prisoners realistic alternatives to returning to crime.','Crime is a serious problem.'],1,'说明“为什么教育能减少犯罪”，不是只喊口号。']
+];
+const C=[
+['Education','选择最好的让步反驳：',['Some people like exams, but I do not.','It is true that exams offer a simple way to compare students; however, relying on them too heavily can narrow learning and ignore creativity, communication and problem-solving skills.','Exams have advantages and disadvantages.'],1,'让步后要马上说明为什么你的主张仍然更强。'],
+['Environment','选择最好的让步反驳：',['Businesses may argue that strict environmental rules increase costs; nevertheless, these costs are justified when compared with the public expense of pollution-related illness and clean-up.','Companies care about money, but pollution is bad.','Rules are sometimes useful.'],0,'把企业成本和公共成本进行比较，反驳更有力。'],
+['Health','选择最好的让步反驳：',['Some people say diet is personal choice, yet children and low-income groups are strongly shaped by advertising and price, so public policy still has a role.','Food is personal, but health is important.','People should eat vegetables.'],0,'承认自由选择，同时指出选择会被环境影响。'],
+['Technology','选择最好的让步反驳：',['AI may replace certain routine jobs, but it can also create new work in supervision, data management and human-centred services if workers receive training.','AI is scary, but it is useful.','Technology always changes.'],0,'更好的答案会提出条件：if workers receive training。'],
+['Society','选择最好的让步反驳：',['Longer working lives may reduce pressure on pension systems, but this policy would be unfair if it ignored people in physically demanding jobs.','Older people can work, but some cannot.','Pensions are expensive.'],0,'好反驳会指出政策适用边界。']
+];
+const W=[
+['Education','弱观点：Online learning is convenient.','Online learning is convenient because it removes the need for daily travel and allows students to review recorded lessons at their own pace. This is especially useful for working adults or students in rural areas, who may otherwise have limited access to qualified teachers.'],
+['Environment','弱观点：People should recycle more.','People should recycle more because it reduces the amount of waste sent to landfills and lowers the demand for new raw materials. However, recycling is most effective when governments provide clear sorting systems and companies design packaging that is easier to reuse.'],
+['Health','弱观点：Fast food is bad for children.','Frequent fast food consumption can harm children because it often contains high levels of sugar, salt and fat, which may contribute to obesity and poor eating habits. Since children are easily influenced by advertising, restrictions on marketing can help families make healthier choices.'],
+['Technology','弱观点：Social media wastes time.','Social media can waste time when users are pushed by algorithms to keep scrolling instead of communicating purposefully. Over time, this may reduce concentration and replace deeper activities such as reading, exercise or face-to-face conversation.'],
+['Society','弱观点：Prisons do not solve crime.','Prisons alone may not solve crime because punishment does not always address the causes of offending, such as poor education, addiction or lack of employment. Rehabilitation programmes can therefore make society safer by helping offenders build a stable life after release.']
+];
+function topicHtml(){topicsEl.innerHTML=topics.map(t=>`<div class="topic"><b>${t[0]}</b><span>${t[1]}</span></div>`).join('')}
+function render(id,arr,start){document.getElementById(id).innerHTML=arr.map((q,i)=>`<div class="q" data-answer="${q[2][q[3]]}" data-i="${start+i}"><div class="meta">${q[0]} · 第${start+i}题</div><div class="stem">${q[1]}</div><div class="opts">${q[2].map((o,j)=>`<label class="opt"><input type="radio" name="q${start+i}" value="${j}"><span>${String.fromCharCode(65+j)}. ${o}</span></label>`).join('')}</div><div class="answer">参考：${String.fromCharCode(65+q[3])}。${q[4]}</div></div>`).join('')}
+function renderWriting(){writing.innerHTML=W.map((w,i)=>`<div class="writing"><h3>${i+1}. ${w[0]}</h3><p><b>${w[1]}</b></p><textarea placeholder="在这里写出升级后的论证段"></textarea><details><summary>查看参考升级</summary><p>${w[2]}</p></details></div>`).join('')}
+function checkAll(){let good=0,total=0;document.querySelectorAll('.q[data-answer]').forEach(card=>{total++;card.classList.add('done');let picked=card.querySelector('input:checked');let ans=Number(card.dataset.answer?card.querySelectorAll('input').length:0);let correctIndex=[...card.querySelectorAll('input')].findIndex(x=>x.parentElement.innerText.slice(3).trim()===card.dataset.answer);if(picked&&Number(picked.value)===correctIndex){good++;card.classList.add('correct');card.classList.remove('wrong')}else{card.classList.add('wrong');card.classList.remove('correct')}});score.textContent=`选择题得分：${good} / ${total}`;window.scrollTo({top:0,behavior:'smooth'})}
+function resetAll(){document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);document.querySelectorAll('textarea').forEach(x=>x.value='');document.querySelectorAll('.q').forEach(x=>x.classList.remove('done','correct','wrong'));score.textContent='选择题得分：0 / 15'}
+const topicsEl=document.getElementById('topics');topicHtml();render('quizA',A,1);render('quizB',B,6);render('quizC',C,11);renderWriting();
+</script>
+</body>
+</html>
