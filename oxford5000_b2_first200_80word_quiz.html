@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Oxford 5000 B2 前200词 · 80词检测 HTML</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+  --bg: #f5f7fb;
+  --paper: #ffffff;
+  --ink: #172033;
+  --muted: #667085;
+  --line: #e5e7eb;
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --soft-blue: #eff6ff;
+  --good: #047857;
+  --good-bg: #ecfdf5;
+  --bad: #b91c1c;
+  --bad-bg: #fef2f2;
+  --gold-bg: #fffbeb;
+  --gold-line: #fde68a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(37,99,235,.13), transparent 32%),
+    radial-gradient(circle at top right, rgba(124,58,237,.13), transparent 32%),
+    var(--bg);
+  line-height: 1.65;
+}
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 36px 22px 78px;
+}
+.hero {
+  background: linear-gradient(135deg, #101827, #1e293b 56%, #312e81);
+  color: white;
+  border-radius: 30px;
+  padding: 38px 36px;
+  box-shadow: 0 22px 56px rgba(15,23,42,.24);
+  margin-bottom: 22px;
+}
+.eyebrow {
+  display: inline-block;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.11);
+  border: 1px solid rgba(255,255,255,.16);
+  color: #e5e7eb;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.16;
+  letter-spacing: -.04em;
+}
+.hero p {
+  max-width: 840px;
+  margin: 12px 0 0;
+  color: #d1d5db;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+.stat {
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 14px;
+}
+.stat strong {
+  display: block;
+  color: white;
+  font-size: 23px;
+}
+.stat span {
+  color: #d1d5db;
+  font-size: 13px;
+}
+.notice {
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-line);
+  color: #854d0e;
+  border-radius: 20px;
+  padding: 14px 16px;
+  margin: 18px 0 24px;
+  font-size: 15px;
+}
+.panel {
+  background: rgba(255,255,255,.96);
+  border: 1px solid rgba(229,231,235,.92);
+  border-radius: 26px;
+  padding: 26px;
+  margin-bottom: 24px;
+  box-shadow: 0 14px 34px rgba(15,23,42,.07);
+}
+.section-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+.section-title h2 {
+  margin: 0;
+  font-size: 23px;
+  letter-spacing: -.02em;
+}
+.section-title span {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.instruction {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+.question {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 18px;
+  margin: 15px 0;
+  background: white;
+}
+.question-head {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 12px;
+}
+.qnum {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dbeafe, #ede9fe);
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 850;
+  font-size: 14px;
+}
+.stem {
+  padding-top: 2px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.word {
+  font-size: 18px;
+  color: var(--purple);
+  font-weight: 900;
+}
+.pos {
+  color: var(--muted);
+  font-weight: 600;
+  margin-left: 6px;
+}
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+button.option {
+  border: 1px solid var(--line);
+  background: #f9fafb;
+  color: var(--ink);
+  border-radius: 15px;
+  padding: 12px 13px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 15px;
+  transition: .16s ease;
+}
+button.option:hover {
+  transform: translateY(-1px);
+  border-color: var(--blue);
+  background: var(--soft-blue);
+}
+button.option.correct {
+  border-color: #99f6e4;
+  background: var(--good-bg);
+  color: var(--good);
+  font-weight: 850;
+}
+button.option.wrong {
+  border-color: #fecaca;
+  background: var(--bad-bg);
+  color: var(--bad);
+  font-weight: 850;
+}
+.feedback {
+  display: none;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+.feedback.show { display: block; }
+.feedback.good {
+  background: var(--good-bg);
+  color: var(--good);
+}
+.feedback.bad {
+  background: var(--bad-bg);
+  color: var(--bad);
+}
+.note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.target {
+  color: var(--purple);
+  font-weight: 850;
+}
+.key-box {
+  display: none;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 20px;
+  padding: 18px;
+  margin-top: 16px;
+}
+.key-box.show { display: block; }
+.key-box ol {
+  margin: 0;
+  padding-left: 24px;
+}
+.key-box li { margin: 7px 0; }
+.toolbar {
+  position: sticky;
+  bottom: 14px;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  padding: 12px;
+  border: 1px solid rgba(229,231,235,.92);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  box-shadow: 0 18px 38px rgba(15,23,42,.13);
+}
+.control {
+  border: 0;
+  border-radius: 15px;
+  padding: 12px 16px;
+  background: var(--blue);
+  color: white;
+  font-weight: 850;
+  cursor: pointer;
+}
+.control.secondary {
+  background: #eef2f7;
+  color: #111827;
+}
+.score {
+  text-align: center;
+  color: var(--blue);
+  font-weight: 900;
+  margin-top: 14px;
+}
+@media (max-width: 760px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .options { grid-template-columns: 1fr; }
+  .hero { padding: 28px 22px; }
+  h1 { font-size: 27px; }
+  .section-title { align-items: start; flex-direction: column; }
+}
+@media print {
+  body { background: white; }
+  .hero, .panel { box-shadow: none; }
+  .toolbar { display: none; }
+  button.option { background: white; color: #111827; }
+  .key-box { display: block; }
+  .question, .panel { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="eyebrow">Oxford 5000 · B2 前200词抽测</div>
+    <h1>5000词汇 B2 前200词 · 80词检测</h1>
+    <p>从 B2 前200个词中挑选 80 个高频且适合教学检测的词。题目重点考查词义、语境、搭配和基础用法，适合高中生或 IELTS 6–6.5 阶段学生。</p>
+    <div class="stats">
+      <div class="stat"><strong>80</strong><span>target words</span></div>
+      <div class="stat"><strong>4</strong><span>sections</span></div>
+      <div class="stat"><strong>B2</strong><span>CEFR level</span></div>
+      <div class="stat"><strong>Random</strong><span>option order</span></div>
+    </div>
+  </section>
+
+  <div class="notice">
+    教师提示：建议学生先独立完成，再让他们把错题中的目标词各造一个英文句子，重点检查搭配是否自然。
+  </div>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Part A · 选择正确中文意思</h2>
+      <span>24 questions</span>
+    </div>
+    <p class="instruction">Choose the correct Chinese meaning of the target word.</p>
+    <div id="part-a"></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Part B · 语境选词</h2>
+      <span>24 questions</span>
+    </div>
+    <p class="instruction">Choose the word that best completes the sentence.</p>
+    <div id="part-b"></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Part C · 搭配与语义</h2>
+      <span>20 questions</span>
+    </div>
+    <p class="instruction">Choose the word that forms the most natural collocation in the sentence.</p>
+    <div id="part-c"></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Part D · 写作用词</h2>
+      <span>12 questions</span>
+    </div>
+    <p class="instruction">Choose the best word for the IELTS-style sentence.</p>
+    <div id="part-d"></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Teacher Answer Key</h2>
+      <span>hidden by default</span>
+    </div>
+    <button class="control" onclick="toggleKey()">Show / Hide Answer Key</button>
+    <div id="answer-key" class="key-box"></div>
+  </section>
+
+  <div class="toolbar">
+    <button class="control" onclick="revealAll()">Reveal All</button>
+    <button class="control secondary" onclick="location.reload()">Reset</button>
+  </div>
+  <div id="score" class="score"></div>
+</div>
+
+<script>
+const DATA = {"partA": [{"word": "absorb", "pos": "v.", "question": "absorb", "options": ["吸收；理解", "取消；废除", "扩大；扩展", "争论；辩护"], "answer": "吸收；理解", "note": "absorb information / absorb water"}, {"word": "abstract", "pos": "adj.", "question": "abstract", "options": ["抽象的", "准确的", "古老的", "自动的"], "answer": "抽象的", "note": "abstract ideas / abstract concepts"}, {"word": "accent", "pos": "n.", "question": "accent", "options": ["口音；重音", "资产；优点", "证书；证明", "偏见；偏向"], "answer": "口音；重音", "note": "a strong accent / a regional accent"}, {"word": "accommodate", "pos": "v.", "question": "accommodate", "options": ["容纳；为……提供住宿", "完成；实现", "分类；归类", "承认；坦白"], "answer": "容纳；为……提供住宿", "note": "accommodate guests / accommodate 200 people"}, {"word": "accomplish", "pos": "v.", "question": "accomplish", "options": ["完成；实现", "吸收；理解", "协商；谈判", "捐赠；赠送"], "answer": "完成；实现", "note": "accomplish a goal / accomplish a task"}, {"word": "accuracy", "pos": "n.", "question": "accuracy", "options": ["准确性", "焦虑", "便利", "消耗"], "answer": "准确性", "note": "improve accuracy / check the accuracy"}, {"word": "activate", "pos": "v.", "question": "activate", "options": ["启动；激活", "适应；调整", "咨询；请教", "传达；表达"], "answer": "启动；激活", "note": "activate an account / activate a device"}, {"word": "addiction", "pos": "n.", "question": "addiction", "options": ["上瘾；沉迷", "假设", "意识", "保护"], "answer": "上瘾；沉迷", "note": "phone addiction / addiction to gaming"}, {"word": "adequate", "pos": "adj.", "question": "adequate", "options": ["足够的；合格的", "尴尬的", "有争议的", "强制性的"], "answer": "足够的；合格的", "note": "adequate support / adequate preparation"}, {"word": "adjust", "pos": "v.", "question": "adjust", "options": ["调整；适应", "促进；推动", "澄清；说明", "组成；包括"], "answer": "调整；适应", "note": "adjust to a new environment / adjust the settings"}, {"word": "affordable", "pos": "adj.", "question": "affordable", "options": ["负担得起的", "令人震惊的", "全面的", "传统的"], "answer": "负担得起的", "note": "affordable housing / affordable prices"}, {"word": "agriculture", "pos": "n.", "question": "agriculture", "options": ["农业", "动画", "证书", "殖民地"], "answer": "农业", "note": "modern agriculture / develop agriculture"}, {"word": "alien", "pos": "n./adj.", "question": "alien", "options": ["外星人；陌生的", "资产；有价值的人或物", "拍卖；竞拍", "工艺；手艺"], "answer": "外星人；陌生的", "note": "alien life / feel alien to someone"}, {"word": "amusing", "pos": "adj.", "question": "amusing", "options": ["有趣的；好笑的", "准确的", "必修的", "大量的"], "answer": "有趣的；好笑的", "note": "an amusing story / find something amusing"}, {"word": "analyst", "pos": "n.", "question": "analyst", "options": ["分析师", "广播员", "申请人", "顾问"], "answer": "分析师", "note": "a financial analyst / a data analyst"}, {"word": "ancestor", "pos": "n.", "question": "ancestor", "options": ["祖先", "申请人", "消费者", "指挥官"], "answer": "祖先", "note": "our ancestors / a common ancestor"}, {"word": "animation", "pos": "n.", "question": "animation", "options": ["动画；动画制作", "意识", "假设", "覆盖范围"], "answer": "动画；动画制作", "note": "computer animation / animation studio"}, {"word": "annually", "pos": "adv.", "question": "annually", "options": ["每年地", "适当地", "自动地", "批判性地"], "answer": "每年地", "note": "held annually / report annually"}, {"word": "anticipate", "pos": "v.", "question": "anticipate", "options": ["预期；预计", "咨询；请教", "分类；归类", "坦白；承认"], "answer": "预期；预计", "note": "anticipate problems / anticipate changes"}, {"word": "anxiety", "pos": "n.", "question": "anxiety", "options": ["焦虑；担忧", "准确性", "便利", "消耗"], "answer": "焦虑；担忧", "note": "reduce anxiety / suffer from anxiety"}, {"word": "apology", "pos": "n.", "question": "apology", "options": ["道歉", "证书", "资产", "偏见"], "answer": "道歉", "note": "make an apology / accept an apology"}, {"word": "applicant", "pos": "n.", "question": "applicant", "options": ["申请人", "祖先", "广播员", "收藏家"], "answer": "申请人", "note": "a successful applicant / job applicant"}, {"word": "appropriately", "pos": "adv.", "question": "appropriately", "options": ["适当地；恰当地", "每年地", "极大地", "结果；因此"], "answer": "适当地；恰当地", "note": "respond appropriately / dress appropriately"}, {"word": "artwork", "pos": "n.", "question": "artwork", "options": ["艺术作品", "农业", "殖民地", "系统故障"], "answer": "艺术作品", "note": "original artwork / display artwork"}], "partB": [{"stem": "A company’s brand name can be a valuable ______.", "answer": "asset", "options": ["asset", "auction", "accent", "alien"], "note": "a valuable asset"}, {"stem": "The teacher will ______ each student a different role in the group project.", "answer": "assign", "options": ["assign", "absorb", "confess", "consult"], "note": "assign someone a role / assign a task"}, {"stem": "Your argument is based on a false ______.", "answer": "assumption", "options": ["assumption", "attachment", "awareness", "accuracy"], "note": "a false assumption"}, {"stem": "I can ______ you that the information is correct.", "answer": "assure", "options": ["assure", "adjust", "activate", "classify"], "note": "assure someone that..."}, {"stem": "The speed of technological change is truly ______.", "answer": "astonishing", "options": ["astonishing", "automatic", "awkward", "compulsory"], "note": "an astonishing achievement / astonishing speed"}, {"stem": "Please send the file as an email ______.", "answer": "attachment", "options": ["attachment", "applicant", "analyst", "ancestor"], "note": "email attachment"}, {"stem": "The painting was sold at ______ for over one million pounds.", "answer": "auction", "options": ["auction", "assumption", "animation", "asset"], "note": "sold at auction"}, {"stem": "Most modern cars have an ______ braking system.", "answer": "automatic", "options": ["automatic", "abstract", "adequate", "awkward"], "note": "automatic system / automatic response"}, {"stem": "The campaign aims to raise public ______ of environmental problems.", "answer": "awareness", "options": ["awareness", "accuracy", "anxiety", "apology"], "note": "raise awareness of something"}, {"stem": "There was an ______ silence after his strange comment.", "answer": "awkward", "options": ["awkward", "affordable", "amusing", "alien"], "note": "an awkward silence / an awkward situation"}, {"stem": "A ______ diet should include vegetables, protein and healthy fats.", "answer": "balanced", "options": ["balanced", "biological", "bound", "bold"], "note": "a balanced diet"}, {"stem": "This second-hand laptop is a real ______.", "answer": "bargain", "options": ["bargain", "blanket", "badge", "bias"], "note": "a real bargain"}, {"stem": "Regular exercise is ______ to both physical and mental health.", "answer": "beneficial", "options": ["beneficial", "colourful", "concrete", "controversial"], "note": "beneficial to health"}, {"stem": "News reports should avoid political ______.", "answer": "bias", "options": ["bias", "boost", "blow", "brick"], "note": "political bias / avoid bias"}, {"stem": "Some diseases may have a ______ cause.", "answer": "biological", "options": ["biological", "casual", "charming", "comic"], "note": "a biological cause"}, {"stem": "Positive feedback can ______ students’ confidence.", "answer": "boost", "options": ["boost", "bound", "brief", "bargain"], "note": "boost confidence"}, {"stem": "Students are ______ to make mistakes when learning a new language.", "answer": "bound", "options": ["bound", "briefly", "broadly", "beside"], "note": "be bound to do something"}, {"stem": "Could you ______ explain what happened in the meeting?", "answer": "briefly", "options": ["briefly", "annually", "appropriately", "automatically"], "note": "briefly explain"}, {"stem": "The ______ interviewed several experts about climate change.", "answer": "broadcaster", "options": ["broadcaster", "applicant", "ancestor", "accountant"], "note": "a TV broadcaster / public broadcaster"}, {"stem": "The company allows employees to wear ______ clothes on Fridays.", "answer": "casual", "options": ["casual", "concrete", "compulsory", "convincing"], "note": "casual clothes"}, {"stem": "There is no ______ that the plan will succeed.", "answer": "certainty", "options": ["certainty", "certificate", "convention", "colony"], "note": "no certainty that..."}, {"stem": "You need a medical ______ to prove that you are fit to travel.", "answer": "certificate", "options": ["certificate", "coverage", "craft", "crack"], "note": "medical certificate"}, {"stem": "Teaching mixed-level classes can be very ______.", "answer": "challenging", "options": ["challenging", "charming", "colourful", "conventional"], "note": "a challenging task"}, {"stem": "The village is small but extremely ______.", "answer": "charming", "options": ["charming", "compulsory", "controversial", "consequent"], "note": "a charming village / charming personality"}], "partC": [{"stem": "The police asked him to ______ the situation.", "answer": "clarify", "options": ["clarify", "classify", "convey", "cope"], "note": "clarify the situation"}, {"stem": "Scientists often ______ animals into different groups.", "answer": "classify", "options": ["classify", "consult", "confess", "compose"], "note": "classify something into groups"}, {"stem": "It was a complete ______ that we met in the same café.", "answer": "coincidence", "options": ["coincidence", "confusion", "coverage", "conservation"], "note": "a complete coincidence"}, {"stem": "Hong Kong was once a British ______.", "answer": "colony", "options": ["colony", "certificate", "corporation", "corridor"], "note": "a British colony"}, {"stem": "The market was full of ______ stalls and bright lights.", "answer": "colourful", "options": ["colourful", "concrete", "casual", "conventional"], "note": "colourful stalls / colourful clothes"}, {"stem": "The school offers a ______ training programme for new teachers.", "answer": "comprehensive", "options": ["comprehensive", "controversial", "automatic", "awkward"], "note": "a comprehensive programme"}, {"stem": "The course will ______ three main sections.", "answer": "comprise", "options": ["comprise", "confess", "consult", "convey"], "note": "comprise three parts"}, {"stem": "English is a ______ subject in many schools.", "answer": "compulsory", "options": ["compulsory", "casual", "charming", "balanced"], "note": "a compulsory subject"}, {"stem": "We need ______ evidence before making a final decision.", "answer": "concrete", "options": ["concrete", "abstract", "comic", "awkward"], "note": "concrete evidence"}, {"stem": "He finally decided to ______ that he had made a mistake.", "answer": "confess", "options": ["confess", "classify", "boost", "assign"], "note": "confess that... / confess to something"}, {"stem": "The new rules caused a lot of ______ among students.", "answer": "confusion", "options": ["confusion", "completion", "conservation", "convention"], "note": "cause confusion"}, {"stem": "The road was closed; ______, we had to take a different route.", "answer": "consequently", "options": ["consequently", "annually", "briefly", "appropriately"], "note": "consequently = as a result"}, {"stem": "Wildlife ______ should be a priority for the government.", "answer": "conservation", "options": ["conservation", "consumption", "coverage", "coincidence"], "note": "wildlife conservation"}, {"stem": "The project requires a ______ amount of money.", "answer": "considerable", "options": ["considerable", "conventional", "convincing", "casual"], "note": "a considerable amount of money"}, {"stem": "She has performed ______ well throughout the course.", "answer": "consistently", "options": ["consistently", "briefly", "automatically", "annually"], "note": "perform consistently well"}, {"stem": "Many people still believe in this strange ______ theory.", "answer": "conspiracy", "options": ["conspiracy", "certainty", "coverage", "craft"], "note": "a conspiracy theory"}, {"stem": "You should ______ a doctor if the pain continues.", "answer": "consult", "options": ["consult", "convey", "classify", "activate"], "note": "consult a doctor"}, {"stem": "The company hired a management ______ to improve efficiency.", "answer": "consultant", "options": ["consultant", "broadcaster", "applicant", "ancestor"], "note": "management consultant"}, {"stem": "Energy ______ usually increases in winter.", "answer": "consumption", "options": ["consumption", "conservation", "confusion", "completion"], "note": "energy consumption"}, {"stem": "The decision to build a new airport remains highly ______.", "answer": "controversial", "options": ["controversial", "beneficial", "adequate", "colourful"], "note": "a controversial decision / issue"}], "partD": [{"stem": "Online shopping offers great ______ to busy parents.", "answer": "convenience", "options": ["convenience", "convention", "coverage", "certainty"], "note": "offer convenience"}, {"stem": "The annual teachers’ ______ will be held in London this year.", "answer": "convention", "options": ["convention", "corporation", "certificate", "colony"], "note": "annual convention"}, {"stem": "Many people still prefer ______ teaching methods.", "answer": "conventional", "options": ["conventional", "convincing", "controversial", "considerable"], "note": "conventional methods"}, {"stem": "Body language can ______ emotions more directly than words.", "answer": "convey", "options": ["convey", "cope", "crack", "craft"], "note": "convey emotions / convey a message"}, {"stem": "His explanation was clear and ______.", "answer": "convincing", "options": ["convincing", "casual", "colourful", "automatic"], "note": "a convincing explanation"}, {"stem": "Some students find it difficult to ______ with exam pressure.", "answer": "cope", "options": ["cope", "convey", "consult", "classify"], "note": "cope with pressure"}, {"stem": "The multinational ______ has offices in more than 40 countries.", "answer": "corporation", "options": ["corporation", "coverage", "convention", "consultant"], "note": "multinational corporation"}, {"stem": "The news channel gave live ______ of the election.", "answer": "coverage", "options": ["coverage", "consumption", "conservation", "confusion"], "note": "live news coverage"}, {"stem": "There is a small ______ in the window glass.", "answer": "crack", "options": ["crack", "craft", "cue", "clip"], "note": "a crack in the glass"}, {"stem": "Pottery is a traditional ______ that requires patience and skill.", "answer": "craft", "options": ["craft", "coverage", "convention", "crack"], "note": "a traditional craft"}, {"stem": "Schools should encourage ______ rather than just memorisation.", "answer": "creativity", "options": ["creativity", "certainty", "coverage", "convenience"], "note": "encourage creativity"}, {"stem": "Students should think ______ about information they find online.", "answer": "critically", "options": ["critically", "annually", "automatically", "briefly"], "note": "think critically"}]};
+
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function letter(i) { return ["A", "B", "C", "D"][i] || ""; }
+
+function renderSection(id, data, mode) {
+  const box = document.getElementById(id);
+  data.forEach((q, idx) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.dataset.answer = q.answer;
+    qDiv.dataset.mode = mode;
+
+    let stemHTML = "";
+    if (mode === "meaning") {
+      stemHTML = `<span class="word">${q.question}</span><span class="pos">${q.pos}</span>`;
+    } else {
+      stemHTML = q.stem;
+    }
+
+    qDiv.innerHTML = `
+      <div class="question-head">
+        <div class="qnum">${idx + 1}</div>
+        <div class="stem">${stemHTML}</div>
+      </div>
+      <div class="options"></div>
+      <div class="feedback"></div>
+      <div class="note">Target: <span class="target">${q.word || q.answer}</span> · ${q.note}</div>
+    `;
+
+    const opts = qDiv.querySelector(".options");
+    shuffle(q.options).forEach((opt, optIdx) => {
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.dataset.value = opt;
+      btn.innerHTML = `<strong>${letter(optIdx)}.</strong> ${opt}`;
+      btn.onclick = () => choose(btn);
+      opts.appendChild(btn);
+    });
+
+    box.appendChild(qDiv);
+  });
+}
+
+function choose(btn) {
+  const q = btn.closest(".question");
+  const answer = q.dataset.answer;
+  const fb = q.querySelector(".feedback");
+
+  q.querySelectorAll(".option").forEach(b => {
+    b.disabled = true;
+    if (b.dataset.value === answer) b.classList.add("correct");
+  });
+
+  if (btn.dataset.value === answer) {
+    fb.textContent = "Correct.";
+    fb.className = "feedback show good";
+  } else {
+    btn.classList.add("wrong");
+    fb.textContent = "Not quite. Correct answer: " + answer + ".";
+    fb.className = "feedback show bad";
+  }
+
+  updateScore();
+}
+
+function updateScore() {
+  const qs = document.querySelectorAll(".question");
+  let answered = 0, correct = 0;
+  qs.forEach(q => {
+    const done = Array.from(q.querySelectorAll(".option")).some(b => b.disabled);
+    if (done) {
+      answered++;
+      if (!q.querySelector(".option.wrong")) correct++;
+    }
+  });
+  document.getElementById("score").textContent = `Progress: ${answered}/${qs.length} answered · ${correct}/${qs.length} correct`;
+}
+
+function revealAll() {
+  document.querySelectorAll(".question").forEach(q => {
+    const answer = q.dataset.answer;
+    q.querySelectorAll(".option").forEach(btn => {
+      btn.disabled = true;
+      if (btn.dataset.value === answer) btn.classList.add("correct");
+    });
+    const fb = q.querySelector(".feedback");
+    fb.textContent = "Answer: " + answer;
+    fb.className = "feedback show good";
+  });
+  document.getElementById("answer-key").classList.add("show");
+  updateScore();
+}
+
+function toggleKey() {
+  document.getElementById("answer-key").classList.toggle("show");
+}
+
+function buildKey() {
+  const list = [];
+  DATA.partA.forEach((q, i) => list.push(`Part A ${i+1}. ${q.question} = ${q.answer} ｜ ${q.note}`));
+  DATA.partB.forEach((q, i) => list.push(`Part B ${i+1}. ${q.answer} ｜ ${q.note}`));
+  DATA.partC.forEach((q, i) => list.push(`Part C ${i+1}. ${q.answer} ｜ ${q.note}`));
+  DATA.partD.forEach((q, i) => list.push(`Part D ${i+1}. ${q.answer} ｜ ${q.note}`));
+  document.getElementById("answer-key").innerHTML = "<ol>" + list.map(x => `<li>${x}</li>`).join("") + "</ol>";
+}
+
+renderSection("part-a", DATA.partA, "meaning");
+renderSection("part-b", DATA.partB, "context");
+renderSection("part-c", DATA.partC, "collocation");
+renderSection("part-d", DATA.partD, "writing");
+buildKey();
+updateScore();
+</script>
+</body>
+</html>
