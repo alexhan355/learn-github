@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5岁3个月图文顺序趣味题</title>
+    <style>
+      :root {
+        --ink: #253047;
+        --muted: #5c6878;
+        --paper: #fffdf8;
+        --line: #26334a;
+        --blue: #2f9fd0;
+        --green: #66b96f;
+        --yellow: #ffd76a;
+        --coral: #ff7f73;
+        --violet: #8168d8;
+        --ok: #168a58;
+        --bad: #c24a4a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          linear-gradient(90deg, rgba(47, 159, 208, 0.12) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 215, 106, 0.22) 1px, transparent 1px),
+          linear-gradient(180deg, #f7fcff, #fff8ee 58%, #f3fbf3);
+        background-size: 38px 38px, 38px 38px, auto;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .wrap {
+        width: min(1080px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 18px 0 38px;
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 30px;
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .sub {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .top-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        min-height: 42px;
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        padding: 0 13px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--line);
+      }
+
+      .btn:hover,
+      .choice:hover {
+        transform: translate(1px, 1px);
+        box-shadow: 2px 2px 0 var(--line);
+      }
+
+      .status {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 5px 5px 0 var(--line);
+      }
+
+      .status p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .score {
+        min-width: 118px;
+        border-radius: 8px;
+        background: var(--line);
+        color: #fff;
+        text-align: center;
+        font-weight: 900;
+        padding: 9px;
+      }
+
+      .score strong {
+        font-size: 25px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        box-shadow: 5px 5px 0 var(--line);
+      }
+
+      .tag {
+        width: fit-content;
+        border-radius: 999px;
+        padding: 5px 10px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 900;
+        background: var(--accent);
+      }
+
+      .card h2 {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1.3;
+        letter-spacing: 0;
+      }
+
+      .prompt {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .scene {
+        display: flex;
+        min-height: 118px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 9px;
+        padding: 13px;
+        border-radius: 8px;
+        background: var(--wash);
+      }
+
+      .pic {
+        font-size: 34px;
+        line-height: 1;
+      }
+
+      .tile {
+        min-width: 48px;
+        min-height: 48px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 22px;
+        font-weight: 900;
+        box-shadow: 3px 3px 0 var(--line);
+      }
+
+      .tile.blank {
+        background: var(--line);
+        color: #fff;
+      }
+
+      .choices {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .choice {
+        min-height: 56px;
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 20px;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--line);
+      }
+
+      .choice.right {
+        background: var(--ok);
+        color: #fff;
+      }
+
+      .choice.wrong {
+        background: var(--bad);
+        color: #fff;
+      }
+
+      .hint-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .hint {
+        display: none;
+        margin: 0;
+        color: #3f5968;
+        line-height: 1.5;
+      }
+
+      .hint.open {
+        display: block;
+      }
+
+      .feedback {
+        min-height: 25px;
+        margin: 0;
+        color: var(--muted);
+        font-weight: 900;
+      }
+
+      .answers {
+        margin-top: 16px;
+        padding: 14px;
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 5px 5px 0 var(--line);
+      }
+
+      .answers h2 {
+        margin: 0 0 8px;
+        font-size: 21px;
+      }
+
+      .answers ol {
+        columns: 2;
+        margin: 0;
+        padding-left: 22px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 760px) {
+        header,
+        .status,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 25px;
+        }
+
+        .top-actions {
+          justify-content: stretch;
+        }
+
+        .top-actions .btn {
+          flex: 1;
+        }
+
+        .answers ol {
+          columns: 1;
+        }
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+
+        .top-actions,
+        .status,
+        .hint-row,
+        .feedback {
+          display: none;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card,
+        .answers {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+
+        .answers.hidden {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <header>
+        <div>
+          <h1>图文顺序小挑战</h1>
+          <p class="sub">5岁3个月｜数序、图形规律、故事顺序｜难度已调成阶梯版</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="resetBtn" type="button">重新玩</button>
+          <button class="btn" id="answerBtn" type="button">答案区</button>
+          <button class="btn" id="printBtn" type="button">打印</button>
+        </div>
+      </header>
+
+      <section class="status" aria-live="polite">
+        <p id="message">先看图，再找数字或图形的顺序。不会的时候可以看提示。</p>
+        <div class="score"><strong id="score">0</strong> / 8</div>
+      </section>
+
+      <section class="grid" id="quiz" aria-label="图文顺序题"></section>
+
+      <section class="answers hidden" id="answers">
+        <h2>答案区</h2>
+        <ol id="answerList"></ol>
+      </section>
+    </main>
+
+    <script>
+      const questions = [
+        {
+          tag: "第1题：月亮列车",
+          title: "下一节车厢写几号？",
+          prompt: "列车每往前开一节，数字都会多3。",
+          accent: "#2f9fd0",
+          wash: "#dff3ff",
+          scene: ["🚂", "4", "7", "10", "13", "?"],
+          choices: ["15", "16", "17"],
+          answer: "16",
+          hint: "4到7多3，7到10也多3。"
+        },
+        {
+          tag: "第2题：蜜蜂花园",
+          title: "下一块花牌应该写几？",
+          prompt: "蜜蜂按花牌上的数字飞：2、4、6、8……",
+          accent: "#66b96f",
+          wash: "#e8f7df",
+          scene: ["🐝", "2", "4", "6", "8", "?"],
+          choices: ["9", "10", "12"],
+          answer: "10",
+          hint: "每次多2。"
+        },
+        {
+          tag: "第3题：石头过河",
+          title: "最后一块石头上应该写几？",
+          prompt: "小石头按3、6、9、12排队。",
+          accent: "#ff7f73",
+          wash: "#ffe7e1",
+          scene: ["🪨", "3", "6", "9", "12", "?"],
+          choices: ["13", "15", "16"],
+          answer: "15",
+          hint: "每次多3，12后面再多3。"
+        },
+        {
+          tag: "第4题：太空倒数",
+          title: "下一颗星球是几号？",
+          prompt: "这条路线是倒着走：20、18、16、14……",
+          accent: "#8168d8",
+          wash: "#efe9ff",
+          scene: ["🚀", "20", "18", "16", "14", "?"],
+          choices: ["12", "13", "10"],
+          answer: "12",
+          hint: "每次少2。"
+        },
+        {
+          tag: "第5题：苹果货架",
+          title: "最后一格的标签应该写几？",
+          prompt: "苹果货架按偶数排队：2、4、6……",
+          accent: "#2f9fd0",
+          wash: "#dff3ff",
+          scene: ["🍎", "2", "4", "6", "?"],
+          choices: ["7", "8", "10"],
+          answer: "8",
+          hint: "每次多2。"
+        },
+        {
+          tag: "第6题：门牌小路",
+          title: "下一间小房子的门牌号是多少？",
+          prompt: "门牌号沿着小路走：12、14、16、18……",
+          accent: "#66b96f",
+          wash: "#e8f7df",
+          scene: ["🏠", "12", "14", "16", "18", "?"],
+          choices: ["19", "20", "22"],
+          answer: "20",
+          hint: "这是双数门牌，每次多2。"
+        },
+        {
+          tag: "第7题：小花故事",
+          title: "开花以后，最可能发生什么？",
+          prompt: "这次不是数字，是看事情发生的先后顺序。",
+          accent: "#ff7f73",
+          wash: "#ffe7e1",
+          scene: ["种子", "发芽", "开花", "?"],
+          choices: ["再变种子", "结果子", "回到泥土"],
+          answer: "结果子",
+          hint: "植物长大以后，花常常会变成果实或种子。"
+        },
+        {
+          tag: "第8题：彩旗节奏",
+          title: "最后一面旗子应该是什么图案？",
+          prompt: "不看颜色，只看形状：圆、方、圆、方……",
+          accent: "#8168d8",
+          wash: "#efe9ff",
+          scene: ["●", "■", "●", "■", "?"],
+          choices: ["●", "■", "▲"],
+          answer: "●",
+          hint: "圆、方、圆、方，后面又回到圆。"
+        }
+      ];
+
+      const solved = new Set();
+      const quiz = document.querySelector("#quiz");
+      const score = document.querySelector("#score");
+      const message = document.querySelector("#message");
+      const answers = document.querySelector("#answers");
+      const answerList = document.querySelector("#answerList");
+
+      function drawScene(items) {
+        return items
+          .map((item, index) => {
+            const isPic = Number.isNaN(Number(item)) && item.length <= 2 && item !== "?" && item !== "●" && item !== "■" && item !== "▲";
+            const cls = item === "?" ? "tile blank" : isPic ? "pic" : "tile";
+            return `<span class="${cls}">${item}</span>`;
+          })
+          .join("");
+      }
+
+      function render() {
+        quiz.innerHTML = questions
+          .map(
+            (q, index) => `
+              <article class="card" data-index="${index}" style="--accent:${q.accent};--wash:${q.wash}">
+                <p class="tag">${q.tag}</p>
+                <div class="scene" aria-hidden="true">${drawScene(q.scene)}</div>
+                <h2>${q.title}</h2>
+                <p class="prompt">${q.prompt}</p>
+                <div class="choices">
+                  ${q.choices.map((choice) => `<button class="choice" type="button" data-choice="${choice}">${choice}</button>`).join("")}
+                </div>
+                <div class="hint-row">
+                  <button class="btn hintBtn" type="button">小提示</button>
+                  <p class="hint">${q.hint}</p>
+                </div>
+                <p class="feedback"></p>
+              </article>
+            `
+          )
+          .join("");
+
+        answerList.innerHTML = questions.map((q) => `<li>${q.tag.replace("第", "").replace("题：", ". ")}：${q.answer}</li>`).join("");
+      }
+
+      function updateScore() {
+        score.textContent = solved.size;
+        if (solved.size === questions.length) {
+          message.textContent = "全部完成。现在可以让孩子讲讲：每一题为什么这样排。";
+        }
+      }
+
+      render();
+
+      quiz.addEventListener("click", (event) => {
+        const choice = event.target.closest(".choice");
+        const hintBtn = event.target.closest(".hintBtn");
+        const card = event.target.closest(".card");
+        if (!card) return;
+
+        if (hintBtn) {
+          card.querySelector(".hint").classList.toggle("open");
+          return;
+        }
+
+        if (!choice) return;
+        const index = Number(card.dataset.index);
+        const q = questions[index];
+        card.querySelectorAll(".choice").forEach((btn) => btn.classList.remove("right", "wrong"));
+
+        if (choice.dataset.choice === q.answer) {
+          choice.classList.add("right");
+          solved.add(index);
+          card.querySelector(".feedback").textContent = "对了，规律找到了。";
+        } else {
+          choice.classList.add("wrong");
+          card.querySelector(".feedback").textContent = "再看一眼图里的顺序。";
+        }
+
+        updateScore();
+      });
+
+      document.querySelector("#resetBtn").addEventListener("click", () => {
+        solved.clear();
+        render();
+        updateScore();
+        message.textContent = "先看图，再找数字或图形的顺序。不会的时候可以看提示。";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      document.querySelector("#answerBtn").addEventListener("click", () => {
+        answers.classList.toggle("hidden");
+        if (!answers.classList.contains("hidden")) answers.scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.querySelector("#printBtn").addEventListener("click", () => window.print());
+    </script>
+  </body>
+</html>
