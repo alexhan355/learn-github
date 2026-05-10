@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B1 词汇水平测试</title>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#edf4f7;color:#172230;display:grid;place-items:center;min-height:100vh}.box{width:min(560px,calc(100% - 32px));background:white;border:1px solid #d9e3ec;border-radius:8px;padding:22px;box-shadow:0 12px 30px rgba(23,34,48,.12)}h1{margin:0 0 8px;font-size:24px}.muted{color:#637184}.btn{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:8px;background:#1f5f8b;color:white;text-decoration:none;font-weight:800}
+</style>
+</head>
+<body>
+<div class="box" id="status"><h1>B1 词汇水平测试</h1><p class="muted">正在加载测试页面...</p></div>
+<script>
+const source='https://cdn.jsdelivr.net/gh/alexhan355/learn-github@main/b1-vocabulary-level-mcq-timer.html';
+fetch(source,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.text()}).then(html=>{document.open();document.write(html);document.close()}).catch(()=>{document.getElementById('status').innerHTML='<h1>B1 词汇水平测试</h1><p class="muted">当前网络无法自动加载。请点击下面按钮打开备用链接。</p><a class="btn" href="'+source+'">打开备用链接</a>';});
+</script>
+</body>
+</html>
