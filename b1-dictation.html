@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B1 汉译英听写测试</title>
+<style>
+:root{--bg:#f7f8fb;--panel:#ffffff;--ink:#18202a;--muted:#647080;--line:#d9e0e8;--teal:#0f766e;--teal2:#d9f3ee;--red:#d64f45;--red2:#ffe1dd;--amber:#b7791f;--amber2:#fff2cf;--shadow:0 18px 50px rgba(24,32,42,.10)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#e9f6f3 0,#f7f8fb 34%,#f7f8fb 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"PingFang SC","Microsoft YaHei",sans-serif}button,input,select{font:inherit}button{border:0;border-radius:8px;background:#edf2f7;color:var(--ink);padding:11px 15px;cursor:pointer;font-weight:800}button:hover{filter:brightness(.98)}button.primary{background:var(--teal);color:white}button.warn{background:var(--amber2);color:#76510c}button.danger{background:var(--red2);color:#a1312a}button:disabled{opacity:.45;cursor:not-allowed}.wrap{width:min(1120px,calc(100% - 28px));margin:0 auto;padding:26px 0 42px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:end;margin-bottom:16px}.title{padding:24px 0}.tag{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;color:var(--teal);font-weight:900;font-size:13px}h1{margin:14px 0 8px;font-size:clamp(30px,5vw,56px);line-height:1.02;letter-spacing:0}p{margin:0}.sub{color:var(--muted);font-size:18px}.mini{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.mini div,.card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}.mini div{padding:16px}.mini b{display:block;font-size:22px}.mini span{color:var(--muted);font-size:13px}.toolbar{position:sticky;top:0;z-index:5;background:rgba(247,248,251,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:16px}.tools{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}.left,.right{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.field{display:flex;align-items:center;gap:7px;color:var(--muted);font-weight:800}.field input,.field select{border:1px solid var(--line);border-radius:8px;padding:10px 11px;background:#fff;color:var(--ink);min-width:120px}.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-weight:900}.track{height:9px;background:#e5ebf1;border-radius:999px;overflow:hidden;margin-top:11px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--teal),#2f9e44);transition:.22s}.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}.card{padding:18px}.quiz{min-height:390px}.counter{color:var(--muted);font-weight:900}.meaning{font-size:clamp(34px,6vw,74px);line-height:1.08;font-weight:950;margin:26px 0 14px;word-break:break-word}.initial{display:inline-flex;background:var(--teal2);color:#085f58;border-radius:8px;padding:10px 13px;font-size:20px;font-weight:950;margin-bottom:18px}.answerRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:12px}.answerRow input{width:100%;border:2px solid #b7c7d6;border-radius:8px;padding:16px 15px;font-size:24px;font-weight:850;background:#fff}.answerRow input:focus{outline:3px solid rgba(15,118,110,.20);border-color:var(--teal)}.feedback{margin-top:14px;padding:13px;border-radius:8px;background:#f0f4f8;color:var(--muted);font-weight:850}.feedback.good{background:var(--teal2);color:#075e56}.feedback.bad{background:var(--red2);color:#9b2c25}.nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.side h2,.result h2{margin:0 0 12px;font-size:18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#f6f8fb;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}.stat b{display:block;font-size:28px}.stat span{color:var(--muted);font-weight:850}.dots{display:flex;gap:6px;flex-wrap:wrap;max-height:250px;overflow:auto}.dot{width:18px;height:18px;border-radius:5px;background:#dfe7ef;padding:0}.dot.on{outline:3px solid rgba(15,118,110,.25)}.dot.ok{background:#28a76f}.dot.bad{background:#df5b51}.dot.skip{background:#d7a12c}.result{display:none;margin-top:16px}.result.show{display:block}.score{font-size:58px;font-weight:950;color:var(--teal);line-height:1}.wrongBox{margin-top:14px;min-height:88px;border:1px dashed #b7c7d6;background:#fbfcfe;border-radius:8px;padding:12px;cursor:pointer}.chip{display:inline-flex;margin:5px 5px 0 0;border-radius:999px;background:#eef3f8;border:1px solid var(--line);padding:7px 10px;font-weight:850}.download{margin-top:12px}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(16px);background:#18202a;color:white;padding:11px 16px;border-radius:999px;opacity:0;transition:.22s;pointer-events:none;font-weight:900}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}@media(max-width:840px){.hero,.grid{grid-template-columns:1fr}.mini{grid-template-columns:repeat(2,1fr)}.answerRow{grid-template-columns:1fr}.meaning{font-size:42px}.tools{align-items:stretch}.left,.right{width:100%}.field{width:100%}.field input,.field select{flex:1;min-width:0}button{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="title"><span class="tag">CEFR B1 · Dictation</span><h1>B1 汉译英听写测试</h1><p class="sub">中文释义 + 首字母，输入完整英文单词。</p></div>
+    <div class="mini"><div><b id="total">加载中</b><span>词库</span></div><div><b>TXT</b><span>错词下载</span></div><div><b id="timer">00:00</b><span>用时</span></div><div><b id="progress">0 / 0</b><span>进度</span></div></div>
+  </section>
+  <section class="toolbar">
+    <div class="tools">
+      <div class="left"><label class="field">姓名 <input id="student" placeholder="Student name"></label><label class="field">题量 <select id="size"><option value="50">50题</option><option value="100" selected>100题</option><option value="200">200题</option><option value="all">全部</option></select></label><label class="field">顺序 <select id="order"><option value="random" selected>随机</option><option value="original">词表顺序</option></select></label><span class="pill" id="state">读取词库中</span></div>
+      <div class="right"><button class="primary" id="start" onclick="startQuiz()" disabled>开始</button><button onclick="move(-1)">上一题</button><button onclick="move(1)">下一题</button><button class="warn" onclick="skipWord()">跳过</button><button class="danger" onclick="finishQuiz()">交卷</button></div>
+    </div>
+    <div class="track"><div class="bar" id="bar"></div></div>
+  </section>
+  <main class="grid">
+    <section class="card quiz">
+      <div class="counter" id="count">词库加载中</div>
+      <div class="meaning" id="meaning">loading</div>
+      <div class="initial" id="initial">首字母：-</div>
+      <div class="answerRow"><input id="answer" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="输入英文拼写"><button class="primary" onclick="submitAnswer()">确认</button></div>
+      <div class="feedback" id="feedback">正在准备题目</div>
+      <div class="nav"><button onclick="focusAnswer()">回到输入框</button><button onclick="move(1)">下一题</button></div>
+    </section>
+    <aside>
+      <section class="card"><h2>统计</h2><div class="stats"><div class="stat"><span>正确</span><b id="right">0</b></div><div class="stat"><span>错误</span><b id="wrong">0</b></div><div class="stat"><span>未答</span><b id="left">0</b></div></div></section>
+      <section class="card" style="margin-top:16px"><h2>题目地图</h2><div class="dots" id="dots"></div></section>
+    </aside>
+  </main>
+  <section class="card result" id="result"><h2>听写结果</h2><div class="score" id="score">0%</div><p id="summary"></p><div class="wrongBox" id="wrongBox" onclick="downloadWrong()"></div><div class="download"><button class="primary" onclick="downloadWrong()">下载写错词汇 TXT</button><button onclick="startQuiz()">再测一次</button></div></section>
+</div>
+<div class="toast" id="toast">OK</div>
+<script>
+const DATA_FILE='./b1-3000-dictation-data.txt';
+const $=id=>document.getElementById(id);
+let bank=[],quiz=[],rec=[],idx=0,started=0,ended=0,timer=0,toastTimer=0,submitted=false;
+function nl(){return String.fromCharCode(10)}
+function tab(){return String.fromCharCode(9)}
+function parseData(text){return text.trim().split(nl()).map(row=>{row=row.split(String.fromCharCode(13)).join('').trim();const p=row.indexOf('|');if(p<1)return null;return{word:row.slice(0,p).trim(),meaning:row.slice(p+1).trim()}}).filter(Boolean)}
+async function loadData(){try{const r=await fetch(DATA_FILE,{cache:'no-store'});if(!r.ok)throw new Error(r.status);bank=parseData(await r.text());$('total').textContent=bank.length+'词';$('state').textContent='未开始';$('start').disabled=false;$('size').querySelector('option[value="all"]').textContent='全部 '+bank.length+'题';$('count').textContent='点击开始';$('meaning').textContent='ready';$('feedback').textContent='选择题量后开始测试';pop('词库已加载')}catch(e){$('state').textContent='词库加载失败';$('meaning').textContent='reload';$('feedback').textContent='请刷新页面重试'}}
+function shuffle(a){const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=arr[i];arr[i]=arr[j];arr[j]=t}return arr}
+function format(ms){const s=Math.max(0,Math.floor(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function tick(){if(started&&!ended)$('timer').textContent=format(Date.now()-started)}
+function normalize(s){let v=String(s).toLowerCase().trim().split('’').join("'");[' ','　','-','_','.'].forEach(ch=>v=v.split(ch).join(''));return v}
+function pick(){let list=$('order').value==='random'?shuffle(bank):bank.slice();const n=$('size').value;if(n!=='all')list=list.slice(0,Number(n));return list}
+function startQuiz(){if(!bank.length)return pop('词库还没加载好');quiz=pick();rec=quiz.map(q=>({word:q.word,meaning:q.meaning,typed:'',done:false,correct:false,skip:false}));idx=0;started=Date.now();ended=0;submitted=false;clearInterval(timer);timer=setInterval(tick,250);$('result').classList.remove('show');showCard();renderDots();renderStats();tick();pop('开始，共 '+quiz.length+' 题');setTimeout(focusAnswer,80)}
+function saveTyping(){if(rec[idx])rec[idx].typed=$('answer').value.trim()}
+function showCard(){if(!quiz.length)return;const q=quiz[idx],r=rec[idx];$('count').textContent='第 '+(idx+1)+' / '+quiz.length+' 题';$('meaning').textContent=q.meaning;$('initial').textContent='首字母：'+q.word.slice(0,1).toLowerCase();$('answer').value=r.typed||'';$('feedback').className='feedback'+(r.done?(r.correct?' good':' bad'):'');$('feedback').textContent=r.done?(r.correct?'正确':'正确答案：'+q.word):'请输入完整英文单词';updateProgress();renderStats();renderDots()}
+function submitAnswer(){if(!quiz.length)return startQuiz();const typed=$('answer').value.trim();if(!typed)return pop('先输入答案');const r=rec[idx],q=quiz[idx];r.typed=typed;r.done=true;r.skip=false;r.correct=normalize(typed)===normalize(q.word);showCard();pop(r.correct?'正确':'错误');if(idx<quiz.length-1)setTimeout(()=>{idx++;showCard();focusAnswer()},620);else if(rec.every(x=>x.done))setTimeout(finishQuiz,620)}
+function move(step){if(!quiz.length)return startQuiz();saveTyping();idx=Math.max(0,Math.min(quiz.length-1,idx+step));showCard();focusAnswer()}
+function skipWord(){if(!quiz.length)return startQuiz();const r=rec[idx];r.typed='';r.done=true;r.skip=true;r.correct=false;showCard();if(idx<quiz.length-1)setTimeout(()=>{idx++;showCard();focusAnswer()},320)}
+function stats(){return rec.reduce((a,r)=>{if(!r.done)a.left++;else if(r.correct)a.right++;else a.wrong++;return a},{right:0,wrong:0,left:0})}
+function renderStats(){const s=stats();$('right').textContent=s.right;$('wrong').textContent=s.wrong;$('left').textContent=s.left}
+function updateProgress(){const done=rec.filter(r=>r.done).length,total=quiz.length||0;$('progress').textContent=done+' / '+total;$('bar').style.width=total?Math.round(done/total*100)+'%':'0%';$('state').textContent=quiz.length?'正确 '+stats().right:'未开始'}
+function renderDots(){const box=$('dots');box.innerHTML='';rec.forEach((r,i)=>{const b=document.createElement('button');b.className='dot '+(i===idx?'on ':'')+(r.done?(r.correct?'ok':(r.skip?'skip':'bad')):'');b.title=(i+1)+'. '+r.word;b.onclick=()=>{saveTyping();idx=i;showCard();focusAnswer()};box.appendChild(b)})}
+function wrongItems(){return rec.filter(r=>!r.correct)}
+function finishQuiz(){if(!quiz.length)return startQuiz();saveTyping();rec.forEach(r=>{if(!r.done){r.done=true;r.skip=true;r.correct=false}});submitted=true;if(!ended){ended=Date.now();clearInterval(timer);$('timer').textContent=format(ended-started)}showCard();const s=stats(),score=Math.round(s.right/quiz.length*100),wrong=wrongItems();$('score').textContent=score+'%';$('summary').textContent='正确 '+s.right+' 题，错误/未答 '+wrong.length+' 题，用时 '+format(ended-started)+'。点击下方错词区可下载 TXT。';const box=$('wrongBox');box.innerHTML='';if(wrong.length){wrong.slice(0,180).forEach(r=>{const chip=document.createElement('span');chip.className='chip';chip.textContent=r.word+' = '+r.meaning;box.appendChild(chip)});if(wrong.length>180){const chip=document.createElement('span');chip.className='chip';chip.textContent='+ '+(wrong.length-180)+' more';box.appendChild(chip)}}else{const chip=document.createElement('span');chip.className='chip';chip.textContent='全部正确，没有错词';box.appendChild(chip)}$('result').classList.add('show');$('result').scrollIntoView({behavior:'smooth',block:'start'});pop('结果已生成')}
+function wrongText(){const name=$('student').value.trim()||'No name',wrong=wrongItems(),lines=['B1 汉译英听写错词','姓名：'+name,'用时：'+format((ended||Date.now())-started),'题量：'+quiz.length,'错词数：'+wrong.length,''];if(wrong.length){wrong.forEach((r,i)=>lines.push((i+1)+'. '+r.word+tab()+'中文：'+r.meaning+tab()+'学生答案：'+(r.typed||'未作答')))}else lines.push('全部正确');lines.push('',new Date().toLocaleString('zh-CN'));return lines.join(nl())}
+function downloadWrong(){if(!quiz.length)return pop('还没有开始');if(!submitted)finishQuiz();const blob=new Blob([wrongText()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='B1_dictation_wrong_words.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);pop('错词 TXT 已下载')}
+function focusAnswer(){$('answer').focus();$('answer').select()}
+function pop(text){const t=$('toast');t.textContent=text;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1300)}
+$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')submitAnswer()});
+loadData();
+</script>
+</body>
+</html>
