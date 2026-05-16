@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>First 300 Vocabulary Recognition Test | 100 Questions</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #e5e7eb;
+      --brand: #315efb;
+      --brand2: #0f766e;
+      --good: #0f9f6e;
+      --bad: #dc2626;
+      --warn: #f59e0b;
+      --soft: #eef2ff;
+      --soft2: #ecfdf5;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+      background: radial-gradient(circle at top left, #e0e7ff 0, transparent 28%),
+                  radial-gradient(circle at bottom right, #d1fae5 0, transparent 24%),
+                  var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 18px 80px; }
+    .hero {
+      background: linear-gradient(135deg, #111827 0%, #1e3a8a 55%, #0f766e 100%);
+      color: #fff;
+      border-radius: 30px;
+      padding: 34px 34px 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 240px;
+      height: 240px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+    }
+    .hero h1 { margin: 0; font-size: clamp(28px, 5vw, 46px); letter-spacing: -0.04em; line-height: 1.1; }
+    .hero p { margin: 14px 0 0; color: rgba(255,255,255,0.86); max-width: 780px; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
+    }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin: 18px 0;
+      background: rgba(255,255,255,0.86);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(226,232,240,0.85);
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.06);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .progressBox { min-width: 0; }
+    .progressText { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .bar { height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--brand), var(--brand2)); transition: width .25s ease; }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 11px 15px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    .primary { background: var(--brand); color: white; box-shadow: 0 10px 22px rgba(49,94,251,.22); }
+    .secondary { background: #eef2ff; color: #1e3a8a; }
+    .ghost { background: #f8fafc; color: #334155; border: 1px solid #e2e8f0; }
+    .summary {
+      display: none;
+      margin: 18px 0;
+      background: var(--card);
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .summary.show { display: block; }
+    .summaryGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .stat { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 18px; padding: 16px; }
+    .stat .num { font-size: 30px; font-weight: 900; letter-spacing: -0.03em; }
+    .stat .label { color: var(--muted); font-size: 13px; }
+    .sectionTitle {
+      margin: 28px 0 14px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sectionTitle::before { content: ""; width: 8px; height: 26px; border-radius: 99px; background: linear-gradient(var(--brand), var(--brand2)); }
+    .qcard {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 26px rgba(15,23,42,0.055);
+      padding: 20px;
+      margin: 14px 0;
+    }
+    .qtop { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .qid {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border-radius: 14px;
+      background: var(--soft);
+      color: #1e3a8a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+    .qtype {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .stem { font-size: 17px; font-weight: 750; line-height: 1.55; margin: 8px 0 14px; }
+    .options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .option {
+      border: 1px solid #e2e8f0;
+      background: #fbfdff;
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+      min-height: 54px;
+      transition: border .15s ease, background .15s ease, transform .15s ease;
+    }
+    .option:hover { transform: translateY(-1px); border-color: #c7d2fe; background: #f8fafc; }
+    .option input { margin-top: 5px; }
+    .letter { font-weight: 900; color: #1e3a8a; min-width: 20px; }
+    .word { font-weight: 750; }
+    .result {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 14px;
+    }
+    .qcard.correct { border-color: rgba(15,159,110,.35); background: linear-gradient(180deg, #fff, #f0fdf4); }
+    .qcard.wrong { border-color: rgba(220,38,38,.32); background: linear-gradient(180deg, #fff, #fef2f2); }
+    .qcard.unanswered { border-color: rgba(245,158,11,.55); }
+    .qcard.correct .result, .qcard.wrong .result, .qcard.unanswered .result { display: block; }
+    .result.good { background: #ecfdf5; color: #065f46; border: 1px solid #bbf7d0; }
+    .result.bad { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .result.warn { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+    .correctChoice { border-color: rgba(15,159,110,.55) !important; background: #ecfdf5 !important; }
+    .wrongChoice { border-color: rgba(220,38,38,.55) !important; background: #fef2f2 !important; }
+    .reviewPanel {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fff7ed, #ffffff);
+      border: 1px solid #fed7aa;
+    }
+    .reviewHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .reviewHead h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .reviewHint {
+      margin: 4px 0 0;
+      color: #9a3412;
+      font-size: 13px;
+    }
+    .reviewActions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .copyBtn {
+      background: #fff7ed;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+      box-shadow: none;
+    }
+    .unknownGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .unknownItem {
+      background: #ffffff;
+      border: 1px solid #fed7aa;
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+    .unknownTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .unknownWord {
+      font-weight: 900;
+      font-size: 17px;
+      color: #7c2d12;
+    }
+    .unknownStatus {
+      flex: 0 0 auto;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #ffedd5;
+      color: #9a3412;
+    }
+    .unknownExplain {
+      color: #334155;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .emptyReview {
+      padding: 14px;
+      border-radius: 16px;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #bbf7d0;
+      font-weight: 750;
+    }
+
+    .footer { margin-top: 36px; color: var(--muted); text-align: center; font-size: 13px; }
+    @media (max-width: 760px) {
+      .toolbar { grid-template-columns: 1fr; }
+      .btns { justify-content: stretch; }
+      .btns button { flex: 1; }
+      .options { grid-template-columns: 1fr; }
+      .summaryGrid { grid-template-columns: repeat(2, 1fr); }
+      .unknownGrid { grid-template-columns: 1fr; }
+      .hero { padding: 26px 20px; }
+    }
+    @media print {
+      body { background: #fff; }
+      .toolbar, .summary, .footer { display: none !important; }
+      .hero { background: #fff; color: #000; box-shadow: none; border: 1px solid #ddd; }
+      .hero p, .pill { color: #333; }
+      .qcard { box-shadow: none; break-inside: avoid; }
+      .options { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>First 300 Vocabulary Recognition Test</h1>
+      <p>100 questions based on the first 300 words in the uploaded vocabulary list, from <strong>absorb</strong> to <strong>headquarters</strong>. The test focuses on meaning, context, collocation and academic usage.</p>
+      <div class="meta">
+        <span class="pill">100 questions</span>
+        <span class="pill">5 sections</span>
+        <span class="pill">1 point each</span>
+        <span class="pill">Auto-scoring + explanations</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="progressBox">
+        <div class="progressText"><span id="progressLabel">Answered 0 / 100</span><span id="liveScore">Not submitted</span></div>
+        <div class="bar"><span id="progressBar"></span></div>
+      </div>
+      <div class="btns">
+        <button class="primary" onclick="submitQuiz()">Submit and Check</button>
+        <button class="secondary" onclick="scrollToFirstUnanswered()">Find Unanswered</button>
+        <button class="ghost" onclick="resetQuiz()">Reset</button>
+      </div>
+    </div>
+
+    <section id="summary" class="summary">
+      <h2 style="margin:0 0 14px; letter-spacing:-0.03em;">Result Summary</h2>
+      <div class="summaryGrid">
+        <div class="stat"><div class="num" id="scoreNum">0</div><div class="label">Score / 100</div></div>
+        <div class="stat"><div class="num" id="correctNum">0</div><div class="label">Correct</div></div>
+        <div class="stat"><div class="num" id="wrongNum">0</div><div class="label">Wrong</div></div>
+        <div class="stat"><div class="num" id="unansweredNum">0</div><div class="label">Unanswered</div></div>
+      </div>
+      <p id="comment" style="margin:16px 0 0; color:#334155;"></p>
+      <div class="reviewPanel" id="reviewPanel">
+        <div class="reviewHead">
+          <div>
+            <h3>Words to Review 不认识 / 未掌握词汇</h3>
+            <p class="reviewHint">提交后，系统会自动提取选错或未作答题目中的目标词，方便学生课后复习。</p>
+          </div>
+          <div class="reviewActions">
+            <button class="copyBtn" onclick="copyReviewWords()">Copy Word List</button>
+          </div>
+        </div>
+        <div id="unknownWords"></div>
+      </div>
+    </section>
+
+    <main id="quiz"></main>
+    <div class="footer">Alex Han Studio · Vocabulary Recognition Test · HTML Interactive Version</div>
+  </div>
+
+  <script>
+    const questions = [
+  {
+    "id": 1,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means to take something in, such as liquid, information, or energy?",
+    "options": [
+      "absorb",
+      "adjust",
+      "assign",
+      "activate"
+    ],
+    "answer": "absorb",
+    "correctIndex": 0,
+    "explain": "absorb = 吸收；吸纳信息、液体或能量。adjust 是调整，assign 是分配任务，activate 是启动。"
+  },
+  {
+    "id": 2,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means existing as an idea, not as a physical thing?",
+    "options": [
+      "automatic",
+      "abstract",
+      "awkward",
+      "accurately"
+    ],
+    "answer": "abstract",
+    "correctIndex": 1,
+    "explain": "abstract = 抽象的，强调概念层面；automatic 表示自动的。"
+  },
+  {
+    "id": 3,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word refers to the way someone pronounces a language, often showing where they come from?",
+    "options": [
+      "audio",
+      "accent",
+      "gesture",
+      "badge"
+    ],
+    "answer": "accent",
+    "correctIndex": 1,
+    "explain": "accent = 口音；audio 是音频，gesture 是手势。"
+  },
+  {
+    "id": 4,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means to provide someone with a place to stay or enough space?",
+    "options": [
+      "anticipate",
+      "accomplish",
+      "accommodate",
+      "assure"
+    ],
+    "answer": "accommodate",
+    "correctIndex": 2,
+    "explain": "accommodate = 容纳；为某人提供住宿或空间。accomplish 是完成。"
+  },
+  {
+    "id": 5,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means to successfully finish or achieve something?",
+    "options": [
+      "convey",
+      "activate",
+      "accomplish",
+      "consult"
+    ],
+    "answer": "accomplish",
+    "correctIndex": 2,
+    "explain": "accomplish = 完成；实现目标。"
+  },
+  {
+    "id": 6,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word refers to a person whose job is to keep or check financial records?",
+    "options": [
+      "accountant",
+      "applicant",
+      "analyst",
+      "consultant"
+    ],
+    "answer": "accountant",
+    "correctIndex": 0,
+    "explain": "accountant = 会计；applicant 是申请人，consultant 是顾问。"
+  },
+  {
+    "id": 7,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means the quality of being correct and exact?",
+    "options": [
+      "accuracy",
+      "anxiety",
+      "assumption",
+      "awareness"
+    ],
+    "answer": "accuracy",
+    "correctIndex": 0,
+    "explain": "accuracy = 准确性；awareness 是意识，assumption 是假设。"
+  },
+  {
+    "id": 8,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means a chemical substance that may burn materials and often has a sour taste?",
+    "options": [
+      "fabric",
+      "acid",
+      "carbon",
+      "fossil"
+    ],
+    "answer": "acid",
+    "correctIndex": 1,
+    "explain": "acid = 酸；carbon 是碳，fabric 是织物。"
+  },
+  {
+    "id": 9,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means to make a machine, system, or process start working?",
+    "options": [
+      "activate",
+      "delete",
+      "depart",
+      "adjust"
+    ],
+    "answer": "activate",
+    "correctIndex": 0,
+    "explain": "activate = 激活；启动。adjust 是调整，delete 是删除。"
+  },
+  {
+    "id": 10,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word describes a strong need to keep doing or taking something, even if it is harmful?",
+    "options": [
+      "anxiety",
+      "depression",
+      "disorder",
+      "addiction"
+    ],
+    "answer": "addiction",
+    "correctIndex": 3,
+    "explain": "addiction = 上瘾；成瘾。anxiety 是焦虑。"
+  },
+  {
+    "id": 11,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means enough or satisfactory for a particular purpose?",
+    "options": [
+      "adequate",
+      "astonishing",
+      "excessive",
+      "balanced"
+    ],
+    "answer": "adequate",
+    "correctIndex": 0,
+    "explain": "adequate = 足够的；合格的。excessive 是过度的。"
+  },
+  {
+    "id": 12,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means to change something slightly to make it better or more suitable?",
+    "options": [
+      "adjust",
+      "exclude",
+      "assign",
+      "eliminate"
+    ],
+    "answer": "adjust",
+    "correctIndex": 0,
+    "explain": "adjust = 调整；微调以适应情况。"
+  },
+  {
+    "id": 13,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means cheap enough for ordinary people to buy or pay for?",
+    "options": [
+      "adequate",
+      "golden",
+      "automatic",
+      "affordable"
+    ],
+    "answer": "affordable",
+    "correctIndex": 3,
+    "explain": "affordable = 负担得起的，常用于 housing, price, course 等语境。"
+  },
+  {
+    "id": 14,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word refers to farming and the growing of crops or raising animals?",
+    "options": [
+      "globalization",
+      "agriculture",
+      "conservation",
+      "economics"
+    ],
+    "answer": "agriculture",
+    "correctIndex": 1,
+    "explain": "agriculture = 农业；economics 是经济学。"
+  },
+  {
+    "id": 15,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word can mean a creature from another planet?",
+    "options": [
+      "applicant",
+      "ancestor",
+      "alien",
+      "analyst"
+    ],
+    "answer": "alien",
+    "correctIndex": 2,
+    "explain": "alien = 外星人；也可指外国人或陌生的。ancestor 是祖先。"
+  },
+  {
+    "id": 16,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means once every year?",
+    "options": [
+      "formerly",
+      "adequately",
+      "annually",
+      "accurately"
+    ],
+    "answer": "annually",
+    "correctIndex": 2,
+    "explain": "annually = 每年一次，常用于 reports are published annually。"
+  },
+  {
+    "id": 17,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means to expect something to happen and perhaps prepare for it?",
+    "options": [
+      "depart",
+      "anticipate",
+      "disturb",
+      "confess"
+    ],
+    "answer": "anticipate",
+    "correctIndex": 1,
+    "explain": "anticipate = 预料；预期。它比 guess 更正式。"
+  },
+  {
+    "id": 18,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word refers to a worried and nervous feeling, especially about the future?",
+    "options": [
+      "apology",
+      "certainty",
+      "depression",
+      "anxiety"
+    ],
+    "answer": "anxiety",
+    "correctIndex": 3,
+    "explain": "anxiety = 焦虑；certainty 是确定性。"
+  },
+  {
+    "id": 19,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means something you say or write to show that you are sorry?",
+    "options": [
+      "assumption",
+      "apology",
+      "guideline",
+      "certificate"
+    ],
+    "answer": "apology",
+    "correctIndex": 1,
+    "explain": "apology = 道歉；an apology for being late 表示为迟到道歉。"
+  },
+  {
+    "id": 20,
+    "section": "A. 词义识别 Meaning Recognition",
+    "type": "词义辨析",
+    "stem": "Which word means a person who formally asks for a job, a course, or a position?",
+    "options": [
+      "founder",
+      "applicant",
+      "commander",
+      "broadcaster"
+    ],
+    "answer": "applicant",
+    "correctIndex": 1,
+    "explain": "applicant = 申请人；a job applicant, a university applicant。"
+  },
+  {
+    "id": 21,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "Please dress ______ for the interview; a T-shirt and shorts may look too casual.",
+    "options": [
+      "appropriately",
+      "automatically",
+      "briefly",
+      "barely"
+    ],
+    "answer": "appropriately",
+    "correctIndex": 0,
+    "explain": "appropriately = 合适地；得体地。这里指面试着装要得体。"
+  },
+  {
+    "id": 22,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "For many companies, skilled workers are their most valuable ______.",
+    "options": [
+      "deck",
+      "asset",
+      "badge",
+      "candle"
+    ],
+    "answer": "asset",
+    "correctIndex": 1,
+    "explain": "asset = 资产；valuable asset 常指有价值的人、物或能力。"
+  },
+  {
+    "id": 23,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The teacher will ______ each student a different role in the group project.",
+    "options": [
+      "assign",
+      "exceed",
+      "assure",
+      "delete"
+    ],
+    "answer": "assign",
+    "correctIndex": 0,
+    "explain": "assign = 分配任务、角色或作业。"
+  },
+  {
+    "id": 24,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The report is based on the ______ that prices will continue to rise next year.",
+    "options": [
+      "attachment",
+      "assumption",
+      "gesture",
+      "exception"
+    ],
+    "answer": "assumption",
+    "correctIndex": 1,
+    "explain": "assumption = 假设；based on the assumption that 是常见搭配。"
+  },
+  {
+    "id": 25,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The manager tried to ______ the customer that the problem would be solved quickly.",
+    "options": [
+      "consult",
+      "classify",
+      "forbid",
+      "assure"
+    ],
+    "answer": "assure",
+    "correctIndex": 3,
+    "explain": "assure sb that... = 向某人保证。"
+  },
+  {
+    "id": 26,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The speed at which the new drug worked was truly ______.",
+    "options": [
+      "distant",
+      "compulsory",
+      "conventional",
+      "astonishing"
+    ],
+    "answer": "astonishing",
+    "correctIndex": 3,
+    "explain": "astonishing = 令人震惊的；令人惊讶的。"
+  },
+  {
+    "id": 27,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "I have sent the timetable as an email ______.",
+    "options": [
+      "fragment",
+      "certificate",
+      "attachment",
+      "artwork"
+    ],
+    "answer": "attachment",
+    "correctIndex": 2,
+    "explain": "attachment = 附件；email attachment 是固定表达。"
+  },
+  {
+    "id": 28,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The painting was sold at a public ______ for more than one million pounds.",
+    "options": [
+      "forum",
+      "auction",
+      "clinic",
+      "convention"
+    ],
+    "answer": "auction",
+    "correctIndex": 1,
+    "explain": "auction = 拍卖；at an auction 是常见搭配。"
+  },
+  {
+    "id": 29,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The textbook comes with ______ recordings so students can practise listening.",
+    "options": [
+      "electronics",
+      "audio",
+      "graphics",
+      "graphic"
+    ],
+    "answer": "audio",
+    "correctIndex": 1,
+    "explain": "audio = 音频的；audio recordings 指音频录音。"
+  },
+  {
+    "id": 30,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The doors are ______, so they open when someone stands in front of them.",
+    "options": [
+      "biological",
+      "balanced",
+      "casual",
+      "automatic"
+    ],
+    "answer": "automatic",
+    "correctIndex": 3,
+    "explain": "automatic = 自动的，指机器、门或系统可以自己运行。"
+  },
+  {
+    "id": 31,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The campaign aims to raise public ______ of environmental problems.",
+    "options": [
+      "anxiety",
+      "certainty",
+      "fame",
+      "awareness"
+    ],
+    "answer": "awareness",
+    "correctIndex": 3,
+    "explain": "raise awareness of/about... = 提高对某事的认识。"
+  },
+  {
+    "id": 32,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "There was an ______ silence after I called him by the wrong name.",
+    "options": [
+      "charming",
+      "golden",
+      "awkward",
+      "genuine"
+    ],
+    "answer": "awkward",
+    "correctIndex": 2,
+    "explain": "awkward = 尴尬的；awkward silence 是常见搭配。"
+  },
+  {
+    "id": 33,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "This coat was a real ______; it was half the original price.",
+    "options": [
+      "fare",
+      "deposit",
+      "bargain",
+      "fraction"
+    ],
+    "answer": "bargain",
+    "correctIndex": 2,
+    "explain": "bargain = 便宜货；a real bargain 表示很划算。"
+  },
+  {
+    "id": 34,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "I could ______ hear what she was saying because the room was so noisy.",
+    "options": [
+      "broadly",
+      "freely",
+      "firmly",
+      "barely"
+    ],
+    "answer": "barely",
+    "correctIndex": 3,
+    "explain": "barely = 几乎不；勉强。"
+  },
+  {
+    "id": 35,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "Regular exercise is ______ to both physical and mental health.",
+    "options": [
+      "deadly",
+      "excessive",
+      "fake",
+      "beneficial"
+    ],
+    "answer": "beneficial",
+    "correctIndex": 3,
+    "explain": "beneficial to... = 对……有益。"
+  },
+  {
+    "id": 36,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "A good journalist should avoid personal ______ when reporting news.",
+    "options": [
+      "controversy",
+      "deadline",
+      "bias",
+      "coverage"
+    ],
+    "answer": "bias",
+    "correctIndex": 2,
+    "explain": "bias = 偏见；personal bias 指个人偏见。"
+  },
+  {
+    "id": 37,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "Several companies made a ______ to build the new bridge.",
+    "options": [
+      "cue",
+      "dot",
+      "bid",
+      "arrow"
+    ],
+    "answer": "bid",
+    "correctIndex": 2,
+    "explain": "bid = 投标；make a bid 是常见搭配。"
+  },
+  {
+    "id": 38,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "DNA is part of a person's ______ information.",
+    "options": [
+      "genetic",
+      "biological",
+      "ethnic",
+      "federal"
+    ],
+    "answer": "biological",
+    "correctIndex": 1,
+    "explain": "biological = 生物的；biological information 与生命体相关。"
+  },
+  {
+    "id": 39,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "The new policy is designed to ______ local businesses after a difficult year.",
+    "options": [
+      "dump",
+      "delete",
+      "discourage",
+      "boost"
+    ],
+    "answer": "boost",
+    "correctIndex": 3,
+    "explain": "boost = 促进；提高；boost the economy/business/confidence。"
+  },
+  {
+    "id": 40,
+    "section": "B. 语境填空 Context Use",
+    "type": "语境填空",
+    "stem": "With such dark clouds, it is ______ to rain soon.",
+    "options": [
+      "fond",
+      "dependent",
+      "bound",
+      "adequate"
+    ],
+    "answer": "bound",
+    "correctIndex": 2,
+    "explain": "be bound to do sth = 一定会；很可能会。"
+  },
+  {
+    "id": 41,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "A person or organisation that presents programmes on TV or radio is a ______.",
+    "options": [
+      "defender",
+      "commander",
+      "collector",
+      "broadcaster"
+    ],
+    "answer": "broadcaster",
+    "correctIndex": 3,
+    "explain": "broadcaster = 广播员/广播公司。"
+  },
+  {
+    "id": 42,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "A small simple house, often made of wood, is called a ______.",
+    "options": [
+      "basement",
+      "clinic",
+      "cabin",
+      "corridor"
+    ],
+    "answer": "cabin",
+    "correctIndex": 2,
+    "explain": "cabin = 小木屋；也可指船舱、飞机客舱。"
+  },
+  {
+    "id": 43,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "A long artificial river used for boats or water supply is a ______.",
+    "options": [
+      "canal",
+      "harbour",
+      "corridor",
+      "cliff"
+    ],
+    "answer": "canal",
+    "correctIndex": 0,
+    "explain": "canal = 运河；artificial waterway。"
+  },
+  {
+    "id": 44,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "For a relaxed party, a ______ style of clothing is suitable.",
+    "options": [
+      "compulsory",
+      "federal",
+      "conventional",
+      "casual"
+    ],
+    "answer": "casual",
+    "correctIndex": 3,
+    "explain": "casual = 休闲的；非正式的，常用于 casual clothes 或 casual style。"
+  },
+  {
+    "id": 45,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "There is no ______ that the train will arrive on time because of the storm.",
+    "options": [
+      "conservation",
+      "convenience",
+      "certainty",
+      "completion"
+    ],
+    "answer": "certainty",
+    "correctIndex": 2,
+    "explain": "certainty = 确定性；there is no certainty that... 表示不能确定。"
+  },
+  {
+    "id": 46,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "After finishing the course, students will receive a ______.",
+    "options": [
+      "certificate",
+      "booking",
+      "badge",
+      "attachment"
+    ],
+    "answer": "certificate",
+    "correctIndex": 0,
+    "explain": "certificate = 证书；completion certificate 结业证书。"
+  },
+  {
+    "id": 47,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "The task is difficult but interesting, so it can be described as ______.",
+    "options": [
+      "deadly",
+      "dull",
+      "challenging",
+      "fake"
+    ],
+    "answer": "challenging",
+    "correctIndex": 2,
+    "explain": "challenging = 有挑战性的，通常不是纯负面。"
+  },
+  {
+    "id": 48,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "The final game of the national ______ attracted millions of viewers.",
+    "options": [
+      "conspiracy",
+      "convention",
+      "championship",
+      "controversy"
+    ],
+    "answer": "championship",
+    "correctIndex": 2,
+    "explain": "championship = 锦标赛；冠军赛。"
+  },
+  {
+    "id": 49,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "She has a warm smile and a ______ personality, so people like talking to her.",
+    "options": [
+      "awkward",
+      "elegant",
+      "dull",
+      "charming"
+    ],
+    "answer": "charming",
+    "correctIndex": 3,
+    "explain": "charming = 迷人的；讨人喜欢的。"
+  },
+  {
+    "id": 50,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "The police had to ______ the thief through the crowded street.",
+    "options": [
+      "consult",
+      "chase",
+      "compose",
+      "clip"
+    ],
+    "answer": "chase",
+    "correctIndex": 1,
+    "explain": "chase = 追赶。"
+  },
+  {
+    "id": 51,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "A group of people who sing together is a ______.",
+    "options": [
+      "choir",
+      "composer",
+      "ballet",
+      "comic"
+    ],
+    "answer": "choir",
+    "correctIndex": 0,
+    "explain": "choir = 合唱团，强调一群人一起唱歌。"
+  },
+  {
+    "id": 52,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "Please ______ the onions into small pieces before cooking.",
+    "options": [
+      "delete",
+      "clip",
+      "crack",
+      "chop"
+    ],
+    "answer": "chop",
+    "correctIndex": 3,
+    "explain": "chop = 剁碎；切碎。"
+  },
+  {
+    "id": 53,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "An electrical ______ allows current to flow around a complete path.",
+    "options": [
+      "framework",
+      "circuit",
+      "corridor",
+      "canal"
+    ],
+    "answer": "circuit",
+    "correctIndex": 1,
+    "explain": "circuit = 电路；a complete circuit 闭合电路。"
+  },
+  {
+    "id": 54,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "Ancient Egypt is often described as one of the world's great early ______.",
+    "options": [
+      "demonstration",
+      "civilization",
+      "empire",
+      "corporation"
+    ],
+    "answer": "civilization",
+    "correctIndex": 1,
+    "explain": "civilization = 文明。"
+  },
+  {
+    "id": 55,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "Could you ______ what you mean by effective learning? I am not sure I understand.",
+    "options": [
+      "clarify",
+      "confess",
+      "convey",
+      "classify"
+    ],
+    "answer": "clarify",
+    "correctIndex": 0,
+    "explain": "clarify = 澄清；讲清楚。classify 是分类。"
+  },
+  {
+    "id": 56,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "Scientists often ______ animals into groups according to shared features.",
+    "options": [
+      "classify",
+      "exploit",
+      "eliminate",
+      "exclude"
+    ],
+    "answer": "classify",
+    "correctIndex": 0,
+    "explain": "classify = 分类；classify sth into groups。"
+  },
+  {
+    "id": 57,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "The path runs along the top of a high ______, so walkers must be careful.",
+    "options": [
+      "harbour",
+      "cliff",
+      "cave",
+      "deck"
+    ],
+    "answer": "cliff",
+    "correctIndex": 1,
+    "explain": "cliff = 悬崖；a high cliff。"
+  },
+  {
+    "id": 58,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "She went to a private ______ for a quick health check.",
+    "options": [
+      "convention",
+      "forum",
+      "clinic",
+      "harbour"
+    ],
+    "answer": "clinic",
+    "correctIndex": 2,
+    "explain": "clinic = 诊所；health clinic, dental clinic。"
+  },
+  {
+    "id": 59,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "It was a strange ______ that we met in Paris on the same day.",
+    "options": [
+      "coincidence",
+      "conspiracy",
+      "exception",
+      "certainty"
+    ],
+    "answer": "coincidence",
+    "correctIndex": 0,
+    "explain": "coincidence = 巧合；strange coincidence 是常见搭配。"
+  },
+  {
+    "id": 60,
+    "section": "C. 搭配与句意 Collocation and Meaning",
+    "type": "搭配选择",
+    "stem": "Hong Kong was once a British ______.",
+    "options": [
+      "colony",
+      "corporation",
+      "civilization",
+      "empire"
+    ],
+    "answer": "colony",
+    "correctIndex": 0,
+    "explain": "colony = 殖民地；empire 是帝国。"
+  },
+  {
+    "id": 61,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "A ______ study covers a subject fully and includes many details.",
+    "options": [
+      "elementary",
+      "casual",
+      "comprehensive",
+      "exotic"
+    ],
+    "answer": "comprehensive",
+    "correctIndex": 2,
+    "explain": "comprehensive = 全面的；综合的。"
+  },
+  {
+    "id": 62,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "This committee is designed to ______ ten experts from different fields.",
+    "options": [
+      "comprise",
+      "convey",
+      "consult",
+      "confess"
+    ],
+    "answer": "comprise",
+    "correctIndex": 0,
+    "explain": "comprise = 包括；由……组成。此句主语 committee 是单数，所以用 comprises。"
+  },
+  {
+    "id": 63,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "In many countries, primary education is ______; children must attend school.",
+    "options": [
+      "controversial",
+      "compulsory",
+      "conventional",
+      "automatic"
+    ],
+    "answer": "compulsory",
+    "correctIndex": 1,
+    "explain": "compulsory = 强制的；义务的，表示必须做，不是自由选择。"
+  },
+  {
+    "id": 64,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "The plan sounds too abstract. We need ______ steps that can be followed.",
+    "options": [
+      "golden",
+      "distant",
+      "comic",
+      "concrete"
+    ],
+    "answer": "concrete",
+    "correctIndex": 3,
+    "explain": "concrete = 具体的；也可表示混凝土。这里与 abstract 相对。"
+  },
+  {
+    "id": 65,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "After hours of questioning, he finally decided to ______ that he had broken the window.",
+    "options": [
+      "convey",
+      "consult",
+      "confess",
+      "classify"
+    ],
+    "answer": "confess",
+    "correctIndex": 2,
+    "explain": "confess = 承认，通常指承认错误或罪行。此处需过去式 confessed。"
+  },
+  {
+    "id": 66,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "The company failed to adapt; ______, it lost many customers.",
+    "options": [
+      "additionally",
+      "consequently",
+      "formerly",
+      "briefly"
+    ],
+    "answer": "consequently",
+    "correctIndex": 1,
+    "explain": "consequently = 因此；结果。强调因果关系。"
+  },
+  {
+    "id": 67,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "Wildlife ______ is important because many species are losing their habitats.",
+    "options": [
+      "coverage",
+      "consumption",
+      "convention",
+      "conservation"
+    ],
+    "answer": "conservation",
+    "correctIndex": 3,
+    "explain": "conservation = 保护，常用于 wildlife conservation, environmental conservation。"
+  },
+  {
+    "id": 68,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "The project requires a ______ amount of money, not just a small budget.",
+    "options": [
+      "adequate",
+      "balanced",
+      "considerable",
+      "excessive"
+    ],
+    "answer": "considerable",
+    "correctIndex": 2,
+    "explain": "considerable = 相当大的；可观的。"
+  },
+  {
+    "id": 69,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "She has trained ______ for five years, so her progress is not surprising.",
+    "options": [
+      "considerably",
+      "accidentally",
+      "adequately",
+      "consistently"
+    ],
+    "answer": "consistently",
+    "correctIndex": 3,
+    "explain": "consistently = 持续地；一贯地。"
+  },
+  {
+    "id": 70,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "A secret plan by several people to do something illegal is a ______.",
+    "options": [
+      "controversy",
+      "conspiracy",
+      "convenience",
+      "coincidence"
+    ],
+    "answer": "conspiracy",
+    "correctIndex": 1,
+    "explain": "conspiracy = 阴谋；secret illegal plan。"
+  },
+  {
+    "id": 71,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "You should ______ a doctor if the pain continues for more than a week.",
+    "options": [
+      "divorce",
+      "compose",
+      "consult",
+      "depart"
+    ],
+    "answer": "consult",
+    "correctIndex": 2,
+    "explain": "consult = 咨询；请教专业人士。consult a doctor/lawyer/expert。"
+  },
+  {
+    "id": 72,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "High energy ______ can increase both costs and pollution.",
+    "options": [
+      "donation",
+      "completion",
+      "consumption",
+      "creativity"
+    ],
+    "answer": "consumption",
+    "correctIndex": 2,
+    "explain": "consumption = 消耗；消费。energy consumption 是常见搭配。"
+  },
+  {
+    "id": 73,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "A topic that causes strong disagreement is ______.",
+    "options": [
+      "convincing",
+      "controversial",
+      "adequate",
+      "genuine"
+    ],
+    "answer": "controversial",
+    "correctIndex": 1,
+    "explain": "controversial = 有争议的。"
+  },
+  {
+    "id": 74,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "Online shopping offers great ______ because people can buy things from home.",
+    "options": [
+      "completion",
+      "coverage",
+      "certainty",
+      "convenience"
+    ],
+    "answer": "convenience",
+    "correctIndex": 3,
+    "explain": "convenience = 便利；方便。"
+  },
+  {
+    "id": 75,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "A ______ method is traditional and widely accepted, rather than new or unusual.",
+    "options": [
+      "conventional",
+      "compulsory",
+      "casual",
+      "automatic"
+    ],
+    "answer": "conventional",
+    "correctIndex": 0,
+    "explain": "conventional = 传统的；常规的，强调被广泛接受或长期使用。"
+  },
+  {
+    "id": 76,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "A good graph can ______ complex information clearly.",
+    "options": [
+      "consult",
+      "forbid",
+      "convey",
+      "devote"
+    ],
+    "answer": "convey",
+    "correctIndex": 2,
+    "explain": "convey = 表达；传达信息、意思或感情。"
+  },
+  {
+    "id": 77,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "Her argument was ______ because it was supported by clear evidence.",
+    "options": [
+      "convincing",
+      "excessive",
+      "dull",
+      "controversial"
+    ],
+    "answer": "convincing",
+    "correctIndex": 0,
+    "explain": "convincing = 有说服力的。"
+  },
+  {
+    "id": 78,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "Many students find it hard to ______ with exam pressure.",
+    "options": [
+      "erupt",
+      "depart",
+      "cope",
+      "dive"
+    ],
+    "answer": "cope",
+    "correctIndex": 2,
+    "explain": "cope with = 应对；处理困难。"
+  },
+  {
+    "id": 79,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "A large business company can be called a ______.",
+    "options": [
+      "foundation",
+      "headquarters",
+      "curriculum",
+      "corporation"
+    ],
+    "answer": "corporation",
+    "correctIndex": 3,
+    "explain": "corporation = 公司；大企业。headquarters 是总部。"
+  },
+  {
+    "id": 80,
+    "section": "D. 学术词汇 Academic Vocabulary",
+    "type": "学术词汇",
+    "stem": "The newspaper gave extensive ______ to the election.",
+    "options": [
+      "coverage",
+      "evaluation",
+      "deadline",
+      "exposure"
+    ],
+    "answer": "coverage",
+    "correctIndex": 0,
+    "explain": "coverage = 新闻报道范围；media coverage, newspaper coverage。"
+  },
+  {
+    "id": 81,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "A person who starts and runs a business is an ______.",
+    "options": [
+      "accountant",
+      "founder",
+      "economist",
+      "entrepreneur"
+    ],
+    "answer": "entrepreneur",
+    "correctIndex": 3,
+    "explain": "entrepreneur = 企业家；创业者。founder 是创始人，两者接近，但题干强调 starts and runs a business。"
+  },
+  {
+    "id": 82,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "If two things are equal in value, meaning, or function, they are ______.",
+    "options": [
+      "balanced",
+      "comparative",
+      "equivalent",
+      "conventional"
+    ],
+    "answer": "equivalent",
+    "correctIndex": 2,
+    "explain": "equivalent = 等同的；相当于的，强调价值、意义或功能相同。"
+  },
+  {
+    "id": 83,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The Victorian ______ was a period of major social and industrial change in Britain.",
+    "options": [
+      "era",
+      "empire",
+      "forum",
+      "framework"
+    ],
+    "answer": "era",
+    "correctIndex": 0,
+    "explain": "era = 时代；时期。Victorian era 是固定历史表达。"
+  },
+  {
+    "id": 84,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "A volcano may ______ after years of silence.",
+    "options": [
+      "exceed",
+      "depart",
+      "evolve",
+      "erupt"
+    ],
+    "answer": "erupt",
+    "correctIndex": 3,
+    "explain": "erupt = 爆发，常用于 volcano erupt。emit 表示排放；发出。"
+  },
+  {
+    "id": 85,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "It is ______ from the data that people are spending more time online.",
+    "options": [
+      "evident",
+      "exotic",
+      "ethnic",
+      "ethic"
+    ],
+    "answer": "evident",
+    "correctIndex": 0,
+    "explain": "evident = 明显的；显而易见的。It is evident that... 是常见句型。"
+  },
+  {
+    "id": 86,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The gradual development of living things over a very long time is called ______.",
+    "options": [
+      "evaluation",
+      "evolution",
+      "expansion",
+      "emission"
+    ],
+    "answer": "evolution",
+    "correctIndex": 1,
+    "explain": "evolution = 进化；演变。evaluation 是评估。"
+  },
+  {
+    "id": 87,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The number of applicants is expected to ______ 5,000 this year.",
+    "options": [
+      "exceed",
+      "exploit",
+      "exclude",
+      "extract"
+    ],
+    "answer": "exceed",
+    "correctIndex": 0,
+    "explain": "exceed = 超过；exceed a number/limit。"
+  },
+  {
+    "id": 88,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "Everyone must attend the meeting, with no ______.",
+    "options": [
+      "expansion",
+      "exposure",
+      "exception",
+      "extension"
+    ],
+    "answer": "exception",
+    "correctIndex": 2,
+    "explain": "exception = 例外；with no exception 表示无一例外。"
+  },
+  {
+    "id": 89,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "Spending four hours a day on short videos may be considered ______.",
+    "options": [
+      "balanced",
+      "excessive",
+      "considerable",
+      "adequate"
+    ],
+    "answer": "excessive",
+    "correctIndex": 1,
+    "explain": "excessive = 过度的；超过合理限度的。"
+  },
+  {
+    "id": 90,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The club may ______ members who repeatedly break the rules.",
+    "options": [
+      "exhibit",
+      "embrace",
+      "equip",
+      "exclude"
+    ],
+    "answer": "exclude",
+    "correctIndex": 3,
+    "explain": "exclude = 排除；不包括。embrace 是接受、拥抱。"
+  },
+  {
+    "id": 91,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The museum will ______ rare photographs from the 1920s next month.",
+    "options": [
+      "exploit",
+      "extract",
+      "exhibit",
+      "exclude"
+    ],
+    "answer": "exhibit",
+    "correctIndex": 2,
+    "explain": "exhibit = 展出；展览。"
+  },
+  {
+    "id": 92,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The company hired him for his ______ in computer security.",
+    "options": [
+      "evaluation",
+      "ethic",
+      "expansion",
+      "expertise"
+    ],
+    "answer": "expertise",
+    "correctIndex": 3,
+    "explain": "expertise = 专业知识；专长。"
+  },
+  {
+    "id": 93,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "Some companies ______ cheap labour in poor countries to increase profits.",
+    "options": [
+      "exploit",
+      "exhibit",
+      "exceed",
+      "exclude"
+    ],
+    "answer": "exploit",
+    "correctIndex": 0,
+    "explain": "exploit = 剥削；利用。这里强调不公平地利用廉价劳动力。"
+  },
+  {
+    "id": 94,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "Too much ______ to the sun can damage your skin.",
+    "options": [
+      "exception",
+      "exposure",
+      "expansion",
+      "extension"
+    ],
+    "answer": "exposure",
+    "correctIndex": 1,
+    "explain": "exposure to... = 暴露于……；接触……。"
+  },
+  {
+    "id": 95,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The library has an ______ collection of books on modern history.",
+    "options": [
+      "excessive",
+      "extensive",
+      "elementary",
+      "exotic"
+    ],
+    "answer": "extensive",
+    "correctIndex": 1,
+    "explain": "extensive = 广泛的；大量的。an extensive collection 是常见搭配。"
+  },
+  {
+    "id": 96,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The machine can ______ useful chemicals from plants.",
+    "options": [
+      "extract",
+      "exclude",
+      "erupt",
+      "exceed"
+    ],
+    "answer": "extract",
+    "correctIndex": 0,
+    "explain": "extract = 提取；抽取。"
+  },
+  {
+    "id": 97,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The weather ______ says there will be heavy rain tomorrow.",
+    "options": [
+      "formation",
+      "format",
+      "foundation",
+      "forecast"
+    ],
+    "answer": "forecast",
+    "correctIndex": 3,
+    "explain": "forecast = 预测；预报。weather forecast 是固定搭配。"
+  },
+  {
+    "id": 98,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "Using false information to get money from others is ______.",
+    "options": [
+      "fantasy",
+      "fraction",
+      "fame",
+      "fraud"
+    ],
+    "answer": "fraud",
+    "correctIndex": 3,
+    "explain": "fraud = 诈骗；欺诈。"
+  },
+  {
+    "id": 99,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "Eye colour is influenced by ______ factors.",
+    "options": [
+      "graphics",
+      "genetic",
+      "genuine",
+      "biological"
+    ],
+    "answer": "genetic",
+    "correctIndex": 1,
+    "explain": "genetic = 基因的；遗传的。"
+  },
+  {
+    "id": 100,
+    "section": "E. 进阶辨析 Advanced Recognition",
+    "type": "进阶辨析",
+    "stem": "The company's ______ are in London, but it has offices around the world.",
+    "options": [
+      "headquarters",
+      "harbour",
+      "habitat",
+      "greenhouse"
+    ],
+    "answer": "headquarters",
+    "correctIndex": 0,
+    "explain": "headquarters = 总部。注意它形式上通常带 s，但可作单数或复数理解。"
+  }
+];
+    const letters = ['A', 'B', 'C', 'D'];
+    let submitted = false;
+
+    function renderQuiz() {
+      const root = document.getElementById('quiz');
+      root.innerHTML = '';
+      let currentSection = '';
+      questions.forEach(q => {
+        if (q.section !== currentSection) {
+          currentSection = q.section;
+          const h = document.createElement('h2');
+          h.className = 'sectionTitle';
+          h.textContent = currentSection;
+          root.appendChild(h);
+        }
+        const card = document.createElement('article');
+        card.className = 'qcard';
+        card.id = `q-${q.id}`;
+        const opts = q.options.map((opt, i) => `
+          <label class="option" data-q="${q.id}" data-i="${i}">
+            <input type="radio" name="q${q.id}" value="${i}" onchange="updateProgress()" />
+            <span class="letter">${letters[i]}.</span>
+            <span class="word">${escapeHtml(opt)}</span>
+          </label>
+        `).join('');
+        card.innerHTML = `
+          <div class="qtop">
+            <span class="qid">${q.id}</span>
+            <span class="qtype">${q.type}</span>
+          </div>
+          <div class="stem">${escapeHtml(q.stem)}</div>
+          <div class="options">${opts}</div>
+          <div class="result" id="r-${q.id}"></div>
+        `;
+        root.appendChild(card);
+      });
+      updateProgress();
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
+    }
+
+    function getSelected(qid) {
+      const checked = document.querySelector(`input[name="q${qid}"]:checked`);
+      return checked ? Number(checked.value) : null;
+    }
+
+    function updateProgress() {
+      const answered = questions.filter(q => getSelected(q.id) !== null).length;
+      document.getElementById('progressLabel').textContent = `Answered ${answered} / ${questions.length}`;
+      document.getElementById('progressBar').style.width = `${answered / questions.length * 100}%`;
+    }
+
+    function submitQuiz() {
+      submitted = true;
+      let correct = 0;
+      let wrong = 0;
+      let unanswered = 0;
+
+      questions.forEach(q => {
+        const selected = getSelected(q.id);
+        const card = document.getElementById(`q-${q.id}`);
+        const result = document.getElementById(`r-${q.id}`);
+        card.classList.remove('correct', 'wrong', 'unanswered');
+        result.className = 'result';
+        document.querySelectorAll(`.option[data-q="${q.id}"]`).forEach(label => {
+          label.classList.remove('correctChoice', 'wrongChoice');
+          const i = Number(label.dataset.i);
+          if (i === q.correctIndex) label.classList.add('correctChoice');
+          if (selected !== null && selected === i && selected !== q.correctIndex) label.classList.add('wrongChoice');
+        });
+
+        if (selected === null) {
+          unanswered++;
+          card.classList.add('unanswered');
+          result.classList.add('warn');
+          result.innerHTML = `<strong>Not answered.</strong> Correct answer: <strong>${letters[q.correctIndex]}. ${escapeHtml(q.answer)}</strong><br>${escapeHtml(q.explain)}`;
+        } else if (selected === q.correctIndex) {
+          correct++;
+          card.classList.add('correct');
+          result.classList.add('good');
+          result.innerHTML = `<strong>Correct.</strong> ${escapeHtml(q.explain)}`;
+        } else {
+          wrong++;
+          card.classList.add('wrong');
+          result.classList.add('bad');
+          result.innerHTML = `<strong>Wrong.</strong> Correct answer: <strong>${letters[q.correctIndex]}. ${escapeHtml(q.answer)}</strong><br>${escapeHtml(q.explain)}`;
+        }
+      });
+
+      document.getElementById('summary').classList.add('show');
+      document.getElementById('scoreNum').textContent = correct;
+      document.getElementById('correctNum').textContent = correct;
+      document.getElementById('wrongNum').textContent = wrong;
+      document.getElementById('unansweredNum').textContent = unanswered;
+      document.getElementById('liveScore').textContent = `Score: ${correct} / ${questions.length}`;
+      const comment = correct >= 90 ? 'Excellent. The student has strong recognition of these words and can move on to collocation and sentence production.'
+        : correct >= 75 ? 'Good. The student recognises most words, but should review the wrong answers and practise using them in sentences.'
+        : correct >= 60 ? 'Basic pass. The student needs focused review of academic words, collocations and similar-looking options.'
+        : 'Weak recognition. It is better to review the words in smaller groups before retesting.';
+      document.getElementById('comment').textContent = comment;
+      renderUnknownWords();
+      document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+      updateProgress();
+    }
+
+    function renderUnknownWords() {
+      const missed = [];
+      questions.forEach(q => {
+        const selected = getSelected(q.id);
+        if (selected === null || selected !== q.correctIndex) {
+          missed.push({
+            id: q.id,
+            word: q.answer,
+            status: selected === null ? '未作答' : '选错',
+            chosen: selected === null ? '未选择' : q.options[selected],
+            correct: q.answer,
+            explain: q.explain
+          });
+        }
+      });
+
+      const box = document.getElementById('unknownWords');
+      if (!box) return;
+
+      if (missed.length === 0) {
+        box.innerHTML = `<div class="emptyReview">Great job. 本次没有自动识别出的未掌握词汇，可以进入下一组词汇或进行造句训练。</div>`;
+        return;
+      }
+
+      const unique = [];
+      const seen = new Set();
+      missed.forEach(item => {
+        const key = item.word.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          unique.push(item);
+        }
+      });
+
+      box.dataset.words = unique.map(item => item.word).join(', ');
+      box.innerHTML = `
+        <p style="margin:0 0 10px; color:#334155;">
+          共识别出 <strong>${unique.length}</strong> 个需要复习的目标词。
+        </p>
+        <div class="unknownGrid">
+          ${unique.map(item => `
+            <div class="unknownItem">
+              <div class="unknownTop">
+                <span class="unknownWord">${escapeHtml(item.word)}</span>
+                <span class="unknownStatus">Q${item.id} · ${item.status}</span>
+              </div>
+              <div class="unknownExplain">
+                <strong>原因：</strong>学生答案：${escapeHtml(item.chosen)}<br>
+                <strong>复习：</strong>${escapeHtml(item.explain)}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function copyReviewWords() {
+      const box = document.getElementById('unknownWords');
+      const words = box && box.dataset.words ? box.dataset.words : '';
+      if (!words) {
+        alert('目前没有需要复制的错词清单。请先提交测试。');
+        return;
+      }
+      navigator.clipboard.writeText(words).then(() => {
+        alert('已复制错词清单：' + words);
+      }).catch(() => {
+        alert('复制失败。错词清单：' + words);
+      });
+    }
+
+    function scrollToFirstUnanswered() {
+      const first = questions.find(q => getSelected(q.id) === null);
+      if (first) document.getElementById(`q-${first.id}`).scrollIntoView({behavior:'smooth', block:'center'});
+      else document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+      document.querySelectorAll('.qcard').forEach(card => card.classList.remove('correct', 'wrong', 'unanswered'));
+      document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correctChoice', 'wrongChoice'));
+      document.querySelectorAll('.result').forEach(r => { r.className = 'result'; r.innerHTML = ''; });
+      document.getElementById('summary').classList.remove('show');
+      const unknownBox = document.getElementById('unknownWords');
+      if (unknownBox) { unknownBox.innerHTML = ''; unknownBox.dataset.words = ''; }
+      document.getElementById('liveScore').textContent = 'Not submitted';
+      submitted = false;
+      updateProgress();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
