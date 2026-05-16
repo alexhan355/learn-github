@@ -77,11 +77,13 @@
     return tags.sort().join('+');
   }
   function posFamily(pos){ return ['det','pron','prep','conj'].includes(pos) ? 'function' : pos; }
-  function cleanChinese(s){ return Array.from(String(s).replace(/[^\u4e00-\u9fff]/g,'')).filter(ch => !'的一是了和与及或在为对把将个种类中上下注释义'.includes(ch)); }
+  function cleanChinese(s){ return Array.from(String(s).replace(/[^ - ]/g,'')).filter(ch => !'的一是了和与及或在为对把将个种类中上下注释义'.includes(ch)); }
   function commonChars(a,b){ const aa=new Set(cleanChinese(a)), bb=new Set(cleanChinese(b)); let n=0; aa.forEach(ch=>{ if(bb.has(ch)) n++; }); return n; }
   function tooCloseMeaning(a,b){
     const af=firstSense(a), bf=firstSense(b);
     if(af && bf && af === bf) return true;
+    const as=splitSenses(a), bs=splitSenses(b);
+    if(as.some(x => x.length >= 2 && bs.includes(x))) return true;
     const ac=cleanChinese(a).join(''), bc=cleanChinese(b).join('');
     return ac.length >= 2 && bc.length >= 2 && (ac.includes(bc) || bc.includes(ac));
   }
