@@ -34,98 +34,21 @@
   function tick(){ if(started && !ended) $('timer').textContent = format(Date.now()-started); }
   function normalize(s){ let v = String(s).toLowerCase().trim().split('’').join("'"); [' ','　','-','_','.'].forEach(ch => v = v.split(ch).join('')); return v; }
   function pop(text){ const t=$('toast'); t.textContent=text; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1300); }
-  const exactPos = {
-    a:'det', an:'det', the:'det', all:'det', another:'det', any:'det',
-    anyone:'pron', anybody:'pron', anything:'pron',
-    about:'prep', above:'prep', across:'prep', after:'prep', against:'prep', along:'prep', alongside:'prep', among:'prep', around:'prep', at:'prep', before:'prep', behind:'prep', below:'prep', beside:'prep', between:'prep', beyond:'prep', amid:'prep', 'according to':'prep',
-    and:'conj', although:'conj', because:'conj', albeit:'conj',
-    abroad:'adv', actually:'adv', again:'adv', ago:'adv', ahead:'adv', almost:'adv', already:'adv', also:'adv', altogether:'adv', always:'adv', anymore:'adv', apart:'adv', aside:'adv', away:'adv', backwards:'adv', barely:'adv', basically:'adv', besides:'adv',
-    be:'verb', become:'verb', begin:'verb', believe:'verb', agree:'verb', arrive:'verb', ask:'verb', add:'verb', accept:'verb', achieve:'verb', act:'verb', advertise:'verb', affect:'verb', allow:'verb', appear:'verb', apply:'verb', argue:'verb', arrange:'verb', attack:'verb', attend:'verb', avoid:'verb',
-    able:'adj', afraid:'adj', amazing:'adj', ancient:'adj', angry:'adj', asleep:'adj', attractive:'adj', available:'adj', awful:'adj', bad:'adj', beautiful:'adj', big:'adj', better:'adj', best:'adj'
-  };
-  const advMeanings = new Set(['再次','又','也','而且','总是','一直','以前','已经','几乎','差不多','实际上','事实上','大约','无论如何','向前','在前面','分开','向后','后来','基本上','此外','总共','完全','每年','自动地','几乎不','简短地','广泛地','大体上','相应地','因此','据称','可以说']);
+  const exactPos = {a:'det',an:'det',the:'det',all:'det',another:'det',any:'det',anyone:'pron',anybody:'pron',anything:'pron',about:'prep',above:'prep',across:'prep',after:'prep',against:'prep',along:'prep',alongside:'prep',among:'prep',around:'prep',at:'prep',before:'prep',behind:'prep',below:'prep',beside:'prep',between:'prep',beyond:'prep',amid:'prep','according to':'prep',and:'conj',although:'conj',because:'conj',albeit:'conj',abroad:'adv',actually:'adv',again:'adv',ago:'adv',ahead:'adv',almost:'adv',already:'adv',also:'adv',altogether:'adv',always:'adv',anymore:'adv',apart:'adv',aside:'adv',away:'adv',backwards:'adv',barely:'adv',basically:'adv',besides:'adv',be:'verb',become:'verb',begin:'verb',believe:'verb',agree:'verb',arrive:'verb',ask:'verb',add:'verb',accept:'verb',achieve:'verb',act:'verb',advertise:'verb',affect:'verb',allow:'verb',appear:'verb',apply:'verb',argue:'verb',arrange:'verb',attack:'verb',attend:'verb',avoid:'verb',able:'adj',afraid:'adj',amazing:'adj',ancient:'adj',angry:'adj',asleep:'adj',attractive:'adj',available:'adj',awful:'adj',bad:'adj',beautiful:'adj',big:'adj',better:'adj',best:'adj'};
+  const advMeanings = new Set(['再次','又','也','而且','总是','一直','以前','已经','几乎','差不多','实际上','事实上','大约','无论如何','向前','在前面','分开','向后','后来','基本上','此外','总共','完全','每年','自动地','几乎不','简短地','广泛地','大体上','相应地','因此','据称','可以说','尤其']);
   function splitSenses(meaning){ return String(meaning).split(/[；;，,、/]/).map(x=>x.trim()).filter(Boolean); }
   function firstSense(meaning){ return splitSenses(meaning)[0] || ''; }
   function isVerbMeaning(m){ return /^(使|做|把|将|为|向|与|对)?(放弃|废除|取消|加速|促进|接受|同意|实现|达到|完成|陪伴|伴随|容纳|提供|适应|改编|添加|增加|调整|管理|执行|承认|准许|采用|收养|建议|影响|负担|分析|宣布|道歉|申请|应用|欣赏|感激|评估|联系|联想|假设|尝试|烘烤|禁止|打扰|咬|阻挡|轰炸|预订|提高|广播|燃烧|烧伤|吸收|理解|激活|启动|分配|指派|保证|预料|期望|拍卖|打败|敲打|乞求|打赌|责备|吹|投标|修改|修正|遵守|粘附|积累|获得|习得|提倡|倡导|鼓掌|称赞|任命|安排|存档|出现|似乎|避免|授予|表现|忍受|相信|认为|变成|成为|问|请求|到达|开始|存在|帮助|吸引|附上|连接|允许|参加|出席|攻击|争论|主张|出现|显示|购买|支付|选择|决定|计划|希望|记得|忘记|包括|涉及|支持|发展|创造|生产|减少|增长|改变|改善|保护|讨论|解释|描述|比较|学习|教授|使用|需要|喜欢|观看|听|说|写|阅读|离开|停留|等待|赢|输)/.test(m); }
-  function inferPos(item){
-    const w = item.word.toLowerCase();
-    const m = firstSense(item.meaning);
-    if(exactPos[w]) return exactPos[w];
-    if(/ly$/.test(w) && !/(family|silly|friendly|lonely|likely|lovely|ugly|early|daily)$/.test(w)) return 'adv';
-    if(/地$/.test(m) || advMeanings.has(m)) return 'adv';
-    if(/^(在|向|往|朝|从|沿着|关于|根据|按照|除|超出|穿过|经过|围绕|作为|像)/.test(m) && m.length <= 10) return 'prep';
-    if(/的$/.test(m) || /^可.+的$/.test(m) || /^有.+的$/.test(m) || /^令人/.test(m) || /性的$/.test(m)) return 'adj';
-    if(isVerbMeaning(m)) return 'verb';
-    if(/(tion|sion|ment|ness|ity|ty|ance|ence|ship|hood|ism|ist|er|or|age|ery|ure|acy|dom|th)$/.test(w)) return 'noun';
-    if(/(able|ible|al|ial|ic|ical|ive|ous|ful|less|ary|ory|ent|ant|ate)$/.test(w)) return 'adj';
-    return 'noun';
-  }
-  function sensePos(s){
-    if(/^(和|并且|而且|因为|虽然|尽管|如果|当|或者)$/.test(s)) return 'conj';
-    if(/地$/.test(s) || advMeanings.has(s) || /^(之后|以前|以后|后来|再次|已经|仍然|通常|经常|偶尔|立刻|马上|到国外|在国外)$/.test(s)) return 'adv';
-    if(/^(在|向|往|朝|从|沿着|关于|根据|按照|除|超出|穿过|经过|围绕|作为|像|与|跟|对)/.test(s) && s.length <= 10) return 'prep';
-    if(/的$/.test(s) || /^可.+的$/.test(s) || /^有.+的$/.test(s) || /^令人/.test(s) || /性的$/.test(s)) return 'adj';
-    if(isVerbMeaning(s)) return 'verb';
-    return 'noun';
-  }
-  function inferProfile(item){
-    const primary = item.pos || inferPos(item);
-    if(['det','pron'].includes(primary)) return primary;
-    const tags = Array.from(new Set(splitSenses(item.meaning).map(sensePos)));
-    if(!tags.length) return primary;
-    if(['prep','conj'].includes(primary) && !tags.includes(primary)) tags.push(primary);
-    return tags.sort().join('+');
-  }
+  function inferPos(item){ const w=item.word.toLowerCase(), m=firstSense(item.meaning); if(exactPos[w]) return exactPos[w]; if(/ly$/.test(w)&&!/(family|silly|friendly|lonely|likely|lovely|ugly|early|daily)$/.test(w)) return 'adv'; if(/地$/.test(m)||advMeanings.has(m)) return 'adv'; if(/^(在|向|往|朝|从|沿着|关于|根据|按照|除|超出|穿过|经过|围绕|作为|像)/.test(m)&&m.length<=10) return 'prep'; if(/的$/.test(m)||/^可.+的$/.test(m)||/^有.+的$/.test(m)||/^令人/.test(m)||/性的$/.test(m)) return 'adj'; if(isVerbMeaning(m)) return 'verb'; if(/(tion|sion|ment|ness|ity|ty|ance|ence|ship|hood|ism|ist|er|or|age|ery|ure|acy|dom|th)$/.test(w)) return 'noun'; if(/(able|ible|al|ial|ic|ical|ive|ous|ful|less|ary|ory|ent|ant|ate)$/.test(w)) return 'adj'; return 'noun'; }
+  function sensePos(s){ if(/^(和|并且|而且|因为|虽然|尽管|如果|当|或者)$/.test(s)) return 'conj'; if(/地$/.test(s)||advMeanings.has(s)||/^(之后|以前|以后|后来|再次|已经|仍然|通常|经常|偶尔|立刻|马上|到国外|在国外)$/.test(s)) return 'adv'; if(/^(在|向|往|朝|从|沿着|关于|根据|按照|除|超出|穿过|经过|围绕|作为|像|与|跟|对)/.test(s)&&s.length<=10) return 'prep'; if(/的$/.test(s)||/^可.+的$/.test(s)||/^有.+的$/.test(s)||/^令人/.test(s)||/性的$/.test(s)) return 'adj'; if(isVerbMeaning(s)) return 'verb'; return 'noun'; }
+  function inferProfile(item){ const primary=item.pos||inferPos(item); if(['det','pron'].includes(primary)) return primary; const tags=Array.from(new Set(splitSenses(item.meaning).map(sensePos))); if(!tags.length) return primary; if(['prep','conj'].includes(primary)&&!tags.includes(primary)) tags.push(primary); return tags.sort().join('+'); }
   function posFamily(pos){ return ['det','pron','prep','conj'].includes(pos) ? 'function' : pos; }
-  function cleanChinese(s){ return Array.from(String(s).replace(/[^ - ]/g,'')).filter(ch => !'的一是了和与及或在为对把将个种类中上下注释义'.includes(ch)); }
+  function cleanChinese(s){ return Array.from(String(s).replace(/[^\u4e00-\u9fff]/g,'')).filter(ch => !'的一是了和与及或在为对把将个种类中上下注释义'.includes(ch)); }
   function commonChars(a,b){ const aa=new Set(cleanChinese(a)), bb=new Set(cleanChinese(b)); let n=0; aa.forEach(ch=>{ if(bb.has(ch)) n++; }); return n; }
-  function tooCloseMeaning(a,b){
-    const af=firstSense(a), bf=firstSense(b);
-    if(af && bf && af === bf) return true;
-    const as=splitSenses(a), bs=splitSenses(b);
-    if(as.some(x => x.length >= 2 && bs.includes(x))) return true;
-    const ac=cleanChinese(a).join(''), bc=cleanChinese(b).join('');
-    return ac.length >= 2 && bc.length >= 2 && (ac.includes(bc) || bc.includes(ac));
-  }
-  function distractorScore(target,cand){
-    const tm=target.meaning, cm=cand.meaning, tf=firstSense(tm), cf=firstSense(cm);
-    const lenScore = 10 - Math.min(10, Math.abs(tf.length - cf.length));
-    const fullLenScore = 8 - Math.min(8, Math.abs(tm.length - cm.length));
-    const structureScore = splitSenses(tm).length === splitSenses(cm).length ? 5 : 0;
-    const overlapScore = Math.min(8, commonChars(tm,cm) * 2);
-    const wordLenScore = 5 - Math.min(5, Math.abs(target.word.length - cand.word.length));
-    return lenScore + fullLenScore + structureScore + overlapScore + wordLenScore + Math.random();
-  }
+  function tooCloseMeaning(a,b){ const af=firstSense(a), bf=firstSense(b); if(af&&bf&&af===bf) return true; const as=splitSenses(a), bs=splitSenses(b); if(as.some(x=>x.length>=2&&bs.includes(x))) return true; const ac=cleanChinese(a).join(''), bc=cleanChinese(b).join(''); return ac.length>=2&&bc.length>=2&&(ac.includes(bc)||bc.includes(ac)); }
+  function distractorScore(target,cand){ const tm=target.meaning, cm=cand.meaning, tf=firstSense(tm), cf=firstSense(cm); const lenScore=10-Math.min(10,Math.abs(tf.length-cf.length)); const fullLenScore=8-Math.min(8,Math.abs(tm.length-cm.length)); const structureScore=splitSenses(tm).length===splitSenses(cm).length?5:0; const overlapScore=Math.min(8,commonChars(tm,cm)*2); const wordLenScore=5-Math.min(5,Math.abs(target.word.length-cand.word.length)); return lenScore+fullLenScore+structureScore+overlapScore+wordLenScore+Math.random(); }
   function pick(){ let list = $('order').value === 'random' ? shuffle(bank) : bank.slice(); const n = $('size').value; if(n !== 'all') list = list.slice(0, Number(n)); return list; }
-  function makeOptions(item){
-    const seen = new Set([item.meaning]), options = [item.meaning];
-    const targetPos = item.pos || inferPos(item);
-    const targetFamily = posFamily(targetPos);
-    const targetProfile = item.profile || inferProfile(item);
-    const addFrom = pool => {
-      const ranked = pool.filter(x => x.word !== item.word && !seen.has(x.meaning) && !tooCloseMeaning(item.meaning, x.meaning))
-        .map(x => ({ x, score: distractorScore(item, x) }))
-        .sort((a,b) => b.score - a.score);
-      for (const row of ranked) {
-        seen.add(row.x.meaning);
-        options.push(row.x.meaning);
-        if (options.length === 4) return true;
-      }
-      return false;
-    };
-    addFrom(bank.filter(x => (x.profile || inferProfile(x)) === targetProfile));
-    if(options.length < 4) addFrom(bank.filter(x => (x.pos || inferPos(x)) === targetPos));
-    if(options.length < 4) addFrom(bank.filter(x => posFamily(x.pos || inferPos(x)) === targetFamily));
-    if(options.length < 4) {
-      for (const x of shuffle(bank)) {
-        if (x.word === item.word || seen.has(x.meaning)) continue;
-        seen.add(x.meaning);
-        options.push(x.meaning);
-        if (options.length === 4) break;
-      }
-    }
-    return shuffle(options);
-  }
+  function makeOptions(item){ const seen=new Set([item.meaning]), options=[item.meaning]; const targetPos=item.pos||inferPos(item), targetFamily=posFamily(targetPos), targetProfile=item.profile||inferProfile(item); const addFrom=pool=>{ const ranked=pool.filter(x=>x.word!==item.word&&!seen.has(x.meaning)&&!tooCloseMeaning(item.meaning,x.meaning)).map(x=>({x,score:distractorScore(item,x)})).sort((a,b)=>b.score-a.score); for(const row of ranked){ seen.add(row.x.meaning); options.push(row.x.meaning); if(options.length===4) return true; } return false; }; addFrom(bank.filter(x=>(x.pos||inferPos(x))===targetPos)); if(options.length<4) addFrom(bank.filter(x=>(x.profile||inferProfile(x))===targetProfile)); if(options.length<4) addFrom(bank.filter(x=>posFamily(x.pos||inferPos(x))===targetFamily)); if(options.length<4){ for(const x of shuffle(bank)){ if(x.word===item.word||seen.has(x.meaning)) continue; seen.add(x.meaning); options.push(x.meaning); if(options.length===4) break; } } return shuffle(options); }
   function currentRecord(){ return rec[idx]; }
   function currentQuestion(){ return quiz[idx]; }
   function focusAnswer(){ if(mode === 'dictation'){ $('answer').focus(); $('answer').select(); } }
