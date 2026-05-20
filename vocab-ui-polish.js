@@ -72,12 +72,12 @@
     var start=document.getElementById('start');
     if(start && !start.dataset.polished){
       start.dataset.polished='1';
-      start.addEventListener('click',function(){ document.body.classList.remove('prestart'); },true);
+      start.addEventListener('click',function(){ releaseQuizUI(); },true);
     }
     var again=document.getElementById('againBtn');
     if(again && !again.dataset.polished){
       again.dataset.polished='1';
-      again.addEventListener('click',function(){ document.body.classList.remove('prestart'); },true);
+      again.addEventListener('click',function(){ releaseQuizUI(); },true);
     }
   }
   function tick(){
@@ -91,10 +91,30 @@
   document.addEventListener('click',function(e){
     if(e.target && e.target.id === 'start'){
       window.__alexQuizStarted=true;
-      document.body.classList.remove('prestart');
-      document.body.classList.add('quiz-live');
+      releaseQuizUI();
     }
   },true);
+  function show(id, display){
+    var e=document.getElementById(id);
+    if(e){ e.style.display=display || ''; e.disabled=false; }
+  }
+  function releaseQuizUI(){
+    document.body.classList.remove('prestart');
+    document.body.classList.add('quiz-live');
+    setTimeout(function(){
+      var q=location.search.toLowerCase();
+      var isContext=!!document.getElementById('sentence') || q.indexOf('context')>-1 || q.indexOf('cloze')>-1;
+      var isDict=q.indexOf('dictation')>-1 || q.indexOf('han2en')>-1 || q.indexOf('cn2en')>-1;
+      ['prevBtn','nextBtn','skipBtn','finishBtn','nextBtn2'].forEach(function(id){ show(id); });
+      if(isContext){
+        show('choiceArea','grid'); show('unknownBtn');
+      } else if(isDict){
+        show('answerArea','grid'); show('focusBtn');
+      } else {
+        show('choiceArea','grid'); show('unknownBtn');
+      }
+    },80);
+  }
   var tries=0;
   var timer=setInterval(function(){
     tick();
