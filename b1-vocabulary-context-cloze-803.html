@@ -18,7 +18,7 @@
   </main>
   <script>
   (async function(){
-    const files = ["b1-context-cloze-803.data.1.txt","b1-context-cloze-803.data.2.txt","b1-context-cloze-803.data.3.txt","b1-context-cloze-803.data.4.txt","b1-context-cloze-803.data.5.txt","b1-context-cloze-803.data.6.txt","b1-context-cloze-803.data.7.txt"];
+    const files = ["b1-context-cloze-803.data.1.txt","b1-context-cloze-803.data.2.txt","b1-context-cloze-803.data.3.txt","b1-context-cloze-803.data.4a.txt","b1-context-cloze-803.data.4b.txt","b1-context-cloze-803.data.5.txt","b1-context-cloze-803.data.6.txt","b1-context-cloze-803.data.7.txt"];
     const parts = await Promise.all(files.map(async file => {
       const res = await fetch(file + '?v=20260521', { cache:'no-store' });
       if (!res.ok) throw new Error(file + ' 加载失败：' + res.status);
