@@ -34,6 +34,7 @@
     } else {
       throw new Error('当前浏览器版本过旧，无法解压测试页面。请使用最新版 Chrome、Edge 或 Safari 打开。');
     }
+    text = text.replace('<div class="qtop"><div class="qnum">Question ${item.n}</div><div class="targettag">target: ${escapeHtml(item.target)}</div></div>', '<div class="qtop"><div class="qnum">Question ${item.n}</div></div>');
     document.open();
     document.write(text);
     document.close();
