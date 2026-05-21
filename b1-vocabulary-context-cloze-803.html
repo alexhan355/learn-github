@@ -20,7 +20,7 @@
   (async function(){
     const files = ["b1-context-cloze-803.data.1.txt","b1-context-cloze-803.data.2.txt","b1-context-cloze-803.data.3.txt","b1-context-cloze-803.data.4a.txt","b1-context-cloze-803.data.4b.txt","b1-context-cloze-803.data.5.txt","b1-context-cloze-803.data.6.txt","b1-context-cloze-803.data.7.txt"];
     const parts = await Promise.all(files.map(async file => {
-      const res = await fetch(file + '?v=20260521', { cache:'no-store' });
+      const res = await fetch(file + '?v=20260521-seq-check', { cache:'no-store' });
       if (!res.ok) throw new Error(file + ' 加载失败：' + res.status);
       return res.text();
     }));
@@ -34,16 +34,21 @@
     } else {
       throw new Error('当前浏览器版本过旧，无法解压测试页面。请使用最新版 Chrome、Edge 或 Safari 打开。');
     }
+    if (!text.includes('const DISPLAY_NUMBER_BY_ID')) {
+      text = text
+        .replace('const QUESTION_ORDER = shuffleQuestions(QUESTIONS);', 'const QUESTION_ORDER = shuffleQuestions(QUESTIONS);\nconst DISPLAY_NUMBER_BY_ID = new Map(QUESTION_ORDER.map((item, index) => [item.n, index + 1]));')
+        .replace('function inRange(n) {', 'function displayNumber(item) {\n  return DISPLAY_NUMBER_BY_ID.get(item.n) || item.n;\n}\n\nfunction inRange(n) {')
+        .replace('if (!inRange(item.n)) return false;', 'if (!inRange(displayNumber(item))) return false;')
+        .replace('return String(item.n).includes(q) || item.target.toLowerCase().includes(q) || item.context.toLowerCase().includes(q);', 'return String(displayNumber(item)).includes(q) || item.target.toLowerCase().includes(q) || item.context.toLowerCase().includes(q);')
+        .replace('return QUESTIONS.filter(item => {', 'return QUESTION_ORDER.filter(item => {')
+        .replace('Q${item.n}. ${escapeHtml(item.target)}', 'Q${displayNumber(item)}. ${escapeHtml(item.target)}')
+        .replace("lines.push('Q' + item.n + '  错词：' + item.target);", "lines.push('Q' + displayNumber(item) + '  错词：' + item.target);");
+    }
     text = text
-      .replace('const QUESTION_ORDER = shuffleQuestions(QUESTIONS);', 'const QUESTION_ORDER = shuffleQuestions(QUESTIONS);\nconst DISPLAY_NUMBER_BY_ID = new Map(QUESTION_ORDER.map((item, index) => [item.n, index + 1]));')
-      .replace('function inRange(n) {', 'function displayNumber(item) {\n  return DISPLAY_NUMBER_BY_ID.get(item.n) || item.n;\n}\n\nfunction inRange(n) {')
-      .replace('if (!inRange(item.n)) return false;', 'if (!inRange(displayNumber(item))) return false;')
-      .replace('return String(item.n).includes(q) || item.target.toLowerCase().includes(q) || item.context.toLowerCase().includes(q);', 'return String(displayNumber(item)).includes(q) || item.target.toLowerCase().includes(q) || item.context.toLowerCase().includes(q);')
       .replace('<div class="qtop"><div class="qnum">Question ${item.n}</div><div class="targettag">target: ${escapeHtml(item.target)}</div></div>', '<div class="qtop"><div class="qnum">Question ${displayNumber(item)}</div></div>')
       .replace('<div class="qtop"><div class="qnum">Question ${item.n}</div></div>', '<div class="qtop"><div class="qnum">Question ${displayNumber(item)}</div></div>')
-      .replace('return QUESTIONS.filter(item => {', 'return QUESTION_ORDER.filter(item => {')
-      .replace('Q${item.n}. ${escapeHtml(item.target)}', 'Q${displayNumber(item)}. ${escapeHtml(item.target)}')
-      .replace("lines.push('Q' + item.n + '  错词：' + item.target);", "lines.push('Q' + displayNumber(item) + '  错词：' + item.target);");
+      .replace('["truth", "educated", "lie", "bother"]', '["truth", "educated", "layer", "bother"]')
+      .replace('["commercial", "nor", "worry", "fear"]', '["commercial", "nor", "worry", "feature"]');
     document.open();
     document.write(text);
     document.close();
