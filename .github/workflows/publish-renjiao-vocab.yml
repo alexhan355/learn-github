@@ -2,9 +2,6 @@ name: Publish Renjiao vocab quiz
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/publish-renjiao-vocab.yml
 
 permissions:
   contents: write
@@ -19,15 +16,15 @@ jobs:
           ref: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download verified quiz page
+      - name: Verify published quiz page
         run: |
-          curl -fsSL "https://litter.catbox.moe/vo7rnk.html" -o renjiao-high-school-vocab-en-cn.html
+          curl -fsSL "https://alexhan355.github.io/learn-github/renjiao-high-school-vocab-en-cn.html" -o renjiao-high-school-vocab-en-cn.html
           grep -q "人教版高中英语词汇英译汉选择题" renjiao-high-school-vocab-en-cn.html
           grep -q "downloadWrongList" renjiao-high-school-vocab-en-cn.html
           grep -q "tooSimilar" renjiao-high-school-vocab-en-cn.html
           grep -q "data:image/png;base64" renjiao-high-school-vocab-en-cn.html
 
-      - name: Commit to Pages
+      - name: Commit to Pages if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
