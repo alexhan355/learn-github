@@ -196,6 +196,7 @@ h1 { margin:0; font-size:30px; line-height:1.15; letter-spacing:0; }
       <div class="resultActions">
         <button class="btn warn" id="practiceWrongBtn" type="button">只练错词</button>
         <button class="btn" id="copyWrongBtn" type="button">复制错词</button>
+        <button class="btn good" id="downloadWrongBtn" type="button" disabled>下载错词清单</button>
       </div>
     </div>
     <div class="wrongList" id="wrongList"></div>
@@ -272,6 +273,65 @@ function choiceKey(answer) {
   return cleanForDisplay(answer).replace(/[\s;；,，、]+/g, '');
 }
 
+function wordCore(word) {
+  return String(word || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[^a-z]/g, '');
+}
+
+function roughStem(word) {
+  let core = wordCore(word);
+  const suffixes = ['ization', 'isation', 'ational', 'fulness', 'iveness', 'ically', 'ation', 'ition', 'sion', 'tion', 'ment', 'ness', 'less', 'able', 'ible', 'ally', 'ical', 'ious', 'ous', 'ive', 'ful', 'ing', 'ed', 'ly', 'al', 'er', 'or', 'ist', 'ism', 'ity', 'ic', 'es', 's'];
+  for (const suffix of suffixes) {
+    if (core.length - suffix.length >= 5 && core.endsWith(suffix)) {
+      core = core.slice(0, -suffix.length);
+      break;
+    }
+  }
+  return core;
+}
+
+function commonPrefixRatio(a, b) {
+  const left = wordCore(a);
+  const right = wordCore(b);
+  const min = Math.min(left.length, right.length);
+  if (min < 5) return 0;
+  let i = 0;
+  while (i < min && left[i] === right[i]) i += 1;
+  return i / min;
+}
+
+function chineseBigrams(text) {
+  const chars = choiceKey(text).replace(/[a-zA-Z0-9]/g, '').split('').filter(Boolean);
+  const grams = new Set();
+  for (let i = 0; i < chars.length - 1; i += 1) grams.add(chars[i] + chars[i + 1]);
+  return grams;
+}
+
+function overlapRatio(left, right) {
+  const a = chineseBigrams(left);
+  const b = chineseBigrams(right);
+  if (!a.size || !b.size) return 0;
+  let hit = 0;
+  for (const gram of a) if (b.has(gram)) hit += 1;
+  return hit / Math.min(a.size, b.size);
+}
+
+function tooSimilar(item, candidate) {
+  if (Math.abs(Number(item.id) - Number(candidate.id)) <= 3) return true;
+  const left = wordCore(item.word);
+  const right = wordCore(candidate.word);
+  if (left.length >= 5 && right.length >= 5) {
+    const leftStem = roughStem(left);
+    const rightStem = roughStem(right);
+    if (leftStem.length >= 5 && rightStem.length >= 5 && (leftStem === rightStem || leftStem.startsWith(rightStem) || rightStem.startsWith(leftStem))) return true;
+    if (commonPrefixRatio(left, right) >= 0.72) return true;
+  }
+  if (overlapRatio(item.answer, candidate.answer) >= 0.56) return true;
+  return false;
+}
+
 function posSignature(item) {
   if (item.posSignature) return item.posSignature;
   const tags = new Set();
@@ -341,11 +401,13 @@ function prepareChoiceBuckets() {
   CHOICE_BUCKETS.ready = true;
 }
 
-function addDistractors(out, item, candidates, seen) {
+function addDistractors(out, item, candidates, seen, options = {}) {
+  const allowSimilar = !!options.allowSimilar;
   const sorted = [...candidates].sort((a, b) => hashText(`${item.id}:${a.id}`) - hashText(`${item.id}:${b.id}`));
   for (const candidate of sorted) {
     if (out.length >= 3) break;
     if (candidate.id === item.id) continue;
+    if (!allowSimilar && tooSimilar(item, candidate)) continue;
     const key = choiceKey(candidate.answer);
     if (!key || seen.has(key)) continue;
     seen.add(key);
@@ -365,7 +427,9 @@ function buildChoices(item) {
   addDistractors(distractors, item, bucket(CHOICE_BUCKETS.familyUnit, `${item.book}|${item.unit}|${targetFamily}`), seen);
   addDistractors(distractors, item, bucket(CHOICE_BUCKETS.familyBook, `${item.book}|${targetFamily}`), seen);
   addDistractors(distractors, item, bucket(CHOICE_BUCKETS.familyAll, targetFamily), seen);
-  addDistractors(distractors, item, VOCAB, seen);
+  addDistractors(distractors, item, bucket(CHOICE_BUCKETS.exactAll, targetPos), seen, {allowSimilar: true});
+  addDistractors(distractors, item, bucket(CHOICE_BUCKETS.familyAll, targetFamily), seen, {allowSimilar: true});
+  addDistractors(distractors, item, VOCAB, seen, {allowSimilar: true});
   return [item, ...distractors.slice(0, 3)]
     .sort((a, b) => hashText(`${item.id}:choice:${a.id}`) - hashText(`${item.id}:choice:${b.id}`));
 }
@@ -562,6 +626,7 @@ function submitQuiz() {
   $('#resultMeta').textContent = `正确 ${result.correct}/${result.total} · 错误 ${result.wrong.length - unknownCount} · 不认识 ${unknownCount}`;
   $('#practiceWrongBtn').disabled = !result.wrong.length;
   $('#copyWrongBtn').disabled = !result.wrong.length;
+  $('#downloadWrongBtn').disabled = !result.wrong.length;
   $('#wrongList').innerHTML = result.wrong.length ? result.wrong.map(item => `
     <div class="wrongItem">
       <div><strong>${escapeHtml(item.word)}</strong><small>${escapeHtml(item.phonetic || '')}</small></div>
@@ -587,6 +652,37 @@ function copyWrong() {
   setTimeout(() => $('#copyWrongBtn').textContent = '复制错词', 1200);
 }
 
+function csvCell(value) {
+  const text = String(value ?? '').replace(/"/g, '""');
+  return `"${text}"`;
+}
+
+function downloadWrongList() {
+  if (!state.lastWrong.length) return;
+  const header = ['书册', '单元', '英文', '音标', '你的答案', '标准答案', '状态'];
+  const rows = state.lastWrong.map(item => [
+    item.bookLabel || item.book,
+    `Unit ${item.unit}`,
+    item.word,
+    item.phonetic || '',
+    item.unknown ? '不认识' : (cleanForDisplay(item.given) || '未选'),
+    cleanForDisplay(item.answer),
+    item.unknown ? '不认识' : '错选'
+  ]);
+  const csv = [header, ...rows].map(row => row.map(csvCell).join(',')).join('\n');
+  const blob = new Blob(['\ufeff' + csv], {type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  const scope = currentScopeName().replace(/[\\/:*?"<>|\s]+/g, '-');
+  const date = new Date().toISOString().slice(0, 10);
+  anchor.href = url;
+  anchor.download = `错词清单-${scope}-${date}.csv`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
 $('#orderSelect').addEventListener('change', event => {
   state.order = event.target.value;
   state.reviewItems = null;
@@ -602,6 +698,7 @@ $('#practiceWrongBtn').addEventListener('click', () => {
   render();
 });
 $('#copyWrongBtn').addEventListener('click', copyWrong);
+$('#downloadWrongBtn').addEventListener('click', downloadWrongList);
 
 render();
 </script>
