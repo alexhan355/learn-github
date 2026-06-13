@@ -1,0 +1,38 @@
+name: Publish Renjiao vocab quiz
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/publish-renjiao-vocab.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download verified quiz page
+        run: |
+          curl -fsSL "https://litter.catbox.moe/u73chq.html" -o renjiao-high-school-vocab-en-cn.html
+          grep -q "人教版高中英语词汇英译汉选择题" renjiao-high-school-vocab-en-cn.html
+          grep -q "CHOICE_BUCKETS" renjiao-high-school-vocab-en-cn.html
+
+      - name: Commit to Pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add renjiao-high-school-vocab-en-cn.html
+          if git diff --cached --quiet; then
+            echo "No changes to publish"
+          else
+            git commit -m "Publish Renjiao vocab quiz"
+            git push origin HEAD:gh-pages
+          fi
