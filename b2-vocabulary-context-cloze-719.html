@@ -31,7 +31,8 @@
       throw new Error('当前浏览器版本过旧，无法解压测试页面。请使用最新版 Chrome、Edge 或 Safari 打开。');
     }
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const text = await new Response(stream).text();
+    let text = await new Response(stream).text();
+    text = text.replace('He caught his foot on the step and nearly began to ____.', 'Be careful not to ____ on the uneven step.');
     document.open();
     document.write(text);
     document.close();

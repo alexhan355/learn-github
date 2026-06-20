@@ -47,6 +47,7 @@
     text = text
       .replace('<div class="qtop"><div class="qnum">Question ${item.n}</div><div class="targettag">target: ${escapeHtml(item.target)}</div></div>', '<div class="qtop"><div class="qnum">Question ${displayNumber(item)}</div></div>')
       .replace('<div class="qtop"><div class="qnum">Question ${item.n}</div></div>', '<div class="qtop"><div class="qnum">Question ${displayNumber(item)}</div></div>')
+      .replace('The ____ of the mountain lake made everyone stop taking photographs.', 'The ____ of the mountain lake made everyone stop and take photographs.')
       .replace('["truth", "educated", "lie", "bother"]', '["truth", "educated", "layer", "bother"]')
       .replace('["commercial", "nor", "worry", "fear"]', '["commercial", "nor", "worry", "feature"]');
     if (!text.includes('id="submitQuiz"')) {

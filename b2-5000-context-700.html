@@ -35,7 +35,11 @@
       throw new Error('当前浏览器版本过旧，无法解压测试页面。请使用最新版 Chrome、Edge 或 Safari 打开。');
     }
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const text = await new Response(stream).text();
+    let text = await new Response(stream).text();
+    text = text
+      .replace('The organisers ____ heavy traffic, so they opened the gates early.', 'The organisers ____ heavy traffic, so they plan to open the gates early.')
+      .replace('Many students feel ____ before a major speaking exam.', 'Many students experience ____ before a major speaking exam.')
+      .replace('The campaign used the ____ “Save water, save life.”', 'The campaign used the ____ “Save water, save lives.”');
     document.open();
     document.write(text);
     document.close();
