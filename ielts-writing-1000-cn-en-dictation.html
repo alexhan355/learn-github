@@ -39,6 +39,9 @@
 .layout.prestart .side{display:none}
 .quiz.prestart{display:grid;min-height:360px;place-items:center}
 .quiz.prestart .qtop,.quiz.prestart .answer,.quiz.prestart #feedback,.quiz.prestart .nav{display:none}
+#qprompt{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.promptText{min-width:0}
+.answerHint{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:34px;padding:0 10px;border-radius:999px;background:#fff7e8;border:1px solid #f1d2a9;color:#8a4b0b;font-size:clamp(16px,1.7vw,22px);font-weight:950;line-height:1;text-transform:lowercase}
 .startHero{width:min(520px,90%);min-height:170px;border:0;background:#172033;color:#fff;border-radius:8px;font-size:clamp(72px,12vw,142px);font-weight:950;letter-spacing:0;box-shadow:0 18px 42px #1720332a;cursor:pointer}
 .startHero:focus-visible{outline:4px solid #74b9ff;outline-offset:4px}
 .startHero:hover{background:#245f9d}
@@ -70,7 +73,8 @@
   .qtop{align-items:flex-start;gap:8px}
   .crumb{gap:6px}
   .tag{font-size:12px;min-height:26px;max-width:100%;white-space:normal}
-  #qprompt{margin:20px 0 12px;font-size:clamp(30px,10.5vw,42px);line-height:1.12}
+  #qprompt{margin:20px 0 12px;font-size:clamp(30px,10.5vw,42px);line-height:1.12;gap:8px}
+  .answerHint{min-width:30px;height:30px;padding:0 8px;font-size:18px}
   .answer{grid-template-columns:1fr;gap:8px}
   #answer{height:56px;font-size:20px}
   #check{min-height:48px}
@@ -123,6 +127,11 @@
         html = html.replace(
           "function newQuiz(src){qs=pick(src);if(!qs.length)return pop('没有可练习的题目');rs=qs.map(q=>({id:q.id,answer:'',done:false,correct:false,flag:false,skipped:false}));cur=0;submitted=false;endAt=0;startAt=Date.now();clearInterval(timerId);timerId=setInterval(tick,250);result.classList.remove('show');render();setTimeout(()=>answer.focus(),60);pop('已开始，共 '+qs.length+' 题')}",
           "function newQuiz(src){qs=pick(src);if(!qs.length)return pop('没有可练习的题目');document.querySelector('.layout').classList.remove('prestart');document.querySelector('.quiz').classList.remove('prestart');qprompt.onclick=null;rs=qs.map(q=>({id:q.id,answer:'',done:false,correct:false,flag:false,skipped:false}));cur=0;submitted=false;endAt=0;startAt=Date.now();clearInterval(timerId);timerId=setInterval(tick,250);result.classList.remove('show');render();setTimeout(()=>{const qel=document.querySelector('.quiz');window.scrollTo({top:qel.getBoundingClientRect().top+window.scrollY-8,behavior:'smooth'});setTimeout(()=>{try{answer.focus({preventScroll:true})}catch(e){answer.focus()}},180)},60);pop('已开始，共 '+qs.length+' 题')}"
+        );
+
+        html = html.replace(
+          "ptag.textContent=q.pos;qprompt.textContent=q.zh;answer.value=r.answer;",
+          "ptag.textContent=q.pos;const hint=(String(q.en||'').trim().match(/[A-Za-z]/)||['?'])[0].toLowerCase();qprompt.innerHTML='<span class=\"promptText\">'+esc(q.zh)+'</span><span class=\"answerHint\" aria-label=\"英文首字母提示\">'+esc(hint)+'</span>';answer.value=r.answer;"
         );
 
         const resultText = "function exampleSentence(q){const term=String(q.en||'').trim();const topics=['education policy','environmental protection','public health','urban planning','technology use','social equality','economic growth','family life'];let n=0;for(const ch of String((q.id||'')+term))n=(n*31+ch.charCodeAt(0))%997;const topic=topics[n%topics.length];const qmark=String.fromCharCode(34);if(!term)return 'A clear IELTS sentence should use the target expression accurately.';const frames=['Candidates can use '+qmark+term+qmark+' to discuss '+topic+' in IELTS Task 2.','A clear IELTS paragraph may include '+qmark+term+qmark+' when explaining '+topic+'.','In IELTS writing, '+qmark+term+qmark+' helps students express ideas about '+topic+' more precisely.'];return frames[n%frames.length]}function resultText(p,c,rw){return ['IELTS Writing 1000 Chinese-to-English Dictation','Name: '+(student.value.trim()||'No name'),'Score: '+c.c+'/'+qs.length+' ('+p+'%)','Wrong: '+c.w,'Flagged: '+c.f,'Time: '+fmt((endAt||Date.now())-startAt),'Finished: '+new Date().toLocaleString(),'Review:',...rw.flatMap(function(x){return [x.q.id+' | '+x.q.zh+' | '+x.q.en+' | answer: '+(x.r.answer||'未作答'),'IELTS sentence: '+exampleSentence(x.q)]})].join('\\n')}";
