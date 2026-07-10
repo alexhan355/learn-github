@@ -107,12 +107,15 @@
 }`;
 
       function patch(html) {
+        // The packed source accidentally contains literal 0x08 characters where
+        // JavaScript word-boundary escapes were intended in British/US spelling rules.
+        html = html.replace(/\x08/g, '\\b');
         html = html.replace('</style>', MOBILE_CSS + '</style>');
 
         const logo = '<img class="brandLogo" src="' + LOGO + '" alt="Alex Han Studio logo">';
         html = html.replace(
           '<header class="top"><div><h1>雅思写作1000表达汉译英检测</h1><p class="sub">中文提示 + 词性，输入对应英文词汇或短语。</p></div><section class="stats">',
-          '<header class="top"><div class="logo">' + logo + '<div class="brandText"><h1>雅思写作1000表达汉译英检测</h1><p class="sub">中文提示 + 词性，输入对应英文词汇或短语。</p></div></div><section class="stats">'
+          '<header class="top"><div class="logo">' + logo + '<div class="brandText"><h1>雅思写作1000表达汉译英检测</h1><p class="sub">中文提示 + 词性 + 开头字母 + 字母数，输入对应英文词汇或短语。</p></div></div><section class="stats">'
         );
 
         html = html.replace(
@@ -132,41 +135,70 @@
 
         html = html.replace(
           "function newQuiz(src){qs=pick(src);if(!qs.length)return pop('没有可练习的题目');rs=qs.map(q=>({id:q.id,answer:'',done:false,correct:false,flag:false,skipped:false}));cur=0;submitted=false;endAt=0;startAt=Date.now();clearInterval(timerId);timerId=setInterval(tick,250);result.classList.remove('show');render();setTimeout(()=>answer.focus(),60);pop('已开始，共 '+qs.length+' 题')}",
-          "function newQuiz(src){qs=pick(src);if(!qs.length)return pop('没有可练习的题目');document.querySelector('.layout').classList.remove('prestart');document.querySelector('.quiz').classList.remove('prestart');qprompt.onclick=null;rs=qs.map(q=>({id:q.id,answer:'',done:false,correct:false,flag:false,skipped:false}));cur=0;submitted=false;endAt=0;startAt=Date.now();clearInterval(timerId);timerId=setInterval(tick,250);result.classList.remove('show');render();setTimeout(()=>{const qel=document.querySelector('.quiz');window.scrollTo({top:qel.getBoundingClientRect().top+window.scrollY-8,behavior:'smooth'});setTimeout(()=>{try{answer.focus({preventScroll:true})}catch(e){answer.focus()}},180)},60);pop('已开始，共 '+qs.length+' 题')}"
+          "function newQuiz(src){qs=pick(src);if(!qs.length)return pop('没有可练习的题目');start.disabled=true;start.textContent='测试进行中';document.querySelector('.layout').classList.remove('prestart');document.querySelector('.quiz').classList.remove('prestart');qprompt.onclick=null;rs=qs.map(q=>({id:q.id,answer:'',done:false,correct:false,flag:false,skipped:false}));cur=0;submitted=false;endAt=0;startAt=Date.now();clearInterval(timerId);timerId=setInterval(tick,250);result.classList.remove('show');render();setTimeout(()=>{const qel=document.querySelector('.quiz');window.scrollTo({top:qel.getBoundingClientRect().top+window.scrollY-8,behavior:'smooth'});setTimeout(()=>{try{answer.focus({preventScroll:true})}catch(e){answer.focus()}},180)},60);pop('已开始，共 '+qs.length+' 题')}"
         );
 
         html = html.replace(
           "ptag.textContent=q.pos;qprompt.textContent=q.zh;answer.value=r.answer;",
-          "ptag.textContent=q.pos;const hint=(String(q.en||'').trim().match(/[A-Za-z]/)||['?'])[0].toLowerCase();qprompt.innerHTML='<span class=\"promptText\">'+esc(q.zh)+'</span><span class=\"answerHint\" aria-label=\"英文首字母提示\">'+esc(hint)+'</span>';answer.value=r.answer;"
+          "ptag.textContent=q.pos;const hint=answerProfile(q);qprompt.innerHTML='<span class=\"promptText\">'+esc(q.zh)+'</span><span class=\"answerHint\" aria-label=\"英文开头字母 '+esc(hint.prefix)+'，共 '+hint.count+' 个字母\">'+esc(hint.prefix)+' · '+hint.count+'字母</span>';answer.value=r.answer;answer.disabled=!!submitted;skip.disabled=!!submitted;flag.disabled=!!submitted;finish.disabled=!!submitted;"
         );
 
         html = html.replace(
           "function nextQ(){if(!qs.length)return;if(cur<qs.length-1){cur++;render();setTimeout(()=>answer.focus(),40)}else finishQuiz()}",
-          "function nextQ(){if(!qs.length)return;const r=currentR(),q=currentQ(),v=answer.value.trim();if(r&&(!r.done||v!==r.answer)){if(!v)return pop('先输入英文表达，或点跳过');r.answer=v;r.done=true;r.skipped=false;r.correct=ok(v,q.en)}if(cur<qs.length-1){cur++;render();setTimeout(()=>answer.focus(),40)}else finishQuiz()}"
+          "function nextQ(){if(!qs.length)return;if(submitted){if(cur<qs.length-1){cur++;render()}else{showResult();result.scrollIntoView({behavior:'smooth',block:'start'})}return}const r=currentR(),q=currentQ(),v=answer.value.trim();if(r&&(!r.done||v!==r.answer)){if(!v)return pop('先输入英文表达，或点跳过');r.answer=v;r.done=true;r.skipped=false;r.correct=ok(v,q.en)}if(cur<qs.length-1){cur++;render();setTimeout(()=>answer.focus(),40)}else finishQuiz()}"
         );
 
-        const resultText = "function exampleSentence(q){const term=String(q.en||'').trim();const topics=['education policy','environmental protection','public health','urban planning','technology use','social equality','economic growth','family life'];let n=0;for(const ch of String((q.id||'')+term))n=(n*31+ch.charCodeAt(0))%997;const topic=topics[n%topics.length];const qmark=String.fromCharCode(34);if(!term)return 'A clear IELTS sentence should use the target expression accurately.';const frames=['Candidates can use '+qmark+term+qmark+' to discuss '+topic+' in IELTS Task 2.','A clear IELTS paragraph may include '+qmark+term+qmark+' when explaining '+topic+'.','In IELTS writing, '+qmark+term+qmark+' helps students express ideas about '+topic+' more precisely.'];return frames[n%frames.length]}function resultText(p,c,rw){return ['IELTS Writing 1000 Chinese-to-English Dictation','Name: '+(student.value.trim()||'No name'),'Score: '+c.c+'/'+qs.length+' ('+p+'%)','Wrong: '+c.w,'Flagged: '+c.f,'Time: '+fmt((endAt||Date.now())-startAt),'Finished: '+new Date().toLocaleString(),'Review:',...rw.flatMap(function(x){return [x.q.id+' | '+x.q.zh+' | '+x.q.en+' | answer: '+(x.r.answer||'未作答'),'IELTS sentence: '+exampleSentence(x.q)]})].join('\\n')}";
+        html = html.replace(
+          "function render(){",
+          "function answerProfile(q){const letters=String(q.en||'').toLowerCase().replace(/[^a-z]/g,'');const peers=DATA.filter(x=>x.id!==q.id&&x.unit===q.unit&&String(x.zh||'').trim()===String(q.zh||'').trim()&&String(x.pos||'').trim()===String(q.pos||'').trim()).map(x=>String(x.en||'').toLowerCase().replace(/[^a-z]/g,''));let n=1;while(n<letters.length&&peers.some(p=>p.slice(0,n)===letters.slice(0,n)))n++;return{prefix:letters.slice(0,n)||'?',count:letters.length}}function render(){"
+        );
+        html = html
+          .replace("function checkAns(){if(!qs.length)return newQuiz();", "function checkAns(){if(submitted)return pop('测试已经交卷');if(!qs.length)return newQuiz();")
+          .replace("function skipQ(){if(!qs.length)return newQuiz();", "function skipQ(){if(submitted)return pop('测试已经交卷');if(!qs.length)return newQuiz();")
+          .replace("function flagQ(){if(!qs.length)return;", "function flagQ(){if(submitted)return pop('测试已经交卷');if(!qs.length)return;")
+          .replace("function finishQuiz(){if(!qs.length)return newQuiz();", "function finishQuiz(){if(submitted){showResult();result.classList.add('show');result.scrollIntoView({behavior:'smooth',block:'start'});return}if(!qs.length)return newQuiz();")
+          .replace("submitted=true;if(!endAt)", "submitted=true;start.disabled=false;start.textContent='重新开始';if(!endAt)");
+
+        const resultText = "function reviewTip(q){const term=String(q.en||'').trim();return term?'先遮住英文答案，根据中文提示重新默写；再用“'+term+'”自拟一句话。':'先根据中文提示重新默写，再核对答案。'}function resultText(p,c,rw){return ['IELTS Writing 1000 Chinese-to-English Dictation','Name: '+(student.value.trim()||'No name'),'Score: '+c.c+'/'+qs.length+' ('+p+'%)','Wrong: '+c.w,'Flagged: '+c.f,'Time: '+fmt((endAt||Date.now())-startAt),'Finished: '+new Date().toLocaleString(),'Review:',...rw.flatMap(function(x){return [x.q.id+' | '+x.q.zh+' | '+x.q.en+' | answer: '+(x.r.answer||'未作答'),'复习提示：'+reviewTip(x.q)]})].join('\\n')}";
         html = html.replace(/function resultText\(p,c,rw\)\{return \['IELTS Writing 1000 Chinese-to-English Dictation'[\s\S]*?\]\.join\('\\n'\)\}/, resultText);
 
         return html;
       }
 
       try {
-        const base = 'https://raw.githubusercontent.com/alexhan355/learn-github/5ac5545e6df3668cbfabe7fcf2201c6f85bb10d7/';
-        const names = [1, 2, 3, 4].map(i => base + 'ielts-writing-1000-cn-en-dictation.part' + i + '.txt');
-        const packed = (await Promise.all(names.map(name => fetch(name, { cache: 'force-cache' }).then(response => {
-          if (!response.ok) throw new Error(name);
+        if (typeof DecompressionStream !== 'function') {
+          throw new Error('当前浏览器不支持题库解压（DecompressionStream）。请升级到最新版 Chrome、Edge 或 Safari 后重试。');
+        }
+
+        const chunkVersion = new URLSearchParams(location.search).get('v') || '06fc7e3';
+        const names = [1, 2, 3, 4].map(i =>
+          './ielts-writing-1000-cn-en-dictation.part' + i + '.txt?v=' + encodeURIComponent(chunkVersion)
+        );
+        const packed = (await Promise.all(names.map((name, index) => fetch(name, { cache: 'force-cache' }).then(response => {
+          if (!response.ok) {
+            throw new Error('题库分片 ' + (index + 1) + ' 加载失败（HTTP ' + response.status + '）。请检查网络后刷新页面。');
+          }
           return response.text();
         })))).join('').replace(/\s+/g, '');
-        const bytes = Uint8Array.from(atob(packed), char => char.charCodeAt(0));
-        const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-        const html = patch(await new Response(stream).text());
+        let unpacked;
+        try {
+          const bytes = Uint8Array.from(atob(packed), char => char.charCodeAt(0));
+          const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+          unpacked = await new Response(stream).text();
+        } catch (error) {
+          throw new Error('题库解压失败，分片可能不完整或缓存已损坏。请刷新页面后重试。');
+        }
+        const html = patch(unpacked);
 
         document.open();
         document.write(html);
         document.close();
       } catch (error) {
-        document.body.innerHTML = '<div class="box">题库载入失败，请刷新页面。</div>';
+        console.error(error);
+        const box = document.createElement('div');
+        box.className = 'box';
+        box.textContent = error instanceof Error ? error.message : '题库载入失败，请刷新页面。';
+        document.body.replaceChildren(box);
       }
     })();
   </script>

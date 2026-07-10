@@ -20,7 +20,7 @@
   (async function(){
     const files = ["b2-context-cloze-719.data.1.txt","b2-context-cloze-719.data.2.txt","b2-context-cloze-719.data.3.txt","b2-context-cloze-719.data.4.txt","b2-context-cloze-719.data.5.txt","b2-context-cloze-719.data.6.txt","b2-context-cloze-719.data.7.txt"];
     const parts = await Promise.all(files.map(async file => {
-      const res = await fetch(file + '?v=20260521-b2context', { cache:'no-store' });
+      const res = await fetch(file + '?v=20260521-b2context', { cache:'force-cache' });
       if (!res.ok) throw new Error(file + ' 加载失败：' + res.status);
       return res.text();
     }));
@@ -32,7 +32,16 @@
     }
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
     let text = await new Response(stream).text();
-    text = text.replace('He caught his foot on the step and nearly began to ____.', 'Be careful not to ____ on the uneven step.');
+    text = text
+      .replace('<option value="1-100">', '<option value="1-100" selected>')
+      .replace('</head>', '<style>@media (max-width:900px){.controls{position:static}}</style></head>')
+      .replace('He caught his foot on the step and nearly began to ____.', 'Be careful not to ____ on the uneven step.');
+    text = text
+      .replace("function render() { const data = filtered(); const answered = Object.keys(state.selected).length; const unanswered = QUESTIONS.length - answered; let correct = 0; for (const pair of Object.entries(state.selected)) {", "function render() { const data = filtered(); const scope = QUESTION_ORDER.filter(function(item){ return inRange(displayNumber(item)); }); const scopeIds = new Set(scope.map(function(item){ return String(item.n); })); const entries = Object.entries(state.selected).filter(function(pair){ return scopeIds.has(String(pair[0])); }); const answered = entries.length; const unanswered = scope.length - answered; let correct = 0; for (const pair of entries) {")
+      .replace("function wrongItems() { return QUESTION_ORDER.filter(function(item){ const chosen = state.selected[item.n];", "function wrongItems() { return QUESTION_ORDER.filter(function(item){ if (!inRange(displayNumber(item))) return false; const chosen = state.selected[item.n];")
+      .replace("function submitQuiz() { const unanswered = QUESTIONS.length - Object.keys(state.selected).length;", "function submitQuiz() { const scope = QUESTION_ORDER.filter(function(item){ return inRange(displayNumber(item)); }); const answered = scope.filter(function(item){ return state.selected[item.n] !== undefined; }).length; const unanswered = scope.length - answered;")
+      .replace("submitQuizBtn.textContent = '已提交'; render();", "submitQuizBtn.textContent = '已提交'; submitQuizBtn.disabled = true; range.disabled = true; search.value = ''; search.disabled = true; render();")
+      .replace("submitQuizBtn.textContent = '提交并生成错词'; render();", "submitQuizBtn.textContent = '提交并生成错词'; submitQuizBtn.disabled = false; range.disabled = false; search.disabled = false; render();");
     document.open();
     document.write(text);
     document.close();

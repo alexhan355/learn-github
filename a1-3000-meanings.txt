@@ -774,10 +774,10 @@ that|那个；那
 the|这个；那个
 theatre|剧院
 their|他们的
-them|他们；她们；它们
+them|他们；她们；它们（宾格）
 then|然后；那时
 there|那里
-they|他们；她们；它们
+they|他们；她们；它们（主格）
 thing|东西；事情
 think|认为；思考
 third|第三

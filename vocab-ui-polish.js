@@ -10,7 +10,8 @@
     .sub{max-width:720px!important;line-height:1.7!important;color:#506176!important}
     .mini{align-self:center!important}
     .mini div{border-radius:8px!important;padding:17px!important;border:1px solid rgba(148,163,184,.28)!important;box-shadow:0 14px 36px rgba(15,23,42,.07)!important}
-    .toolbar{position:relative!important;top:auto!important;border-radius:8px!important;border:1px solid rgba(148,163,184,.30)!important;box-shadow:0 16px 42px rgba(15,23,42,.07)!important;background:rgba(255,255,255,.92)!important}
+    .toolbar{border-radius:8px!important;border:1px solid rgba(148,163,184,.30)!important;box-shadow:0 16px 42px rgba(15,23,42,.07)!important;background:rgba(255,255,255,.92)!important}
+    body.prestart .toolbar{position:relative!important;top:auto!important}
     .field input,.field select,.pill{border-radius:8px!important;border-color:rgba(148,163,184,.38)!important}
     button{border-radius:8px!important;transition:transform .12s ease,box-shadow .12s ease,background .12s ease!important}
     button:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.10)}
@@ -22,8 +23,10 @@
     .choice span{background:rgba(148,163,184,.16)!important;color:#334155!important}
     .choice:not(:disabled):hover{border-color:var(--accent)!important;background:#fbfefd!important}
     .feedback{border:1px solid rgba(148,163,184,.22)!important}
-    .studio-brand{box-shadow:0 12px 30px rgba(15,23,42,.12)!important}
-    body.prestart .right button:not(#start),body.prestart #nextBtn2,body.prestart #focusBtn,body.prestart #choiceArea,body.prestart #answerArea,body.prestart #unknownBtn{display:none!important}
+    .studio-brand{z-index:4!important;pointer-events:none!important;bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;box-shadow:0 12px 30px rgba(15,23,42,.12)!important}
+    .toast{z-index:30!important}
+    body.quiz-live #start{display:none!important}
+    body.prestart .right button:not(#start),body.prestart #nextBtn2,body.prestart #focusBtn,body.prestart #skipBtn2,body.prestart #finishBtn2,body.prestart #choiceArea,body.prestart #answerArea,body.prestart #unknownBtn{display:none!important}
     body.prestart .grid{grid-template-columns:minmax(0,1fr) 300px!important}
     body.prestart .quiz{min-height:370px!important;padding:34px!important;background:linear-gradient(180deg,#fff 0,#fbfdff 100%)!important}
     body.prestart .quiz .counter{display:inline-flex!important;width:max-content!important;padding:8px 12px!important;border-radius:999px!important;background:color-mix(in srgb,var(--accent) 10%,white)!important;color:var(--accent)!important;border:1px solid color-mix(in srgb,var(--accent) 20%,white)!important}
@@ -37,7 +40,7 @@
       .hero,.grid,body.prestart .grid{grid-template-columns:1fr!important}
       .toolbar{padding:10px!important}
       .left,.right{width:100%!important}
-      .right #start{width:100%!important}
+      .right #start{width:100%!important;grid-column:1/-1!important}
       body.prestart .quiz{padding:24px!important;min-height:330px!important}
     }
   `;
@@ -58,54 +61,53 @@
     txt('progress','0 / 0');
     var q=location.search.toLowerCase();
     var isContext=!!document.getElementById('sentence') || q.indexOf('context')>-1 || q.indexOf('cloze')>-1;
-    var isDict=q.indexOf('dictation')>-1 || q.indexOf('han2en')>-1 || q.indexOf('cn2en')>-1;
+    var isDict=q.indexOf('dictation')>-1 || q.indexOf('han2en')>-1 || q.indexOf('cn2en')>-1 || (window.DICTATION_CONFIG && window.DICTATION_CONFIG.mode === 'dictation');
     var main=isContext?document.getElementById('sentence'):document.getElementById('prompt');
     var hint=isContext?document.getElementById('contextHint'):document.getElementById('hint');
     if(main) main.textContent='准备开始测试';
-    if(hint) hint.textContent=isContext?'开始后会出现完整英文句子和一个空格，请根据语境选择最合适的英文单词。':(isDict?'开始后会显示中文释义和首字母，请输入完整英文单词。':'开始后会显示英文单词，请从四个中文选项中选择正确意思。');
+    if(hint) hint.textContent=isContext?'开始后会出现完整英文句子和一个空格，请根据语境选择最合适的英文单词。':(isDict?'开始后会显示中文释义、开头字母和字母数，请输入完整英文单词。':'开始后会显示英文单词，请从四个中文选项中选择正确意思。');
     txt('feedback','先在上方填写姓名、选择题量和顺序，然后点击“开始测试”。计时会在第一题出现时自动开始。');
-    ['prevBtn','nextBtn','skipBtn','finishBtn','nextBtn2','focusBtn','answerArea','choiceArea','unknownBtn'].forEach(hide);
+    ['prevBtn','nextBtn','skipBtn','finishBtn','nextBtn2','skipBtn2','finishBtn2','focusBtn','answerArea','choiceArea','unknownBtn'].forEach(hide);
     var start=document.getElementById('start');
     if(start) start.textContent='开始测试';
   }
+  function bindOne(el){
+    if(!el || el.dataset.polished) return;
+    el.dataset.polished='1';
+    el.addEventListener('click',function(){
+      window.__alexQuizStarted=true;
+      releaseQuizUI();
+    },true);
+  }
   function bind(){
-    var start=document.getElementById('start');
-    if(start && !start.dataset.polished){
-      start.dataset.polished='1';
-      start.addEventListener('click',function(){ releaseQuizUI(); },true);
-    }
-    var again=document.getElementById('againBtn');
-    if(again && !again.dataset.polished){
-      again.dataset.polished='1';
-      again.addEventListener('click',function(){ releaseQuizUI(); },true);
-    }
+    bindOne(document.getElementById('start'));
+    bindOne(document.getElementById('againBtn'));
   }
   function tick(){
     addStyle();
     bind();
     var start=document.getElementById('start');
-    if(start && !document.body.classList.contains('quiz-live')){
+    if(document.body.classList.contains('load-failed')){
+      stopWatching();
+      return;
+    }
+    if(start && !start.disabled && !document.body.classList.contains('quiz-live') && !document.body.classList.contains('prestart')){
       if(!window.__alexQuizStarted) markStart();
     }
   }
-  document.addEventListener('click',function(e){
-    if(e.target && e.target.id === 'start'){
-      window.__alexQuizStarted=true;
-      releaseQuizUI();
-    }
-  },true);
   function show(id, display){
     var e=document.getElementById(id);
     if(e){ e.style.display=display || ''; e.disabled=false; }
   }
   function releaseQuizUI(){
+    stopWatching();
     document.body.classList.remove('prestart');
     document.body.classList.add('quiz-live');
     setTimeout(function(){
       var q=location.search.toLowerCase();
       var isContext=!!document.getElementById('sentence') || q.indexOf('context')>-1 || q.indexOf('cloze')>-1;
-      var isDict=q.indexOf('dictation')>-1 || q.indexOf('han2en')>-1 || q.indexOf('cn2en')>-1;
-      ['prevBtn','nextBtn','skipBtn','finishBtn','nextBtn2'].forEach(function(id){ show(id); });
+      var isDict=q.indexOf('dictation')>-1 || q.indexOf('han2en')>-1 || q.indexOf('cn2en')>-1 || (window.DICTATION_CONFIG && window.DICTATION_CONFIG.mode === 'dictation');
+      ['prevBtn','nextBtn','skipBtn','finishBtn','nextBtn2','skipBtn2','finishBtn2'].forEach(function(id){ show(id); });
       if(isContext){
         show('choiceArea','grid'); show('unknownBtn');
       } else if(isDict){
@@ -115,9 +117,14 @@
       }
     },80);
   }
-  var tries=0;
-  var timer=setInterval(function(){
-    tick();
-    if(++tries>120 || window.__alexQuizStarted) clearInterval(timer);
-  },100);
+  var timer=0, observer=null;
+  function stopWatching(){
+    if(timer){ clearInterval(timer); timer=0; }
+    if(observer){ observer.disconnect(); observer=null; }
+  }
+  addStyle();
+  tick();
+  observer=new MutationObserver(tick);
+  observer.observe(document.documentElement,{subtree:true,childList:true});
+  timer=setInterval(tick,1000);
 })();

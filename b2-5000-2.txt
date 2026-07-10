@@ -11,12 +11,12 @@ downtown|市中心|noun+adj+adv
 dramatically|显著地；戏剧性地|adv
 drought|干旱|noun
 dull|枯燥的；暗淡的|adj
-dump|倾倒；垃圾场|noun+verb
+dump|倾倒；丢弃|verb
 duration|持续时间|noun
 dynamic|动态的；有活力的|adj
 economics|经济学|noun
 economist|经济学家|noun
-editorial|社论；编辑的|noun+adj
+editorial|编辑的；社论的|adj
 efficiently|高效地|adv
 elbow|肘|noun
 electronics|电子学；电子产品|noun
@@ -68,7 +68,7 @@ federal|联邦的|adj
 fever|发烧|noun
 firefighter|消防员|noun
 firework|烟花|noun
-firm|公司；坚定的|noun+adj
+firm|坚定的；牢固的|adj
 firmly|坚定地|adv
 flavour|味道|noun
 fond|喜爱的|adj
@@ -90,7 +90,7 @@ fraud|欺诈|noun
 freely|自由地|adv
 frequent|频繁的|adj
 fulfil|履行；实现|verb
-full-time|全职的|adj
+full-time|全职的；全职地|adj+adv
 fundamentally|根本上|adv
 furious|愤怒的|adj
 gaming|游戏活动|noun
@@ -126,11 +126,11 @@ herb|草药；香草|noun
 hidden|隐藏的|adj
 highway|公路|noun
 hilarious|非常滑稽的|adj
-hip|臀部；时髦的|noun+adj
+hip|臀部；髋|noun
 historian|历史学家|noun
 homeless|无家可归的|adj
 honesty|诚实|noun
-hook|钩子；吸引|noun+verb
+hook|钩住；吸引|verb
 hopefully|有希望地；希望如此|adv
 hunger|饥饿|noun
 hypothesis|假设|noun
@@ -140,7 +140,7 @@ identical|完全相同的|adj
 illusion|幻觉；错觉|noun
 immigration|移民；移民入境|noun
 immune|免疫的|adj
-implement|实施；工具|noun+verb
+implement|实施；执行|verb
 implication|含义；影响|noun
 incentive|激励；诱因|noun
 incorporate|包含；合并|verb
@@ -159,7 +159,7 @@ inherit|继承|verb
 ink|墨水|noun
 innovation|创新|noun
 innovative|创新的|adj
-input|输入；投入|noun+verb
+input|输入；投入|noun
 insert|插入|verb
 inspector|检查员|noun
 installation|安装；装置|noun

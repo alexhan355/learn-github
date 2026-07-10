@@ -20,7 +20,7 @@ litter|垃圾；乱扔|noun
 logo|标志|noun
 lottery|彩票|noun
 loyal|忠诚的|adj
-lyric|歌词；抒情的|noun+adj
+lyric|歌词；抒情诗|noun
 magnificent|壮丽的|adj
 make-up|化妆品；组成|noun
 making|制作；形成|noun
@@ -45,7 +45,7 @@ miserable|痛苦的；悲惨的|adj
 mode|模式；方式|noun
 modest|谦虚的；适度的|adj
 monster|怪物|noun
-monthly|每月的；每月地|adj+adv
+monthly|每月的|adj
 monument|纪念碑|noun
 moreover|此外|adv
 mortgage|抵押贷款|noun
@@ -68,7 +68,7 @@ norm|常态；规范|noun
 notebook|笔记本|noun
 novelist|小说家|noun
 nowadays|如今|adv
-nursing|护理|noun+adj
+nursing|护理的|adj
 nutrition|营养|noun
 obesity|肥胖|noun
 observer|观察者|noun
@@ -83,11 +83,11 @@ operator|操作员；运营商|noun
 optimistic|乐观的|adj
 orchestra|管弦乐队|noun
 organic|有机的|adj
-outfit|全套服装；配备|noun+verb
+outfit|全套服装；装备|noun
 output|产量；输出|noun
 outstanding|杰出的|adj
 overcome|克服|verb
-overnight|一夜之间；过夜的|adj+adv
+overnight|一夜之间；在夜间|adv
 overseas|海外的|adj+adv
 ownership|所有权|noun
 oxygen|氧气|noun
@@ -98,7 +98,7 @@ parade|游行|noun
 parallel|平行的；类似的|noun+adj
 participation|参与|noun
 partnership|合作关系|noun
-part-time|兼职的|adj
+part-time|兼职的；兼职地|adj+adv
 passionate|热情的|adj
 password|密码|noun
 patience|耐心|noun
